@@ -1,3 +1,10 @@
 <resources>
-    <string name="app_name">LeisureApp</string>
+    <string name="app_name">Leisure</string>
+    <string name="title_home">Start</string>
+    <string name="title_favorites">Favorites</string>
+    <string name="title_settings">Settings</string>
+
+    <string name="home_frag_title">Hello Home fragment</string>
+    <string name="settings_frag_title">Hello Settings fragment</string>
+    <string name="favorites_frag_title">Hello Favorites fragment</string>
 </resources>
