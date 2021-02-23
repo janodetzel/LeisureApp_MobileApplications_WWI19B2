@@ -7,4 +7,7 @@
     <string name="home_frag_title">Hello Home fragment</string>
     <string name="settings_frag_title">Hello Settings fragment</string>
     <string name="favorites_frag_title">Hello Favorites fragment</string>
+
+    <string name="filter">Filter</string>
+    <string name="deleteAll">Delete saved data</string>
 </resources>
