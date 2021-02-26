@@ -2,11 +2,23 @@ package com.example.leisureapp;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DefaultItemAnimator;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.LinearInterpolator;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -14,6 +26,8 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class FavoritesFragment extends Fragment {
+
+    ListView favs;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -60,5 +74,31 @@ public class FavoritesFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_favorites, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        favs = (ListView) view.findViewById(R.id.favs);
+
+        //TODO: ArrayList<OWN_CARD>
+        ArrayList arrayList = new ArrayList();
+        addFavoritesToList(arrayList);
+        ArrayAdapter arrayAdapter = new ArrayAdapter(this.getContext(), android.R.layout.simple_list_item_1, arrayList);
+        favs.setAdapter(arrayAdapter);
+
+        favs.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Toast.makeText(FavoritesFragment.super.getContext(), "clicked item: " + i, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void addFavoritesToList(ArrayList arrayList) {
+        for(int i=0; i<30; i++) {
+            arrayList.add("Item " + i);
+        }
     }
 }
