@@ -5,12 +5,13 @@
     android:layout_height="match_parent"
     tools:context=".HomeFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <com.yuyakaido.android.cardstackview.CardStackView
+        android:id="@+id/card_stack_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fontFamily="@font/poppins_light"
-        android:gravity="center"
-        android:text="@string/home_frag_title" />
+        android:paddingVertical="120dp"
+        android:paddingHorizontal="30dp"
+        android:clipToPadding="false">
+    </com.yuyakaido.android.cardstackview.CardStackView>
 
 </RelativeLayout>
