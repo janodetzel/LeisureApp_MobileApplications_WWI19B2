@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:layout_width="325dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/fav_card_bg_round">
+
+        <ImageView
+            android:tint="#6F000000"
+            android:id="@+id/favPic"
+            android:scaleType="center"
+            android:src="@drawable/city_photo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <TextView
+            android:text="Explore the wildlife of your city"
+            android:id="@+id/favText"
+            android:layout_gravity="left|center"
+            android:layout_marginLeft="5dp"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/favCostIcon"
+            android:layout_gravity="right"
+            android:textAlignment="center"
+            android:textColor="@color/blue"
+            android:layout_width="25sp"
+            android:layout_height="25sp"
+            android:text="$"
+            android:textSize="20sp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="10dp"/>
+        <TextView
+            android:text="1"
+            android:layout_gravity="right"
+            android:id="@+id/favCostText"
+            android:layout_width="25sp"
+            android:layout_height="25sp"
+            android:textSize="20sp"
+            android:layout_marginTop="10dp"/>
+        <ImageView
+            android:id="@+id/favPersonsIcon"
+            android:src="@drawable/ic_baseline_person_outline_24"
+            android:layout_gravity="right|bottom"
+            android:layout_width="25sp"
+            android:layout_height="25sp"
+            android:layout_marginRight="30dp"
+            android:layout_marginBottom="9dp"/>
+        <TextView
+            android:text="3"
+            android:layout_gravity="right|bottom"
+            android:id="@+id/favPersonsText"
+            android:layout_width="25sp"
+            android:layout_height="25sp"
+            android:textSize="20sp"
+            android:layout_marginBottom="10dp"/>
+
+
+
+    </FrameLayout>
+</LinearLayout>

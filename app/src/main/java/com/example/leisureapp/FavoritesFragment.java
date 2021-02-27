@@ -83,10 +83,10 @@ public class FavoritesFragment extends Fragment {
         favs = (ListView) view.findViewById(R.id.favs);
 
         //TODO: ArrayList<OWN_CARD>
-        ArrayList arrayList = new ArrayList();
+        ArrayList<FavCard> arrayList = new ArrayList<FavCard>();
         addFavoritesToList(arrayList);
-        ArrayAdapter arrayAdapter = new ArrayAdapter(this.getContext(), android.R.layout.simple_list_item_1, arrayList);
-        favs.setAdapter(arrayAdapter);
+        FavCardAdapter adapter = new FavCardAdapter(this.getActivity(), arrayList);
+        favs.setAdapter(adapter);
 
         favs.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -98,7 +98,9 @@ public class FavoritesFragment extends Fragment {
 
     public void addFavoritesToList(ArrayList arrayList) {
         for(int i=0; i<30; i++) {
-            arrayList.add("Item " + i);
+            //TODO: Change to real data
+            FavCard card = new FavCard(i*100, "Explore the wildlife of your city", "2", "1", "gaming", "", super.getContext());
+            arrayList.add(card);
         }
     }
 }
