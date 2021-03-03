@@ -1,5 +1,7 @@
 package com.example.leisureapp.fragments;
 
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -17,6 +19,7 @@ import android.widget.Toast;
 
 import com.example.leisureapp.R;
 import com.example.leisureapp.adapters.CardStackAdapter;
+import com.example.leisureapp.database.DatabaseManager;
 import com.example.leisureapp.models.ItemModel;
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager;
 import com.yuyakaido.android.cardstackview.CardStackListener;
@@ -70,6 +73,8 @@ public class HomeFragment extends Fragment {
         CardStackView cardStackView = view.findViewById(R.id.card_stack_view);
 
         manager = new CardStackLayoutManager(view.getContext(), new CardStackListener() {
+            private Direction direction;
+
             @Override
             public void onCardDragging(Direction direction, float ratio) {
                 // Method called when card is dragged
@@ -81,16 +86,27 @@ public class HomeFragment extends Fragment {
                 if (direction == Direction.Left) {
                     // LEFT SWIPE -> Favorite
                     Toast.makeText(view.getContext(), "Direction LEFT", Toast.LENGTH_SHORT).show();
+
+                    // Get key from adapter
+                    String key = adapter.getItems().get(manager.getTopPosition()).getKey();
+
+                    // Insert key in local db
+                    DatabaseManager db = new DatabaseManager(getActivity());
+                    db._statementInsertFavorite.bindString(1, key);
+                    db._statementInsertFavorite.executeInsert();
+                    Log.d(TAG, "Insert favorite in db with key: " + key);
+
                 } else if (direction == Direction.Right) {
                     // RIGHT SWIPE -> Next
                     Toast.makeText(view.getContext(), "Direction RIGHT", Toast.LENGTH_SHORT).show();
                 }
+
+                // Add dynamically new item after swipe
                 List<ItemModel> newItems = new ArrayList<ItemModel>();
-                newItems.add(new ItemModel("New Item " + adapter.getItemCount()));
+                newItems.add(new ItemModel("New Item " + adapter.getItemCount(), "" + adapter.getItemCount()));
 
                 adapter.addItems(adapter.getItemCount(), newItems);
-                System.out.println("Items in list: " + adapter.getItemCount());
-
+                //Log.d(TAG, "Items in list: " + adapter.getItemCount());
             }
 
             @Override
@@ -106,7 +122,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onCardAppeared(View view, int position) {
                 TextView tv = view.findViewById(R.id.itemName);
-                Log.d(TAG, "onCardAppeared=" + position + ", name=" + tv.getText());
+                //Log.d(TAG, "onCardAppeared=" + position + ", name=" + tv.getText());
             }
 
             @Override
@@ -138,9 +154,9 @@ public class HomeFragment extends Fragment {
     private List<ItemModel> addList() {
         // Get Data for cards
         List<ItemModel> items = new ArrayList<ItemModel>();
-        items.add((new ItemModel("TEST-0")));
-        items.add((new ItemModel("TEST-1")));
-        items.add((new ItemModel("TEST-2")));
+        items.add((new ItemModel("TEST-0", "0")));
+        items.add((new ItemModel("TEST-1", "1")));
+        items.add((new ItemModel("TEST-2", "2")));
         return items;
     }
 }
