@@ -1,5 +1,7 @@
 package com.example.leisureapp;
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -18,6 +20,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.leisureapp.database.DatabaseManager;
+
+import java.sql.ResultSet;
 import java.util.ArrayList;
 
 /**
@@ -97,9 +102,12 @@ public class FavoritesFragment extends Fragment {
     }
 
     public void addFavoritesToList(ArrayList arrayList) {
-        for(int i=0; i<30; i++) {
+        DatabaseManager db = new DatabaseManager(getActivity());
+        String[] keys = db.getFavorites();
+
+        for(int i=0; i <= keys.length - 1; i++) {
             //TODO: Change to real data
-            FavCard card = new FavCard(i*100, "Explore the wildlife of your city", "2", "1", "gaming", "", super.getContext());
+            FavCard card = new FavCard(i*100, keys[i], "2", "1", "gaming", "", super.getContext());
             arrayList.add(card);
         }
     }
