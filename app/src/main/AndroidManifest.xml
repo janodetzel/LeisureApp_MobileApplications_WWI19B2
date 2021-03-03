@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/leisure_logo_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.LeisureApp" >
-        <activity android:name=".MainActivity" >
+        <activity android:name=".activities.MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

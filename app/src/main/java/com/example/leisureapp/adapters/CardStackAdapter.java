@@ -1,4 +1,4 @@
-package com.example.leisureapp;
+package com.example.leisureapp.adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,6 +7,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.leisureapp.models.ItemModel;
+import com.example.leisureapp.R;
 
 import java.util.List;
 
@@ -45,6 +48,16 @@ public class CardStackAdapter extends RecyclerView.Adapter<CardStackAdapter.View
     // Set items for new stack
     public void setItems(List<ItemModel> newItems) {
         items = newItems;
+    }
+
+    public void addItem(int index, ItemModel newItem) {
+        items.add(index, newItem);
+        this.notifyItemInserted(index);
+    }
+
+    public void addItems(int index, List<ItemModel> newItems) {
+        items.addAll(index, newItems);
+        this.notifyItemRangeInserted(index, newItems.size());
     }
 
     // Class for setting data in card

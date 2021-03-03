@@ -1,4 +1,4 @@
-package com.example.leisureapp;
+package com.example.leisureapp.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -6,6 +6,11 @@ import androidx.fragment.app.FragmentManager;
 
 import android.os.Bundle;
 import android.util.Log;
+
+import com.example.leisureapp.FavoritesFragment;
+import com.example.leisureapp.fragments.HomeFragment;
+import com.example.leisureapp.R;
+import com.example.leisureapp.fragments.SettingsFragment;
 
 import org.jetbrains.annotations.NotNull;
 

@@ -1,4 +1,4 @@
-package com.example.leisureapp;
+package com.example.leisureapp.fragments;
 
 import android.os.Bundle;
 
@@ -6,7 +6,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.DiffUtil;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,6 +15,9 @@ import android.view.animation.LinearInterpolator;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.leisureapp.R;
+import com.example.leisureapp.adapters.CardStackAdapter;
+import com.example.leisureapp.models.ItemModel;
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager;
 import com.yuyakaido.android.cardstackview.CardStackListener;
 import com.yuyakaido.android.cardstackview.CardStackView;
@@ -66,6 +68,7 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         CardStackView cardStackView = view.findViewById(R.id.card_stack_view);
+
         manager = new CardStackLayoutManager(view.getContext(), new CardStackListener() {
             @Override
             public void onCardDragging(Direction direction, float ratio) {
@@ -82,6 +85,12 @@ public class HomeFragment extends Fragment {
                     // RIGHT SWIPE -> Next
                     Toast.makeText(view.getContext(), "Direction RIGHT", Toast.LENGTH_SHORT).show();
                 }
+                List<ItemModel> newItems = new ArrayList<ItemModel>();
+                newItems.add(new ItemModel("New Item " + adapter.getItemCount()));
+
+                adapter.addItems(adapter.getItemCount(), newItems);
+                System.out.println("Items in list: " + adapter.getItemCount());
+
             }
 
             @Override
@@ -111,14 +120,15 @@ public class HomeFragment extends Fragment {
         manager.setVisibleCount(3);
         manager.setTranslationInterval(8.0f);
         manager.setScaleInterval(0.95f);
-        manager.setSwipeThreshold(0.3f);
+        manager.setSwipeThreshold(0.5f);
         manager.setMaxDegree(20.0f);
         manager.setDirections(Direction.HORIZONTAL);
         manager.setCanScrollHorizontal(true);
         manager.setSwipeableMethod(SwipeableMethod.Manual);
         manager.setOverlayInterpolator(new LinearInterpolator());
-
+        manager.setStackFrom(StackFrom.Top);
         adapter = new CardStackAdapter(addList());
+
         cardStackView.setLayoutManager(manager);
         cardStackView.setAdapter(adapter);
         cardStackView.setItemAnimator(new DefaultItemAnimator());
@@ -128,12 +138,9 @@ public class HomeFragment extends Fragment {
     private List<ItemModel> addList() {
         // Get Data for cards
         List<ItemModel> items = new ArrayList<ItemModel>();
+        items.add((new ItemModel("TEST-0")));
         items.add((new ItemModel("TEST-1")));
         items.add((new ItemModel("TEST-2")));
-        items.add((new ItemModel("TEST-3")));
-        items.add((new ItemModel("TEST-4")));
-        items.add((new ItemModel("TEST-5")));
-
         return items;
     }
 }

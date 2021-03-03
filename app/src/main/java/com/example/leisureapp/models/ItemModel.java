@@ -1,9 +1,10 @@
-package com.example.leisureapp;
+package com.example.leisureapp.models;
 
 // Model for holding stack data item
 public class ItemModel {
     // EXAMPLE DATA name
     private String name;
+    private String activity;
 
     public ItemModel() {
     }
@@ -13,10 +14,14 @@ public class ItemModel {
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
+
+    public String getActivity() {return  this.activity;}
 
     public void setName(String name) {
         this.name = name;
     }
+
+    public void setActivity(String activity) {this.activity = activity;}
 }
