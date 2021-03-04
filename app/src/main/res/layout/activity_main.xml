@@ -54,4 +54,11 @@
         app:abb_tabs="@navigation/tabs"
         app:abb_textSize="20sp" />
 
+    <LinearLayout android:id="@+id/dimPopupBackground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#70000000"
+        android:visibility="invisible"
+        android:orientation="horizontal" />
+
 </RelativeLayout>

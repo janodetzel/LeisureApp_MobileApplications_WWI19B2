@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.LinearLayout;
 
 import com.example.leisureapp.fragments.FavoritesFragment;
 import com.example.leisureapp.notifications.ReminderNotification;
@@ -27,6 +28,7 @@ import nl.joery.animatedbottombar.AnimatedBottomBar;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
+    public static LinearLayout dimPopupBackground;
 
     AnimatedBottomBar animatedBottomBar;
     FragmentManager fragmentManager;
@@ -39,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
         initLocalNotifications();
 
         setContentView(R.layout.activity_main);
+
+        dimPopupBackground = findViewById(R.id.dimPopupBackground);
 
         // Initialize Database
         DatabaseManager _databaseManager = new DatabaseManager(this);

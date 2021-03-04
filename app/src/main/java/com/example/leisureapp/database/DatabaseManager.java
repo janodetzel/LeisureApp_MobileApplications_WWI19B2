@@ -11,6 +11,7 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 
 import com.example.leisureapp.activities.MainActivity;
+import com.example.leisureapp.models.FavCard;
 
 public class DatabaseManager extends SQLiteOpenHelper  {
     private static final String TAG = DatabaseManager.class.getSimpleName();
@@ -64,5 +65,13 @@ public class DatabaseManager extends SQLiteOpenHelper  {
     public void clearFavorites() {
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL("DELETE FROM favorites");
+    }
+
+    public void removeFavorite(FavCard favCard) {
+        if(favCard != null) {
+            //TODO: Schauen ob es so richtig wäre!!!
+            SQLiteDatabase db = getWritableDatabase();
+            db.execSQL("DELETE FROM favorites WHERE id = favCard.id");
+        }
     }
 }
