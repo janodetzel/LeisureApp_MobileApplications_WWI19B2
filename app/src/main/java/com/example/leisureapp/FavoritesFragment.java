@@ -87,7 +87,6 @@ public class FavoritesFragment extends Fragment {
 
         favs = (ListView) view.findViewById(R.id.favs);
 
-        //TODO: ArrayList<OWN_CARD>
         ArrayList<FavCard> arrayList = new ArrayList<FavCard>();
         addFavoritesToList(arrayList);
         FavCardAdapter adapter = new FavCardAdapter(this.getActivity(), arrayList);
@@ -96,6 +95,7 @@ public class FavoritesFragment extends Fragment {
         favs.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                //TODO: POPUP
                 Toast.makeText(FavoritesFragment.super.getContext(), "clicked item: " + i, Toast.LENGTH_SHORT).show();
             }
         });
