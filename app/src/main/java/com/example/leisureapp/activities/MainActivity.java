@@ -116,11 +116,10 @@ public class MainActivity extends AppCompatActivity {
     //
 
     private Intent intent;
-    public static PendingIntent pendingIntent;
+    private PendingIntent pendingIntent;
 
     private void initLocalNotifications() {
         intent = new Intent(MainActivity.this, ReminderNotification.class);
-        // Set the Activity to start in a new, empty task
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
@@ -131,8 +130,11 @@ public class MainActivity extends AppCompatActivity {
             long now = System.currentTimeMillis();
             long afterTimeInMillis = 1000 * 2;
             long oneDayInMillis = 1000*60*60*24;
-            // repeat every 24h
-            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, now + afterTimeInMillis, oneDayInMillis, pendingIntent);
+            // wiederholen alle 24h
+            // alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, now + afterTimeInMillis, oneDayInMillis, pendingIntent);
+
+            // Ohne Wiederholung für Präsentation
+            alarmManager.set(AlarmManager.RTC_WAKEUP, now + afterTimeInMillis, pendingIntent);
         }
     }
 

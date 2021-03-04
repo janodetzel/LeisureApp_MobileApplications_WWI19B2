@@ -16,11 +16,14 @@ import com.example.leisureapp.activities.MainActivity;
 public class ReminderNotification extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
+        Intent intent1 = new Intent(context, MainActivity.class);
+        intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        PendingIntent pi = PendingIntent.getActivity(context, 0, intent1, 0);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "daily_reminder")
                 .setSmallIcon(R.drawable.leisure_logo_foreground)
                 .setContentTitle("Hast du was zu tun?")
                 .setContentText("Wenn nicht, hat Leisure neue Aktivitäten.")
-                .setContentIntent(MainActivity.pendingIntent)
+                .setContentIntent(pi)
                 .setAutoCancel(true)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 

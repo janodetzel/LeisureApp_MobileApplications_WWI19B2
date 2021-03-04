@@ -16,7 +16,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <receiver android:name=".ReminderNotification"/>
+        <receiver android:name=".ReminderNotification" android:enabled="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </receiver>
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
