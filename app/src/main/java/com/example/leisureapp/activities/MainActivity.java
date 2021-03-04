@@ -130,7 +130,9 @@ public class MainActivity extends AppCompatActivity {
             AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
             long now = System.currentTimeMillis();
             long afterTimeInMillis = 1000 * 2;
-            alarmManager.set(AlarmManager.RTC_WAKEUP, now + afterTimeInMillis, pendingIntent);
+            long oneDayInMillis = 1000*60*60*24;
+            // repeat every 24h
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, now + afterTimeInMillis, oneDayInMillis, pendingIntent);
         }
     }
 
