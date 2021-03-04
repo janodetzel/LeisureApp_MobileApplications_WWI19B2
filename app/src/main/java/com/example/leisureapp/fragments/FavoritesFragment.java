@@ -1,28 +1,23 @@
-package com.example.leisureapp;
+package com.example.leisureapp.fragments;
 
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DefaultItemAnimator;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.LinearInterpolator;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.leisureapp.models.FavCard;
+import com.example.leisureapp.adapters.FavCardAdapter;
+import com.example.leisureapp.R;
 import com.example.leisureapp.database.DatabaseManager;
 
-import java.sql.ResultSet;
 import java.util.ArrayList;
 
 /**

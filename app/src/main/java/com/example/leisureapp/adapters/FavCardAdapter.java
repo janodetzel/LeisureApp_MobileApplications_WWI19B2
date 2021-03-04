@@ -1,4 +1,4 @@
-package com.example.leisureapp;
+package com.example.leisureapp.adapters;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
@@ -11,11 +11,14 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.leisureapp.models.FavCard;
+import com.example.leisureapp.R;
+
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 
-class FavCardAdapter extends BaseAdapter {
+public class FavCardAdapter extends BaseAdapter {
     private Activity context;
     private ArrayList<FavCard> items;
 

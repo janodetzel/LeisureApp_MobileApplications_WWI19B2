@@ -1,8 +1,6 @@
 package com.example.leisureapp.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -10,15 +8,13 @@ import android.app.AlarmManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
 import android.content.Intent;
-import android.database.sqlite.SQLiteStatement;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.example.leisureapp.FavoritesFragment;
-import com.example.leisureapp.ReminderNotification;
+import com.example.leisureapp.fragments.FavoritesFragment;
+import com.example.leisureapp.notifications.ReminderNotification;
 import com.example.leisureapp.database.DatabaseManager;
 import com.example.leisureapp.fragments.HomeFragment;
 import com.example.leisureapp.R;

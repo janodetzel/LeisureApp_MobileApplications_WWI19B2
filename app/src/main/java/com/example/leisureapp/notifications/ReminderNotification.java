@@ -1,4 +1,4 @@
-package com.example.leisureapp;
+package com.example.leisureapp.notifications;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;

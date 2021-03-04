@@ -1,8 +1,8 @@
-package com.example.leisureapp;
+package com.example.leisureapp.models;
 
 import android.content.Context;
 
-class FavCard {
+public class FavCard {
 
     public int activityID;
     public String activity;
