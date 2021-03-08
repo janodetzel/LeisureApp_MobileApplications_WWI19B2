@@ -14,14 +14,21 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.LinearLayout;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.leisureapp.fragments.FavoritesFragment;
 import com.example.leisureapp.notifications.ReminderNotification;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
 import com.example.leisureapp.database.DatabaseManager;
 import com.example.leisureapp.fragments.HomeFragment;
 import com.example.leisureapp.R;
 import com.example.leisureapp.fragments.SettingsFragment;
 
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONObject;
 
 import nl.joery.animatedbottombar.AnimatedBottomBar;
 

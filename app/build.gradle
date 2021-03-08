@@ -44,5 +44,8 @@ dependencies {
     implementation 'nl.joery.animatedbottombar:library:1.0.9'
     // https://github.com/yuyakaido/CardStackView
     implementation "com.yuyakaido.android:card-stack-view:2.3.4"
+
     implementation 'com.android.volley:volley:1.1.1'
+    implementation 'com.google.code.gson:gson:2.8.6'
+
 }

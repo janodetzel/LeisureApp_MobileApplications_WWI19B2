@@ -1,14 +1,6 @@
 package com.example.leisureapp.fragments;
 
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,16 +9,31 @@ import android.view.animation.LinearInterpolator;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.example.leisureapp.LeisureSingleton;
 import com.example.leisureapp.R;
 import com.example.leisureapp.adapters.CardStackAdapter;
 import com.example.leisureapp.database.DatabaseManager;
 import com.example.leisureapp.models.ItemModel;
+import com.google.gson.Gson;
+import com.google.gson.stream.JsonReader;
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager;
 import com.yuyakaido.android.cardstackview.CardStackListener;
 import com.yuyakaido.android.cardstackview.CardStackView;
 import com.yuyakaido.android.cardstackview.Direction;
 import com.yuyakaido.android.cardstackview.StackFrom;
 import com.yuyakaido.android.cardstackview.SwipeableMethod;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +45,30 @@ import java.util.List;
  */
 public class HomeFragment extends Fragment {
 
+    class BoredApiObject {
+        private String activity;
+        private String type;
+        private int participants;
+        private double price;
+        private String link;
+        private String key;
+        private double accessibility;
+
+        BoredApiObject() {
+
+        }
+
+        public String getActivity() {
+            return this.activity;
+        }
+
+        public String getKey() {
+            return this.key;
+        }
+    }
+
     private static final String TAG = HomeFragment.class.getSimpleName();
+    String URL = "https://www.boredapi.com/api/activity/";
 
     private CardStackLayoutManager manager;
     private CardStackAdapter adapter;
@@ -46,7 +76,6 @@ public class HomeFragment extends Fragment {
     public HomeFragment() {
         // Required empty public constructor
     }
-
 
     public static HomeFragment newInstance(String param1, String param2) {
         HomeFragment fragment = new HomeFragment();
@@ -101,11 +130,15 @@ public class HomeFragment extends Fragment {
                     Toast.makeText(view.getContext(), "Direction RIGHT", Toast.LENGTH_SHORT).show();
                 }
 
-                // Add dynamically new item after swipe
-                List<ItemModel> newItems = new ArrayList<ItemModel>();
-                newItems.add(new ItemModel("New Item " + adapter.getItemCount(), "" + adapter.getItemCount()));
+                LeisureSingleton.getInstance(getActivity()).addToRequestQueue(objectRequest);
 
-                adapter.addItems(adapter.getItemCount(), newItems);
+
+                // Add dynamically new item after swipe
+                //List<ItemModel> newItems = new ArrayList<ItemModel>();
+                //newItems.add(new ItemModel("New Item " + adapter.getItemCount(), "" + adapter.getItemCount()));
+
+                //adapter.addItems(adapter.getItemCount(), newItems);
+
                 //Log.d(TAG, "Items in list: " + adapter.getItemCount());
             }
 
@@ -159,4 +192,31 @@ public class HomeFragment extends Fragment {
         items.add((new ItemModel("TEST-2", "2")));
         return items;
     }
+
+    JsonObjectRequest objectRequest = new JsonObjectRequest(
+            Request.Method.GET,
+            URL,
+            null,
+            new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    Log.e("Response", response.toString());
+
+                    BoredApiObject boredApiObject = new Gson().fromJson(response.toString(), BoredApiObject.class);
+
+                    Log.e("Activity", boredApiObject.getActivity());
+
+                    ItemModel newItem = new ItemModel(boredApiObject.getActivity(), boredApiObject.getKey());
+                    adapter.addItem(adapter.getItemCount(), newItem);
+
+                }
+            }, new Response.ErrorListener() {
+        @Override
+        public void onErrorResponse(VolleyError error) {
+            Log.e("Error Response", error.toString());
+        }
+    }
+    );
+
+
 }
