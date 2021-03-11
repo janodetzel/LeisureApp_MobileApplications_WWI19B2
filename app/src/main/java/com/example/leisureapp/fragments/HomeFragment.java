@@ -161,11 +161,11 @@ public class HomeFragment extends Fragment {
             new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
-                    Log.e("Response", response.toString());
+                    Log.d("Response", response.toString());
 
                     ItemModel itemModel = new Gson().fromJson(response.toString(), ItemModel.class);
 
-                    Log.e("Activity", itemModel.getActivity());
+                    Log.d("Activity", itemModel.getActivity());
 
                     ItemModel newItem = new ItemModel(
                             itemModel.getActivity(),

@@ -14,7 +14,6 @@ public class ItemModel {
     private double accessibility;
     private String imgURL;
 
-
     public ItemModel() {
     }
 

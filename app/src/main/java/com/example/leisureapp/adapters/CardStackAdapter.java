@@ -1,8 +1,10 @@
 package com.example.leisureapp.adapters;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -66,15 +68,75 @@ public class CardStackAdapter extends RecyclerView.Adapter<CardStackAdapter.View
 
     // Class for setting data in card
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView name;
+        TextView text;
+        TextView type;
+        ImageView imgP1;
+        ImageView imgP2;
+        ImageView imgP3;
+        ImageView imgP4;
+        ImageView imgM1;
+        ImageView imgM2;
+        ImageView imgM3;
+        ImageView imgM4;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            name = itemView.findViewById(R.id.activityText);
+            type = itemView.findViewById(R.id.type);
+            text = itemView.findViewById(R.id.activityText);
+            imgP1 = itemView.findViewById(R.id.imgPersons1);
+            imgP2 = itemView.findViewById(R.id.imgPersons2);
+            imgP3 = itemView.findViewById(R.id.imgPersons3);
+            imgP4 = itemView.findViewById(R.id.imgPersons4);
+            imgM1 = itemView.findViewById(R.id.imgMoney1);
+            imgM2 = itemView.findViewById(R.id.imgMoney2);
+            imgM3 = itemView.findViewById(R.id.imgMoney3);
+            imgM4 = itemView.findViewById(R.id.imgMoney4);
         }
 
         void setData(ItemModel data) {
-            name.setText(data.getActivity());
+            text.setText(data.getActivity());
+            type.setText(data.getType());
+            Log.e("Activity", data.getActivity() + " | Price: " + data.getPrice() + " | Persons: " + data.getParticipants());
+
+            // Reset Colors
+            imgP1.setColorFilter(itemView.getResources().getColor(R.color.white));
+            imgP2.setColorFilter(itemView.getResources().getColor(R.color.white));
+            imgP3.setColorFilter(itemView.getResources().getColor(R.color.white));
+            imgP4.setColorFilter(itemView.getResources().getColor(R.color.white));
+            imgM1.setColorFilter(itemView.getResources().getColor(R.color.white));
+            imgM2.setColorFilter(itemView.getResources().getColor(R.color.white));
+            imgM3.setColorFilter(itemView.getResources().getColor(R.color.white));
+            imgM4.setColorFilter(itemView.getResources().getColor(R.color.white));
+
+
+            // Color Symbols for participants and price
+            int persons = data.getParticipants();
+            if (persons >= 1) {
+                imgP1.setColorFilter(itemView.getResources().getColor(R.color.blue));
+            }
+            if (persons >= 2) {
+                imgP2.setColorFilter(itemView.getResources().getColor(R.color.blue));
+            }
+            if (persons >= 3) {
+                imgP3.setColorFilter(itemView.getResources().getColor(R.color.blue));
+            }
+            if (persons >= 4) {
+                imgP4.setColorFilter(itemView.getResources().getColor(R.color.blue));
+            }
+
+            double price = data.getPrice();
+            if (price > 0.0) {
+                imgM1.setColorFilter(itemView.getResources().getColor(R.color.blue));
+            }
+            if (price >= 0.25) {
+                imgM2.setColorFilter(itemView.getResources().getColor(R.color.blue));
+            }
+            if (price >= 0.5) {
+                imgM3.setColorFilter(itemView.getResources().getColor(R.color.blue));
+            }
+            if (price >= 0.75) {
+                imgM4.setColorFilter(itemView.getResources().getColor(R.color.blue));
+            }
         }
     }
 }
