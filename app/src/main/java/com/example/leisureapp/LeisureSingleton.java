@@ -16,13 +16,13 @@ public class LeisureSingleton {
     private LeisureSingleton(Context context) {
         ctx = context;
         requestQueue = getRequestQueue();
-
     }
 
     public static synchronized LeisureSingleton getInstance(Context context){
         if (instance == null) {
             instance = new LeisureSingleton(context);
         }
+
         return instance;
     }
 
@@ -30,6 +30,7 @@ public class LeisureSingleton {
         if (requestQueue == null) {
             requestQueue = Volley.newRequestQueue(ctx.getApplicationContext());
         }
+
         return requestQueue;
     }
 

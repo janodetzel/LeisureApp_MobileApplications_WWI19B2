@@ -96,13 +96,13 @@ public class HomeFragment extends Fragment {
                     Toast.makeText(view.getContext(), "Direction LEFT", Toast.LENGTH_SHORT).show();
 
                     // Get key from adapter
-                    String key = adapter.getItems().get(manager.getTopPosition()).getKey();
+                    ItemModel item = adapter.getItems().get(manager.getTopPosition() - 1);
 
-                    // Insert key in local db
+                    // Insert item in local db
                     DatabaseManager db = new DatabaseManager(getActivity());
-                    db._statementInsertFavorite.bindString(1, key);
-                    db._statementInsertFavorite.executeInsert();
-                    Log.d(TAG, "Insert favorite in db with key: " + key);
+                    db.insertFavorite(item);
+
+                    Log.d(TAG, "Insert favorite in db with key: " + item.getKey());
 
                 } else if (direction == Direction.Right) {
                     // RIGHT SWIPE -> Next
@@ -110,7 +110,6 @@ public class HomeFragment extends Fragment {
                 }
 
                 LeisureSingleton.getInstance(getActivity()).addToRequestQueue(objectRequest);
-
             }
 
             @Override
@@ -174,13 +173,12 @@ public class HomeFragment extends Fragment {
                             itemModel.getPrice(),
                             itemModel.getLink(),
                             itemModel.getKey(),
-                            itemModel.getAccessibility());
+                            itemModel.getAccessibility(),
+                            itemModel.getImgURL());
 
                     adapter.addItem(adapter.getItemCount(), newItem);
 
                 }
             }, error -> Log.e("Error Response", error.toString())
     );
-
-
 }

@@ -25,7 +25,7 @@ public class ItemModel {
         this.key = key;
     }
 
-    public ItemModel(String activity, String type, int participants, double price, String link, String key, double accessibility) {
+    public ItemModel(String activity, String type, int participants, double price, String link, String key, double accessibility, String imgURL) {
         this.activity = activity;
         this.type = type;
         this.participants = participants;
@@ -33,6 +33,7 @@ public class ItemModel {
         this.link = link;
         this.key = key;
         this.accessibility = accessibility;
+        this.imgURL = imgURL;
     }
 
     public ItemModel(String activity, String type, int participants, double price, String link, String key, double accessibility, String imgURL, Context context) {

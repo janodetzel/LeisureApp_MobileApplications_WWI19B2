@@ -1,5 +1,6 @@
 package com.example.leisureapp.database;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
@@ -10,26 +11,28 @@ import android.util.Log;
 
 import com.example.leisureapp.models.ItemModel;
 
-public class DatabaseManager extends SQLiteOpenHelper  {
+public class DatabaseManager extends SQLiteOpenHelper {
+
     private static final String TAG = DatabaseManager.class.getSimpleName();
-
-    public SQLiteStatement _statementInsertFavorite;
-
 
     public DatabaseManager(Context context) {
         super(context, "leisure.db", null, 1);
 
-        SQLiteDatabase db = getReadableDatabase();
-        _statementInsertFavorite = db.compileStatement("INSERT INTO favorites (api_key) VALUES (?)");
+        // DELETE CURRENT DATABASE
+        // context.deleteDatabase("leisure.db");
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         try {
-            db.execSQL("CREATE TABLE favorites (favorites_id INTEGER PRIMARY KEY AUTOINCREMENT, api_key TEXT NOT NULL)");
-            db.execSQL("CREATE INDEX favorites_index ON favorites(api_key)");
+            String createFavorites = "CREATE TABLE favorites (favorites_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "activity_key TEXT NOT NULL, title TEXT NOT NULL, " +
+                    "type TEXT NOT NULL, participants INTEGER NOT NULL, " +
+                    "price DOUBLE NOT NULL, accessibility DOUBLE NOT NULL, img_url TEXT NOT NULL)";
+
+            db.execSQL(createFavorites);
         } catch (SQLException ex) {
-            Log.e(TAG, "Exception beim Anlegen von DB-Schema aufgetreten: " + ex);
+            Log.e(TAG, "SQL-Error: " + ex);
         }
     }
 
@@ -38,37 +41,85 @@ public class DatabaseManager extends SQLiteOpenHelper  {
         // NOT NEEDED
     }
 
-    public String[] getFavorites() {
-        SQLiteDatabase db = getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM favorites", null);
-        int resultCount = cursor.getCount();
-        if (resultCount == 0) {
-            Log.d(TAG, "Keine Ergebnisse in der Tabelle favorites");
-            return new String[]{};
-        } else {
-            String[] results = new String[resultCount];
-            int counter = 0;
+    public ItemModel[] getFavorites() {
+        try {
+            SQLiteDatabase db = getReadableDatabase();
+            Cursor cursor = db.rawQuery("SELECT * FROM favorites", null);
 
-            for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
-                results[counter] = cursor.getString(1);
-                counter++;
+            int resultCount = cursor.getCount();
+            if (resultCount == 0) {
+                Log.d(TAG, "No entries in database.");
+                return new ItemModel[]{};
+            } else {
+                ItemModel[] results = new ItemModel[resultCount];
+                int counter = 0;
+
+                for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
+                    String key = cursor.getString(1);
+                    String title = cursor.getString(2);
+                    String type = cursor.getString(3);
+                    int persons = cursor.getInt(4);
+                    double price = cursor.getDouble(5);
+                    double accessibility = cursor.getDouble(6);
+                    String imgUrl = cursor.getString(7);
+
+                    ItemModel item = new ItemModel(title, type, persons, price, "", key, accessibility, imgUrl);
+                    results[counter] = item;
+                    counter++;
+                }
+
+                cursor.close();
+                return results;
+            }
+        } catch (SQLException e) {
+            Log.e(TAG, "SQL-Error: " + e.getMessage());
+            return null;
+        }
+    }
+
+    public void insertFavorite(ItemModel item) {
+        try {
+            SQLiteDatabase db = getWritableDatabase();
+
+            // Set values for insert
+            ContentValues values = new ContentValues();
+            values.put("title", item.getActivity());
+            values.put("type", item.getType());
+            values.put("participants", item.getParticipants());
+            values.put("price", item.getPrice());
+            values.put("activity_key", item.getKey());
+            values.put("accessibility", item.getAccessibility());
+            if (item.getImgURL() == null) {
+                values.put("img_url", "NOT IMPLEMENTED");
+            } else {
+                values.put("img_url", item.getImgURL());
             }
 
-            cursor.close();
-            return results;
+            // Insert new item in favorites
+            db.insertOrThrow("favorites", null, values);
+        } catch (SQLException e) {
+            Log.e(TAG, "SQL-Error: " + e.getMessage());
         }
     }
 
     public void clearFavorites() {
-        SQLiteDatabase db = getWritableDatabase();
-        db.execSQL("DELETE FROM favorites");
+        try {
+            // Delete all entries in favorites
+            SQLiteDatabase db = getWritableDatabase();
+            db.execSQL("DELETE FROM favorites");
+        } catch (SQLException e) {
+            Log.e(TAG, "SQL-Error: " + e.getMessage());
+        }
     }
 
     public void removeFavorite(ItemModel favCard) {
-        if(favCard != null) {
-            //TODO: Schauen ob es so richtig wäre!!!
-            SQLiteDatabase db = getWritableDatabase();
-            db.execSQL("DELETE FROM favorites WHERE id = favCard.id");
+        try {
+            if (favCard != null) {
+                SQLiteDatabase db = getWritableDatabase();
+                db.execSQL("DELETE FROM favorites WHERE id = favCard.id");
+            }
+        } catch (SQLException e) {
+            Log.e(TAG, "SQL-Error: " + e.getMessage());
         }
     }
 }
