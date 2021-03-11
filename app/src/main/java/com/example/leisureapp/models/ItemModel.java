@@ -1,5 +1,7 @@
 package com.example.leisureapp.models;
 
+import android.content.Context;
+
 import java.lang.reflect.Constructor;
 
 // Model for holding stack data item
@@ -13,6 +15,7 @@ public class ItemModel {
     private String key;
     private double accessibility;
     private String imgURL;
+    private Context context;
 
     public ItemModel() {
     }
@@ -32,7 +35,7 @@ public class ItemModel {
         this.accessibility = accessibility;
     }
 
-    public ItemModel(String activity, String type, int participants, double price, String link, String key, double accessibility, String imgURL) {
+    public ItemModel(String activity, String type, int participants, double price, String link, String key, double accessibility, String imgURL, Context context) {
         this.activity = activity;
         this.type = type;
         this.participants = participants;
@@ -105,5 +108,13 @@ public class ItemModel {
 
     public void setImgURL(String imgURL) {
         this.imgURL = imgURL;
+    }
+
+    public Context getContext() {
+        return context;
+    }
+
+    public void setContext(Context context) {
+        this.context = context;
     }
 }

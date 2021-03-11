@@ -8,14 +8,14 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.leisureapp.models.FavCard;
+import com.example.leisureapp.models.ItemModel;
 import com.example.leisureapp.R;
 
 import java.util.ArrayList;
 
 public class FavCardAdapter extends BaseAdapter {
     private Activity context;
-    private ArrayList<FavCard> items;
+    private ArrayList<ItemModel> items;
 
     static class ViewHolder{
         public TextView activity;
@@ -26,7 +26,7 @@ public class FavCardAdapter extends BaseAdapter {
         public TextView persons;
     }
 
-    public FavCardAdapter(Activity context, ArrayList<FavCard> items) {
+    public FavCardAdapter(Activity context, ArrayList<ItemModel> items) {
         this.context = context;
         this.items = items;
     }
@@ -37,7 +37,7 @@ public class FavCardAdapter extends BaseAdapter {
     }
 
     @Override
-    public FavCard getItem(int position) {
+    public ItemModel getItem(int position) {
         return items.get(position);
     }
 
@@ -65,10 +65,10 @@ public class FavCardAdapter extends BaseAdapter {
         }
 
         ViewHolder holder = (ViewHolder) rowView.getTag();
-        FavCard fav = items.get(position);
-        holder.activity.setText(fav.activity);
-        holder.persons.setText(fav.persons);
-        holder.costs.setText(fav.costs);
+        ItemModel fav = items.get(position);
+        holder.activity.setText(""+fav.getActivity());
+        holder.persons.setText(""+fav.getParticipants());
+        holder.costs.setText(""+fav.getPrice());
         //TODO: Change to true url! from FavCard
         holder.image.setImageResource(R.drawable.city_photo);
 
