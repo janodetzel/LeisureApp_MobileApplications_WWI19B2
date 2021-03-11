@@ -9,9 +9,8 @@
         android:id="@+id/card_stack_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingVertical="120dp"
+        android:clipToPadding="false"
         android:paddingHorizontal="30dp"
-        android:clipToPadding="false">
-    </com.yuyakaido.android.cardstackview.CardStackView>
+        android:paddingVertical="120dp"></com.yuyakaido.android.cardstackview.CardStackView>
 
 </RelativeLayout>

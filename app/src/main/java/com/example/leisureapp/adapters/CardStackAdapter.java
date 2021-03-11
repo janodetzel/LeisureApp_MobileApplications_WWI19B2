@@ -19,6 +19,7 @@ public class CardStackAdapter extends RecyclerView.Adapter<CardStackAdapter.View
     public CardStackAdapter(List<ItemModel> items) {
         this.items = items;
     }
+    public CardStackAdapter(){};
 
     @NonNull
     @Override
@@ -37,7 +38,10 @@ public class CardStackAdapter extends RecyclerView.Adapter<CardStackAdapter.View
     @Override
     public int getItemCount() {
         // Get size of item stack
-        return items.size();
+        if (items != null) {
+            return items.size();
+        }
+        return 0;
     }
 
     // Get all items of stack
@@ -66,11 +70,11 @@ public class CardStackAdapter extends RecyclerView.Adapter<CardStackAdapter.View
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            name = itemView.findViewById(R.id.itemName);
+            name = itemView.findViewById(R.id.activityText);
         }
 
         void setData(ItemModel data) {
-            name.setText(data.getName());
+            name.setText(data.getActivity());
         }
     }
 }

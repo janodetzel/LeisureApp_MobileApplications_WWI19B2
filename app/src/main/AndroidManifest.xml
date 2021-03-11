@@ -10,18 +10,18 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/leisure_logo_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.LeisureApp" >
+        android:theme="@style/Theme.LeisureApp.Light" >
 
-        <activity android:name=".activities.MainActivity" >
+        <activity android:name=".activities.MainActivity" android:theme="@style/Theme.LeisureApp.Light">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".activities.Popup"
-            android:theme="@style/Theme.LeisureApp.Popup">
+            android:theme="@style/Theme.LeisureApp.Light.Popup">
         </activity>
+
         <receiver android:name=".notifications.ReminderNotification" android:enabled="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>

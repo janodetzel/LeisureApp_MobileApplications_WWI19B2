@@ -1,9 +1,6 @@
 package com.example.leisureapp.adapters;
 
 import android.app.Activity;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,8 +11,6 @@ import android.widget.TextView;
 import com.example.leisureapp.models.FavCard;
 import com.example.leisureapp.R;
 
-import java.io.InputStream;
-import java.net.URL;
 import java.util.ArrayList;
 
 public class FavCardAdapter extends BaseAdapter {

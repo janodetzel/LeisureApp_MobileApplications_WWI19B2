@@ -22,4 +22,6 @@ public class FavCard {
         this.context = context;
     }
 
+
+
 }

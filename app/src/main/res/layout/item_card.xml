@@ -4,13 +4,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/blue"
-    app:cardBackgroundColor="@color/blue">
-
+    app:cardBackgroundColor="@color/blue"
+    app:cardCornerRadius="8dp"
+    >
 
     <TextView
-        android:id="@+id/itemName"
+        android:id="@+id/activityText"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></TextView>s
+        android:layout_height="wrap_content"
+        android:text="Bake pastries for you and your neighbor"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp"
+        />
 
 
 </androidx.cardview.widget.CardView>

@@ -1,9 +1,6 @@
 package com.example.leisureapp.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-
+import android.app.ActionBar;
 import android.app.AlarmManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -12,23 +9,21 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.LinearLayout;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.example.leisureapp.fragments.FavoritesFragment;
-import com.example.leisureapp.notifications.ReminderNotification;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.Volley;
-import com.example.leisureapp.database.DatabaseManager;
-import com.example.leisureapp.fragments.HomeFragment;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+
 import com.example.leisureapp.R;
+import com.example.leisureapp.database.DatabaseManager;
+import com.example.leisureapp.fragments.FavoritesFragment;
+import com.example.leisureapp.fragments.HomeFragment;
 import com.example.leisureapp.fragments.SettingsFragment;
+import com.example.leisureapp.notifications.ReminderNotification;
 
 import org.jetbrains.annotations.NotNull;
-import org.json.JSONObject;
 
 import nl.joery.animatedbottombar.AnimatedBottomBar;
 
@@ -40,8 +35,10 @@ public class MainActivity extends AppCompatActivity {
     AnimatedBottomBar animatedBottomBar;
     FragmentManager fragmentManager;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         // wird für local notifications benötigt
         createNotificationChannel();
@@ -117,6 +114,7 @@ public class MainActivity extends AppCompatActivity {
         cancelNotifications();
         super.onResume();
     }
+
 
     //
     // Methoden für Notifications

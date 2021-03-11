@@ -1,37 +1,110 @@
 package com.example.leisureapp.models;
 
+import java.lang.reflect.Constructor;
+
 // Model for holding stack data item
 public class ItemModel {
     // EXAMPLE DATA name
-    private String name;
-    private String key;
     private String activity;
+    private String type;
+    private int participants;
+    private double price;
+    private String link;
+    private String key;
+    private double accessibility;
+    private String imgURL;
+
 
     public ItemModel() {
     }
 
-    public ItemModel(String name, String key) {
-        this.name = name;
+    public ItemModel(String activity, String key) {
+        this.activity = activity;
         this.key = key;
     }
 
-    public String getName() {
-        return this.name;
+    public ItemModel(String activity, String type, int participants, double price, String link, String key, double accessibility) {
+        this.activity = activity;
+        this.type = type;
+        this.participants = participants;
+        this.price = price;
+        this.link = link;
+        this.key = key;
+        this.accessibility = accessibility;
     }
 
-    public String getActivity() {return  this.activity;}
-
-    public String getKey() {return  this.key;}
-
-
-    public void setName(String name) {
-        this.name = name;
+    public ItemModel(String activity, String type, int participants, double price, String link, String key, double accessibility, String imgURL) {
+        this.activity = activity;
+        this.type = type;
+        this.participants = participants;
+        this.price = price;
+        this.link = link;
+        this.key = key;
+        this.accessibility = accessibility;
+        this.imgURL = imgURL;
     }
 
-    public void setActivity(String activity) {this.activity = activity;}
+    public String getActivity() {
+        return activity;
+    }
+
+    public void setActivity(String activity) {
+        this.activity = activity;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public int getParticipants() {
+        return participants;
+    }
+
+    public void setParticipants(int participants) {
+        this.participants = participants;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
+    }
+
+    public String getKey() {
+        return key;
+    }
 
     public void setKey(String key) {
         this.key = key;
     }
 
+    public double getAccessibility() {
+        return accessibility;
+    }
+
+    public void setAccessibility(double accessibility) {
+        this.accessibility = accessibility;
+    }
+
+    public String getImgURL() {
+        return imgURL;
+    }
+
+    public void setImgURL(String imgURL) {
+        this.imgURL = imgURL;
+    }
 }
