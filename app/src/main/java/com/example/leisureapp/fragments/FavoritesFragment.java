@@ -14,7 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.leisureapp.activities.Popup;
-import com.example.leisureapp.models.FavCard;
+import com.example.leisureapp.models.ItemModel;
 import com.example.leisureapp.adapters.FavCardAdapter;
 import com.example.leisureapp.R;
 import com.example.leisureapp.database.DatabaseManager;
@@ -83,7 +83,7 @@ public class FavoritesFragment extends Fragment {
 
         favs = (ListView) view.findViewById(R.id.favs);
 
-        ArrayList<FavCard> arrayList = new ArrayList<FavCard>();
+        ArrayList<ItemModel> arrayList = new ArrayList<ItemModel>();
         addFavoritesToList(arrayList);
         FavCardAdapter adapter = new FavCardAdapter(this.getActivity(), arrayList);
         favs.setAdapter(adapter);
@@ -102,7 +102,7 @@ public class FavoritesFragment extends Fragment {
 
         for(int i=0; i <= keys.length - 1; i++) {
             //TODO: Change to real data
-            FavCard card = new FavCard(i*100, keys[i], "2", "1", "gaming", "", super.getContext());
+            ItemModel card = new ItemModel("Activity Text", "type", 2, 1.0, "link", "key", 0.8, "url", super.getContext());
             arrayList.add(card);
         }
     }

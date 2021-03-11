@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
 
-import com.example.leisureapp.models.FavCard;
+import com.example.leisureapp.models.ItemModel;
 
 public class DatabaseManager extends SQLiteOpenHelper  {
     private static final String TAG = DatabaseManager.class.getSimpleName();
@@ -64,7 +64,7 @@ public class DatabaseManager extends SQLiteOpenHelper  {
         db.execSQL("DELETE FROM favorites");
     }
 
-    public void removeFavorite(FavCard favCard) {
+    public void removeFavorite(ItemModel favCard) {
         if(favCard != null) {
             //TODO: Schauen ob es so richtig wäre!!!
             SQLiteDatabase db = getWritableDatabase();
