@@ -51,7 +51,7 @@ public class FavoritesFragment extends Fragment {
 
     ListView favs;
     String URL = "https://www.boredapi.com/api/activity?key=";
-    ArrayList<ItemModel> arrayList = new ArrayList<ItemModel>();
+    public static ArrayList<ItemModel> arrayList = new ArrayList<ItemModel>();
 
 
     public FavoritesFragment() {
@@ -95,18 +95,26 @@ public class FavoritesFragment extends Fragment {
         favs.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Popup.favCard = arrayList.get(i);
+                Popup.index = i;
+                Popup.lv = favs;
                 startActivity(new Intent(FavoritesFragment.this.getContext(), Popup.class));
             }
         });
     }
 
 
+    @Override
+    public void onDestroy() {
+        arrayList.clear();
+        super.onDestroy();
+    }
+
     public void addFavoritesToList(ArrayList favList) {
         DatabaseManager db = new DatabaseManager(getActivity());
         ItemModel[] favourites = db.getFavorites();
 
         for(int i=0; i <= favourites.length - 1; i++) {
-            //TODO: Change to real data
             favList.add(favourites[i]);
         }
     }

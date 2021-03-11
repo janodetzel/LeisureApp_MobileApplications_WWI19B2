@@ -112,12 +112,10 @@ public class DatabaseManager extends SQLiteOpenHelper {
         }
     }
 
-    public void removeFavorite(ItemModel favCard) {
+    public void removeFavorite(String id) {
         try {
-            if (favCard != null) {
-                SQLiteDatabase db = getWritableDatabase();
-                db.execSQL("DELETE FROM favorites WHERE id = favCard.id");
-            }
+            SQLiteDatabase db = getWritableDatabase();
+            db.execSQL("DELETE FROM favorites WHERE activity_key = " + id);
         } catch (SQLException e) {
             Log.e(TAG, "SQL-Error: " + e.getMessage());
         }
