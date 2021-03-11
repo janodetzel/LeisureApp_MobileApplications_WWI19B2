@@ -12,12 +12,17 @@
         android:background="@drawable/fav_card_bg_round">
 
         <ImageView
-            app:tint="#6F000000"
             android:id="@+id/favPic"
             android:scaleType="center"
             android:src="@drawable/city_photo"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
+        <View
+            android:id="@+id/overlay_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#6F000000"
+        />
 
         <TextView
             android:text="Explore the wildlife of your city"
