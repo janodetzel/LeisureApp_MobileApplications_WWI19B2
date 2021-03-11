@@ -1,6 +1,7 @@
 package com.example.leisureapp.fragments;
 
 import android.os.Bundle;
+import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,6 +34,7 @@ import com.yuyakaido.android.cardstackview.SwipeableMethod;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -59,12 +61,7 @@ public class HomeFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
-
-        for (int i = 0; i < 3; i++) {
-            LeisureSingleton.getInstance(getActivity()).addToRequestQueue(objectRequest);
-        }
     }
 
     @Override
@@ -151,6 +148,20 @@ public class HomeFragment extends Fragment {
         cardStackView.setLayoutManager(manager);
         cardStackView.setAdapter(adapter);
         cardStackView.setItemAnimator(new DefaultItemAnimator());
+
+        DatabaseManager db = new DatabaseManager(getActivity());
+        ItemModel[] tmp = db.getTmp();
+
+        if (tmp.length != 0) {
+            for(int i=0; i <= tmp.length - 1; i++) {
+                Log.e("Message", tmp[i].getActivity());
+                adapter.addItem(0, tmp[i]);
+            }
+        } else {
+            for (int i = 0; i < 3; i++) {
+                LeisureSingleton.getInstance(getActivity()).addToRequestQueue(objectRequest);
+            }
+        }
     }
 
     JsonObjectRequest objectRequest = new JsonObjectRequest(
@@ -175,6 +186,10 @@ public class HomeFragment extends Fragment {
                             itemModel.getKey(),
                             itemModel.getAccessibility(),
                             itemModel.getImgURL());
+
+                    DatabaseManager db = new DatabaseManager(getActivity());
+
+                    db.insertTmp(newItem);
 
                     adapter.addItem(adapter.getItemCount(), newItem);
 

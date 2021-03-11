@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Initialize Database
         DatabaseManager _databaseManager = new DatabaseManager(this);
+        _databaseManager.clearTmp();
 
         animatedBottomBar = findViewById(R.id.bottom_bar);
 
