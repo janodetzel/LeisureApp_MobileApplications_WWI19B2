@@ -96,7 +96,7 @@ public class CardStackAdapter extends RecyclerView.Adapter<CardStackAdapter.View
         void setData(ItemModel data) {
             text.setText(data.getActivity());
             type.setText(data.getType());
-            Log.e("Activity", data.getActivity() + " | Price: " + data.getPrice() + " | Persons: " + data.getParticipants());
+            Log.i("Activity", data.getActivity() + " | Price: " + data.getPrice() + " | Persons: " + data.getParticipants());
 
             // Reset Colors
             imgP1.setColorFilter(itemView.getResources().getColor(R.color.white));

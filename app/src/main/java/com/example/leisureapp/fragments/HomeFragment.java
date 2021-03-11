@@ -1,7 +1,6 @@
 package com.example.leisureapp.fragments;
 
 import android.os.Bundle;
-import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,14 +15,20 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.leisureapp.LeisureSingleton;
 import com.example.leisureapp.R;
 import com.example.leisureapp.adapters.CardStackAdapter;
 import com.example.leisureapp.database.DatabaseManager;
+import com.example.leisureapp.interfaces.VolleyCallback;
 import com.example.leisureapp.models.ItemModel;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonParser;
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager;
 import com.yuyakaido.android.cardstackview.CardStackListener;
 import com.yuyakaido.android.cardstackview.CardStackView;
@@ -33,8 +38,8 @@ import com.yuyakaido.android.cardstackview.SwipeableMethod;
 
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -44,7 +49,11 @@ import java.util.Arrays;
 public class HomeFragment extends Fragment {
 
     private static final String TAG = HomeFragment.class.getSimpleName();
-    String URL = "https://www.boredapi.com/api/activity/";
+    String unsplashAuth = "&client_id=cOMcQHsoAAQBMhZUAR-2zZRQyNBb0lvufuME78DiDdc";
+    String boredURL = "https://www.boredapi.com/api/activity/";
+    String unsplashURL = "https://api.unsplash.com/search/photos?orientation=portrait&page1&query=";
+    String unsplashRandomURL = "https://api.unsplash.com/photos?orientation=portrait/random/" + unsplashAuth;
+
 
     private CardStackLayoutManager manager;
     private CardStackAdapter adapter;
@@ -153,7 +162,7 @@ public class HomeFragment extends Fragment {
         ItemModel[] tmp = db.getTmp();
 
         if (tmp.length != 0) {
-            for(int i=0; i <= tmp.length - 1; i++) {
+            for (int i = 0; i <= tmp.length - 1; i++) {
                 Log.e("Message", tmp[i].getActivity());
                 adapter.addItem(0, tmp[i]);
             }
@@ -166,16 +175,27 @@ public class HomeFragment extends Fragment {
 
     JsonObjectRequest objectRequest = new JsonObjectRequest(
             Request.Method.GET,
-            URL,
+            boredURL,
             null,
             new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
-                    Log.d("Response", response.toString());
 
+                    final String[] imgUrl = {""};
+                    imgURLRequest(Request.Method.GET, unsplashURL + "house" + unsplashAuth, null,
+                            new VolleyCallback() {
+                                @Override
+                                public void onSuccessResponse(String result) {
+                                    Log.d("Success Image", result);
+                                    imgUrl[0] = result;
+                                }
+                            });
+
+                    Log.d("Bored API response", response.toString());
                     ItemModel itemModel = new Gson().fromJson(response.toString(), ItemModel.class);
 
                     Log.d("Activity", itemModel.getActivity());
+                    Log.d("Image", imgUrl[0] + "imageurl");
 
                     ItemModel newItem = new ItemModel(
                             itemModel.getActivity(),
@@ -196,4 +216,37 @@ public class HomeFragment extends Fragment {
                 }
             }, error -> Log.e("Error Response", error.toString())
     );
+
+    public void imgURLRequest(int method, String url, JSONObject jsonValue, final VolleyCallback callback) {
+
+        JsonObjectRequest unsplashRequest = new JsonObjectRequest(
+                method,
+                url,
+                jsonValue,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d("Unsplash API response", response.toString());
+
+                        String imgUrl = JsonParser.parseString(response.toString())
+                                .getAsJsonObject()
+                                .get("results")
+                                .getAsJsonArray()
+                                .get(0)
+                                .getAsJsonObject()
+                                .get("urls")
+                                .getAsJsonObject()
+                                .get("regular")
+                                .getAsString();
+
+                        Log.d("Unsplash imgURL", imgUrl);
+
+                        callback.onSuccessResponse(imgUrl);
+                    }
+                }, error -> Log.e("Error Response", error.toString())
+        );
+
+        LeisureSingleton.getInstance(getActivity()).addToRequestQueue(unsplashRequest);
+    }
+
 }
