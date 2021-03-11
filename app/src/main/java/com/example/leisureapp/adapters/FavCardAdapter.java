@@ -20,7 +20,7 @@ public class FavCardAdapter extends BaseAdapter {
     static class ViewHolder{
         public TextView activity;
         public ImageView image;
-        public TextView iconCosts;
+        public ImageView iconCosts;
         public ImageView iconPersons;
         public TextView costs;
         public TextView persons;
@@ -57,7 +57,7 @@ public class FavCardAdapter extends BaseAdapter {
             ViewHolder viewHolder = new ViewHolder();
             viewHolder.activity = (TextView) rowView.findViewById(R.id.favText);
             viewHolder.image = (ImageView) rowView.findViewById(R.id.favPic);
-            viewHolder.iconCosts = (TextView) rowView.findViewById(R.id.favCostIcon);
+            viewHolder.iconCosts = (ImageView) rowView.findViewById(R.id.favCostIcon);
             viewHolder.costs = (TextView) rowView.findViewById(R.id.favCostText);
             viewHolder.iconPersons = (ImageView) rowView.findViewById(R.id.favPersonsIcon);
             viewHolder.persons = (TextView) rowView.findViewById(R.id.favPersonsText);

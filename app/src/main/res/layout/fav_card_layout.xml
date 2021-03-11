@@ -12,7 +12,7 @@
         android:background="@drawable/fav_card_bg_round">
 
         <ImageView
-            android:tint="#6F000000"
+            app:tint="#6F000000"
             android:id="@+id/favPic"
             android:scaleType="center"
             android:src="@drawable/city_photo"
