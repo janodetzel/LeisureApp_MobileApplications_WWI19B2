@@ -1,12 +1,12 @@
 package com.example.leisureapp.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +17,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 
 import com.example.leisureapp.R;
-import com.example.leisureapp.database.DatabaseManager;
+import com.example.leisureapp.activities.DeleteFavsPopup;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -72,10 +72,7 @@ public class SettingsFragment extends Fragment {
         btnClear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d(TAG, "Clear Database.");
-
-                DatabaseManager db = new DatabaseManager(getActivity());
-                db.clearFavorites();
+                startActivity(new Intent(SettingsFragment.this.getContext(), DeleteFavsPopup.class));
             }
         });
 

@@ -7,40 +7,19 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.example.leisureapp.LeisureSingleton;
-import com.example.leisureapp.activities.Popup;
-import com.example.leisureapp.adapters.CardStackAdapter;
+import com.example.leisureapp.activities.FavCardPopup;
 import com.example.leisureapp.models.ItemModel;
 import com.example.leisureapp.adapters.FavCardAdapter;
 import com.example.leisureapp.R;
 import com.example.leisureapp.database.DatabaseManager;
-import com.google.gson.Gson;
 
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
-
-import javax.net.ssl.HttpsURLConnection;
-
-import kotlin.jvm.Synchronized;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -95,10 +74,10 @@ public class FavoritesFragment extends Fragment {
         favs.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Popup.favCard = arrayList.get(i);
-                Popup.index = i;
-                Popup.lv = favs;
-                startActivity(new Intent(FavoritesFragment.this.getContext(), Popup.class));
+                FavCardPopup.favCard = arrayList.get(i);
+                FavCardPopup.index = i;
+                FavCardPopup.lv = favs;
+                startActivity(new Intent(FavoritesFragment.this.getContext(), FavCardPopup.class));
             }
         });
     }

@@ -1,8 +1,5 @@
 package com.example.leisureapp.activities;
 
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -18,7 +15,7 @@ import com.example.leisureapp.database.DatabaseManager;
 import com.example.leisureapp.fragments.FavoritesFragment;
 import com.example.leisureapp.models.ItemModel;
 
-public class Popup extends AppCompatActivity {
+public class FavCardPopup extends AppCompatActivity {
 
     public static ItemModel favCard;
     public static int index;
@@ -28,7 +25,7 @@ public class Popup extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.popup_layout);
+        setContentView(R.layout.fav_card_popup);
 
         MainActivity.dimPopupBackground.setVisibility(View.VISIBLE);
 
@@ -46,7 +43,7 @@ public class Popup extends AppCompatActivity {
         btnClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Popup.super.onBackPressed();
+                FavCardPopup.super.onBackPressed();
             }
         });
 
@@ -56,7 +53,7 @@ public class Popup extends AppCompatActivity {
             public void onClick(View view) {
                 FavoritesFragment.arrayList.remove(index);
                 lv.invalidateViews();
-                Popup.super.onBackPressed();
+                FavCardPopup.super.onBackPressed();
                 DatabaseManager db = new DatabaseManager(getBaseContext());
                 db.removeFavorite(favCard.getKey());
             }
