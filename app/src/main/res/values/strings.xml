@@ -10,4 +10,17 @@
 
     <string name="filter">Filter</string>
     <string name="deleteAll">Delete saved data</string>
+
+    <string-array name="settingsType">
+        <item>All Types</item>
+        <item>education</item>
+        <item>recreational</item>
+        <item>social</item>
+        <item>diy</item>
+        <item>charity</item>
+        <item>cooking</item>
+        <item>relaxation</item>
+        <item>music</item>
+        <item>busywork</item>
+    </string-array>
 </resources>

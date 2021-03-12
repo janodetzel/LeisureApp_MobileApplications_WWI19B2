@@ -10,7 +10,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 
 import com.example.leisureapp.R;
 import com.example.leisureapp.database.DatabaseManager;
@@ -66,5 +69,29 @@ public class SettingsFragment extends Fragment {
                 db.clearFavorites();
             }
         });
+
+        Spinner dropDown = (Spinner) view.findViewById(R.id.settingsTypeDropDown);
+
+        ArrayAdapter<CharSequence> staticAdapter = ArrayAdapter
+                .createFromResource(this.getContext(), R.array.settingsType,
+                        android.R.layout.simple_spinner_item);
+        staticAdapter
+                .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        dropDown.setAdapter(staticAdapter);
+
+        dropDown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int position, long id) {
+                Log.v("item", (String) parent.getItemAtPosition(position));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // TODO Auto-generated method stub
+            }
+        });
+
     }
 }
