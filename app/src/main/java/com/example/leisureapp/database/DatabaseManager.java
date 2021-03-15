@@ -19,7 +19,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
         super(context, "leisure.db", null, 1);
 
         // DELETE CURRENT DATABASE
-        // context.deleteDatabase("leisure.db");
+        context.deleteDatabase("leisure.db");
     }
 
     @Override
@@ -31,7 +31,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
                     "price DOUBLE NOT NULL, accessibility DOUBLE NOT NULL, img_url TEXT NOT NULL)";
 
             String createTmp = "CREATE TABLE tmp (tmp_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    "activity_key TEXT NOT NULL, activity TEXT NOT NULL, " +
+                    "activity_key TEXT NOT NULL, title TEXT NOT NULL, " +
                     "type TEXT NOT NULL, participants INTEGER NOT NULL, " +
                     "price DOUBLE NOT NULL, accessibility DOUBLE NOT NULL, img_url TEXT NOT NULL)";
 

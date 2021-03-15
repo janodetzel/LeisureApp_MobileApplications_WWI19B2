@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.SeekBar;
 import android.widget.Spinner;
 
 import com.example.leisureapp.R;
@@ -65,9 +67,115 @@ public class SettingsFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_settings, container, false);
     }
 
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        ImageView imgCost1 = (ImageView) view.findViewById(R.id.settingsCosts1);
+        ImageView imgCost2 = (ImageView) view.findViewById(R.id.settingsCosts2);
+        ImageView imgCost3 = (ImageView) view.findViewById(R.id.settingsCosts3);
+        ImageView imgCost4 = (ImageView) view.findViewById(R.id.settingsCosts4);
+        ImageView imgPerson1 = (ImageView) view.findViewById(R.id.settingsPersons1);
+        ImageView imgPerson2 = (ImageView) view.findViewById(R.id.settingsPersons2);
+        ImageView imgPerson3 = (ImageView) view.findViewById(R.id.settingsPersons3);
+        ImageView imgPerson4 = (ImageView) view.findViewById(R.id.settingsPersons4);
+        ImageView costsDel = (ImageView) view.findViewById(R.id.settingsCostsDel);
+        ImageView personsDel = (ImageView) view.findViewById(R.id.settingsPersonsDel);
+
+        // Progress SeekBar
+        SeekBar seekCosts = (SeekBar) view.findViewById(R.id.seekBarCosts);
+        seekCosts.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
+                if (progress == 0) {
+                    imgCost1.setColorFilter(view.getResources().getColor(R.color.white));
+                    imgCost2.setColorFilter(view.getResources().getColor(R.color.white));
+                    imgCost3.setColorFilter(view.getResources().getColor(R.color.white));
+                    imgCost4.setColorFilter(view.getResources().getColor(R.color.white));
+
+                    filterCosts = 0;
+                }
+
+                if (progress >= 20) {
+                    imgCost1.setColorFilter(view.getResources().getColor(R.color.blue));
+                    imgCost2.setColorFilter(view.getResources().getColor(R.color.white));
+                    filterCosts = 1;
+                }
+
+                if (progress >= 40) {
+                    imgCost2.setColorFilter(view.getResources().getColor(R.color.blue));
+                    imgCost3.setColorFilter(view.getResources().getColor(R.color.white));
+                    filterCosts = 2;
+                }
+
+                if (progress >= 60) {
+                    imgCost3.setColorFilter(view.getResources().getColor(R.color.blue));
+                    imgCost4.setColorFilter(view.getResources().getColor(R.color.white));
+                    filterCosts = 3;
+                }
+
+                if (progress >= 80) {
+                    imgCost4.setColorFilter(view.getResources().getColor(R.color.blue));
+                    filterCosts = 4;
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                // Auto-generated
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                // Auto-generated
+            }
+        });
+
+        SeekBar seekPersons = (SeekBar) view.findViewById(R.id.seekBarPersons);
+        seekPersons.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
+                switch (progress) {
+                    case 0:
+                        // Set all images white for delete button functionality
+                        imgPerson1.setColorFilter(view.getResources().getColor(R.color.white));
+                        imgPerson2.setColorFilter(view.getResources().getColor(R.color.white));
+                        imgPerson3.setColorFilter(view.getResources().getColor(R.color.white));
+                        imgPerson4.setColorFilter(view.getResources().getColor(R.color.white));
+
+                        filterPersons = 0;
+                        break;
+                    case 1:
+                        imgPerson1.setColorFilter(view.getResources().getColor(R.color.blue));
+                        imgPerson2.setColorFilter(view.getResources().getColor(R.color.white));
+                        filterPersons = 1;
+                        break;
+                    case 2:
+                        imgPerson2.setColorFilter(view.getResources().getColor(R.color.blue));
+                        imgPerson3.setColorFilter(view.getResources().getColor(R.color.white));
+                        filterPersons = 2;
+                        break;
+                    case 3:
+                        imgPerson3.setColorFilter(view.getResources().getColor(R.color.blue));
+                        imgPerson4.setColorFilter(view.getResources().getColor(R.color.white));
+                        filterPersons = 3;
+                        break;
+                    case 4:
+                        imgPerson4.setColorFilter(view.getResources().getColor(R.color.blue));
+                        filterPersons = 4;
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                // Auto-generated
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                // Auto-generated
+            }
+        });
+
+        // Delete Database entries
         Button btnClear = view.findViewById(R.id.btnClear);
         btnClear.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,7 +201,7 @@ public class SettingsFragment extends Fragment {
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int position, long id) {
                 selectedTypePosition = position;
-                if(position == 0) {
+                if (position == 0) {
                     selectedTypeText = null;
                 } else {
                     selectedTypeText = (String) parent.getItemAtPosition(position);
@@ -106,151 +214,22 @@ public class SettingsFragment extends Fragment {
             }
         });
 
-        ImageView costs1 = (ImageView) view.findViewById(R.id.settingsCosts1);
-        ImageView costs2 = (ImageView) view.findViewById(R.id.settingsCosts2);
-        ImageView costs3 = (ImageView) view.findViewById(R.id.settingsCosts3);
-        ImageView costs4 = (ImageView) view.findViewById(R.id.settingsCosts4);
-        ImageView costsdel = (ImageView) view.findViewById(R.id.settingsCostsDel);
-
-        ImageView persons1 = (ImageView) view.findViewById(R.id.settingsPersons1);
-        ImageView persons2 = (ImageView) view.findViewById(R.id.settingsPersons2);
-        ImageView persons3 = (ImageView) view.findViewById(R.id.settingsPersons3);
-        ImageView persons4 = (ImageView) view.findViewById(R.id.settingsPersons4);
-        ImageView personsdel = (ImageView) view.findViewById(R.id.settingsPersonsDel);
-
-        // set colors onCreate (init is white, so simply change if necessary)
-        if(filterCosts >= 4) {
-            costs4.setColorFilter(view.getResources().getColor(R.color.blue));
-        }
-        if(filterCosts >= 3) {
-            costs3.setColorFilter(view.getResources().getColor(R.color.blue));
-        }
-        if(filterCosts >= 2) {
-            costs2.setColorFilter(view.getResources().getColor(R.color.blue));
-        }
-        if(filterCosts >= 1) {
-            costs1.setColorFilter(view.getResources().getColor(R.color.blue));
-        }
-
-        if(filterPersons >= 4) {
-            persons4.setColorFilter(view.getResources().getColor(R.color.blue));
-        }
-        if(filterPersons >= 3) {
-            persons3.setColorFilter(view.getResources().getColor(R.color.blue));
-        }
-        if(filterPersons >= 2) {
-            persons2.setColorFilter(view.getResources().getColor(R.color.blue));
-        }
-        if(filterPersons >= 1) {
-            persons1.setColorFilter(view.getResources().getColor(R.color.blue));
-        }
-
         // On Click Listeners
-        costs1.setOnClickListener(new View.OnClickListener() {
+
+        costsDel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ImageView iv = ((ImageView) view);
-                costs4.setColorFilter(view.getResources().getColor(R.color.white));
-                costs3.setColorFilter(view.getResources().getColor(R.color.white));
-                costs2.setColorFilter(view.getResources().getColor(R.color.white));
-                costs1.setColorFilter(view.getResources().getColor(R.color.blue));
-                filterCosts = 1;
-            }
-        });
-        costs2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                costs4.setColorFilter(view.getResources().getColor(R.color.white));
-                costs3.setColorFilter(view.getResources().getColor(R.color.white));
-                costs2.setColorFilter(view.getResources().getColor(R.color.blue));
-                costs1.setColorFilter(view.getResources().getColor(R.color.blue));
-                filterCosts = 2;
-            }
-        });
-        costs3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                costs4.setColorFilter(view.getResources().getColor(R.color.white));
-                costs3.setColorFilter(view.getResources().getColor(R.color.blue));
-                costs2.setColorFilter(view.getResources().getColor(R.color.blue));
-                costs1.setColorFilter(view.getResources().getColor(R.color.blue));
-                filterCosts = 3;
-            }
-        });
-        costs4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                costs4.setColorFilter(view.getResources().getColor(R.color.blue));
-                costs3.setColorFilter(view.getResources().getColor(R.color.blue));
-                costs2.setColorFilter(view.getResources().getColor(R.color.blue));
-                costs1.setColorFilter(view.getResources().getColor(R.color.blue));
-                filterCosts = 4;
-            }
-        });
-        costsdel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                costs4.setColorFilter(view.getResources().getColor(R.color.white));
-                costs3.setColorFilter(view.getResources().getColor(R.color.white));
-                costs2.setColorFilter(view.getResources().getColor(R.color.white));
-                costs1.setColorFilter(view.getResources().getColor(R.color.white));
+                seekCosts.setProgress(0);
                 filterCosts = 0;
             }
         });
 
-
-        persons1.setOnClickListener(new View.OnClickListener() {
+        personsDel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                persons4.setColorFilter(view.getResources().getColor(R.color.white));
-                persons3.setColorFilter(view.getResources().getColor(R.color.white));
-                persons2.setColorFilter(view.getResources().getColor(R.color.white));
-                persons1.setColorFilter(view.getResources().getColor(R.color.blue));
-                filterPersons = 1;
-            }
-        });
-        persons2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                persons4.setColorFilter(view.getResources().getColor(R.color.white));
-                persons3.setColorFilter(view.getResources().getColor(R.color.white));
-                persons2.setColorFilter(view.getResources().getColor(R.color.blue));
-                persons1.setColorFilter(view.getResources().getColor(R.color.blue));
-                filterPersons = 2;
-            }
-        });
-        persons3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                persons4.setColorFilter(view.getResources().getColor(R.color.white));
-                persons3.setColorFilter(view.getResources().getColor(R.color.blue));
-                persons2.setColorFilter(view.getResources().getColor(R.color.blue));
-                persons1.setColorFilter(view.getResources().getColor(R.color.blue));
-                filterPersons = 3;
-            }
-        });
-        persons4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ImageView iv = ((ImageView) view);
-                persons4.setColorFilter(view.getResources().getColor(R.color.blue));
-                persons3.setColorFilter(view.getResources().getColor(R.color.blue));
-                persons2.setColorFilter(view.getResources().getColor(R.color.blue));
-                persons1.setColorFilter(view.getResources().getColor(R.color.blue));
-                filterPersons = 4;
-            }
-        });
-        personsdel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ImageView iv = ((ImageView) view);
-                persons4.setColorFilter(view.getResources().getColor(R.color.white));
-                persons3.setColorFilter(view.getResources().getColor(R.color.white));
-                persons2.setColorFilter(view.getResources().getColor(R.color.white));
-                persons1.setColorFilter(view.getResources().getColor(R.color.white));
+                seekPersons.setProgress(0);
                 filterPersons = 0;
             }
         });
-
     }
 }
