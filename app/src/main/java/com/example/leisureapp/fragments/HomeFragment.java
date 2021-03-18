@@ -1,5 +1,8 @@
 package com.example.leisureapp.fragments;
 
+import android.content.ClipData;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,19 +18,16 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.example.leisureapp.LeisureSingleton;
+import com.example.leisureapp.utils.LeisureSingleton;
 import com.example.leisureapp.R;
 import com.example.leisureapp.adapters.CardStackAdapter;
 import com.example.leisureapp.database.DatabaseManager;
 import com.example.leisureapp.interfaces.VolleyCallback;
 import com.example.leisureapp.models.ItemModel;
+import com.example.leisureapp.utils.SharedPreferencesHelper;
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager;
 import com.yuyakaido.android.cardstackview.CardStackListener;
@@ -36,10 +36,11 @@ import com.yuyakaido.android.cardstackview.Direction;
 import com.yuyakaido.android.cardstackview.StackFrom;
 import com.yuyakaido.android.cardstackview.SwipeableMethod;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Set;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -50,7 +51,6 @@ public class HomeFragment extends Fragment {
 
     private static final String TAG = HomeFragment.class.getSimpleName();
     String unsplashAuth = "&client_id=cOMcQHsoAAQBMhZUAR-2zZRQyNBb0lvufuME78DiDdc";
-    String boredURL = "https://www.boredapi.com/api/activity/";
     String unsplashURL = "https://api.unsplash.com/search/photos?orientation=portrait&page1&query=";
     String unsplashRandomURL = "https://api.unsplash.com/photos?orientation=portrait/random/" + unsplashAuth;
 
@@ -86,6 +86,7 @@ public class HomeFragment extends Fragment {
 
         CardStackView cardStackView = view.findViewById(R.id.card_stack_view);
 
+
         manager = new CardStackLayoutManager(view.getContext(), new CardStackListener() {
             private Direction direction;
 
@@ -115,7 +116,28 @@ public class HomeFragment extends Fragment {
                     Toast.makeText(view.getContext(), "Direction RIGHT", Toast.LENGTH_SHORT).show();
                 }
 
-                LeisureSingleton.getInstance(getActivity()).addToRequestQueue(objectRequest);
+                //LeisureSingleton.getInstance(getActivity()).addToRequestQueue(objectRequest);
+
+                fetchActivity(new VolleyCallback() {
+                    @Override
+                    public void onSuccessResponse(String response) {
+
+                        ItemModel newItem = createItem(response);
+
+                        if (newItem != null) {
+
+                            DatabaseManager db = new DatabaseManager(getActivity());
+
+                            db.insertTmp(newItem);
+
+                            adapter.addItem(adapter.getItemCount(), newItem);
+                        }
+                    }
+
+                    @Override
+                    public void onError(String result) throws Exception {}
+
+                });
             }
 
             @Override
@@ -168,54 +190,89 @@ public class HomeFragment extends Fragment {
             }
         } else {
             for (int i = 0; i < 3; i++) {
-                LeisureSingleton.getInstance(getActivity()).addToRequestQueue(objectRequest);
+                fetchActivity(new VolleyCallback() {
+                    @Override
+                    public void onSuccessResponse(String response) {
+
+                        ItemModel newItem = createItem(response);
+
+                        if (newItem != null) {
+
+                            DatabaseManager db = new DatabaseManager(getActivity());
+
+                            db.insertTmp(newItem);
+
+                            adapter.addItem(adapter.getItemCount(), newItem);
+                        }
+                    }
+
+                    @Override
+                    public void onError(String result) throws Exception {}
+
+                });
             }
         }
     }
 
-    JsonObjectRequest objectRequest = new JsonObjectRequest(
-            Request.Method.GET,
-            boredURL,
-            null,
-            new Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject response) {
 
-                    final String[] imgUrl = {""};
-                    imgURLRequest(Request.Method.GET, unsplashURL + "house" + unsplashAuth, null,
-                            new VolleyCallback() {
-                                @Override
-                                public void onSuccessResponse(String result) {
-                                    Log.d("Success Image", result);
-                                    imgUrl[0] = result;
-                                }
-                            });
+    public void fetchActivity(final VolleyCallback callback) {
+        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
 
-                    Log.d("Bored API response", response.toString());
-                    ItemModel itemModel = new Gson().fromJson(response.toString(), ItemModel.class);
+        String baseURL = "https://www.boredapi.com/api/activity";
+        String minPrice = "?minprice=" + SharedPreferencesHelper.getDouble(sharedPref, String.valueOf(R.id.seekBarCosts) + "filterCostsMin", 0);
+        String maxPrice = "&maxprice=" + SharedPreferencesHelper.getDouble(sharedPref, String.valueOf(R.id.seekBarCosts) + "filterCostsMax", 1);
+        String participants = "&participants=" + sharedPref.getInt(String.valueOf(R.id.seekBarPersons) + "filterPersons", 1);
+        String type = "&type=" + sharedPref.getString(String.valueOf(R.id.settingsTypeDropDown) + "filterTypeValue", "");
+        //String type = "&type=music";
 
-                    Log.d("Activity", itemModel.getActivity());
-                    Log.d("Image", imgUrl[0] + "imageurl");
+        Log.d("Bored API requeststring", baseURL + minPrice + maxPrice + participants + type);
+        JsonObjectRequest boredAPIRequest = new JsonObjectRequest(
+                Request.Method.GET,
+                baseURL + minPrice + maxPrice + participants + type,
+                null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
 
-                    ItemModel newItem = new ItemModel(
-                            itemModel.getActivity(),
-                            itemModel.getType(),
-                            itemModel.getParticipants(),
-                            itemModel.getPrice(),
-                            itemModel.getLink(),
-                            itemModel.getKey(),
-                            itemModel.getAccessibility(),
-                            itemModel.getImgURL());
+                        Log.d("Bored API response", response.toString());
 
-                    DatabaseManager db = new DatabaseManager(getActivity());
+                        try {
+                            callback.onSuccessResponse(response.toString());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, error -> Log.e("Error Response", error.toString())
+        );
 
-                    db.insertTmp(newItem);
+        LeisureSingleton.getInstance(getActivity()).addToRequestQueue(boredAPIRequest);
+    }
 
-                    adapter.addItem(adapter.getItemCount(), newItem);
+    public ItemModel createItem(String response) {
 
-                }
-            }, error -> Log.e("Error Response", error.toString())
-    );
+        Log.d("Create Item from String", response);
+
+        if (response != null) {
+            ItemModel itemModel = new Gson().fromJson(response, ItemModel.class);
+            ItemModel newItem = new ItemModel(
+                    itemModel.getActivity(),
+                    itemModel.getType(),
+                    itemModel.getParticipants(),
+                    itemModel.getPrice(),
+                    itemModel.getLink(),
+                    itemModel.getKey(),
+                    itemModel.getAccessibility(),
+                    itemModel.getImgURL());
+
+            Log.d("Item Model Activity", itemModel.getActivity());
+
+            return newItem;
+        } else {
+            Log.d("CreateItem failure", "No data available");
+            return null;
+        }
+    }
+
 
     public void imgURLRequest(int method, String url, JSONObject jsonValue, final VolleyCallback callback) {
 
@@ -241,7 +298,11 @@ public class HomeFragment extends Fragment {
 
                         Log.d("Unsplash imgURL", imgUrl);
 
-                        callback.onSuccessResponse(imgUrl);
+                        try {
+                            callback.onSuccessResponse(imgUrl);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }, error -> Log.e("Error Response", error.toString())
         );

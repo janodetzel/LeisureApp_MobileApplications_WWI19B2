@@ -1,4 +1,4 @@
-package com.example.leisureapp;
+package com.example.leisureapp.utils;
 
 import android.content.Context;
 

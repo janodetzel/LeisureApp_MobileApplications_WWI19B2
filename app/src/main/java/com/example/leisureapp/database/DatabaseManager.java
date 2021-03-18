@@ -19,7 +19,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
         super(context, "leisure.db", null, 1);
 
         // DELETE CURRENT DATABASE
-        context.deleteDatabase("leisure.db");
+        //context.deleteDatabase("leisure.db");
     }
 
     @Override

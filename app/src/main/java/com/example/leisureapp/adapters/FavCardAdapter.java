@@ -84,13 +84,13 @@ public class FavCardAdapter extends BaseAdapter {
         if (price > 0.0) {
             holder.iconCosts1.setColorFilter(rowView.getResources().getColor(R.color.blue));
         }
-        if (price >= 0.25) {
+        if (price >= 0.3) {
             holder.iconCosts2.setColorFilter(rowView.getResources().getColor(R.color.blue));
         }
-        if (price >= 0.5) {
+        if (price >= 0.45) {
             holder.iconCosts3.setColorFilter(rowView.getResources().getColor(R.color.blue));
         }
-        if (price >= 0.75) {
+        if (price >= 0.6) {
             holder.iconCosts4.setColorFilter(rowView.getResources().getColor(R.color.blue));
         }
 

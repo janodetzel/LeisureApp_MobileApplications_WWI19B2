@@ -106,7 +106,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_weight="4"
-                    android:max="80"
+                    android:max="100"
                     android:progressBackgroundTint="@color/white"
                     android:progressTint="@color/blue"
                     android:thumbOffset="5dp"
@@ -171,7 +171,7 @@
                         android:maxWidth="51dp"
                         android:minWidth="50dp"
                         android:src="@drawable/ic_baseline_person_outline_24"
-                        app:tint="@color/white" />
+                        app:tint="@color/blue" />
 
                     <ImageView
                         android:id="@+id/settingsPersons2"
@@ -208,7 +208,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_weight="4"
-                    android:max="4"
+                    android:max="3"
                     android:progressBackgroundTint="@color/white"
                     android:progressTint="@color/blue"
                     android:thumbOffset="5dp"

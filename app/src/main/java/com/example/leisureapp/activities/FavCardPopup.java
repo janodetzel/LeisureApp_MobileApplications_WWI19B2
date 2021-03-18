@@ -67,21 +67,24 @@ public class FavCardPopup extends AppCompatActivity {
         TextView mainText = (TextView) findViewById(R.id.popupMainText);
         mainText.setMaxWidth((int) (popupWidth*0.75));
         mainText.setText(favCard.getActivity());
+
+        TextView typeText = (TextView) findViewById(R.id.popupTypeText);
+        typeText.setText(favCard.getType());
         // 0..1
         double price = favCard.getPrice();
         if (price > 0.0) {
             TextView popupCost1 = (TextView) findViewById(R.id.popupCost1);
             popupCost1.setTextColor(getResources().getColor(R.color.blue));
         }
-        if (price >= 0.25) {
+        if (price >= 0.3) {
             TextView popupCost2 = (TextView) findViewById(R.id.popupCost2);
             popupCost2.setTextColor(getResources().getColor(R.color.blue));
         }
-        if (price >= 0.5) {
+        if (price >= 0.45) {
             TextView popupCost3 = (TextView) findViewById(R.id.popupCost3);
             popupCost3.setTextColor(getResources().getColor(R.color.blue));
         }
-        if (price >= 0.75) {
+        if (price >= 0.6) {
             TextView popupCost4 = (TextView) findViewById(R.id.popupCost4);
             popupCost4.setTextColor(getResources().getColor(R.color.blue));
         }
