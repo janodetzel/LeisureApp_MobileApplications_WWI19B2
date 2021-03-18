@@ -128,7 +128,7 @@ public class HomeFragment extends Fragment {
 
                             DatabaseManager db = new DatabaseManager(getActivity());
 
-                            db.insertTmp(newItem);
+                            //db.insertTmp(newItem);
 
                             adapter.addItem(adapter.getItemCount(), newItem);
                         }
@@ -200,7 +200,7 @@ public class HomeFragment extends Fragment {
 
                             DatabaseManager db = new DatabaseManager(getActivity());
 
-                            db.insertTmp(newItem);
+                            //db.insertTmp(newItem);
 
                             adapter.addItem(adapter.getItemCount(), newItem);
                         }
