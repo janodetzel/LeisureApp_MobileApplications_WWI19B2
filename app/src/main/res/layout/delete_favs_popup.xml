@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@color/black">
+    android:background="@color/white">
 
     <LinearLayout
         android:id="@+id/rowButtonsDelFavs"
@@ -18,14 +18,14 @@
 
         <Button
             android:id="@+id/deleteFavsBtn"
-            android:layout_width="wrap_content"
+            android:layout_width="130dp"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/red"
             android:text="Delete" />
 
         <Button
             android:id="@+id/returnBtnPopup"
-            android:layout_width="wrap_content"
+            android:layout_width="130dp"
             android:layout_height="wrap_content"
             android:text="Return" />
     </LinearLayout>
@@ -37,8 +37,8 @@
         android:layout_marginBottom="25dp"
         android:text="Do you really want to delete your favorite activities?"
         android:textAlignment="center"
-        android:textSize="25dp"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
+        android:textSize="20dp"
         app:layout_constraintBottom_toTopOf="@+id/rowButtonsDelFavs"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
