@@ -139,7 +139,12 @@ public class CardStackAdapter extends RecyclerView.Adapter<CardStackAdapter.View
                 imgM4.setColorFilter(itemView.getResources().getColor(R.color.blue));
             }
 
-//            Picasso.get().load(data.getImgURL()).into(itemView.ima);
+            ImageView imageView = (ImageView) itemView.findViewById(R.id.cardImage);
+            Log.d("===Set Data Image View", data.getImgURL() + "%%%%%");
+
+            Picasso.get().load(data.getImgURL())
+                    .placeholder(R.drawable.leisure_logo_foreground)
+                    .into(imageView);
         }
     }
 }

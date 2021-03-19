@@ -3,6 +3,7 @@ package com.example.leisureapp.fragments;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -41,6 +42,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Set;
+
+import static java.lang.Thread.sleep;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -115,16 +118,27 @@ public class HomeFragment extends Fragment {
 
                 fetchActivity(new VolleyCallback() {
                     @Override
-                    public void onSuccessResponse(String response) {
+                    public void onSuccessResponse(String boredApiResponse) {
+                        fetchImageURL(new VolleyCallback() {
+                            @Override
+                            public void onSuccessResponse(String unsplashApiResponse) throws JSONException {
+                                Log.d("FetchImageURL response", unsplashApiResponse);
+                                ItemModel newItem = createItem(boredApiResponse, unsplashApiResponse);
 
-                        ItemModel newItem = createItem(response);
+                                //DatabaseManager db = new DatabaseManager(getActivity());
+                                //db.insertTmp(newItem);
+                                adapter.addItem(adapter.getItemCount(), newItem);
+                            }
 
-                        DatabaseManager db = new DatabaseManager(getActivity());
+                            @Override
+                            public void onError(String result) throws Exception {
+                                Log.d("FetchImageURL response ERROR", result);
+                                ItemModel newItem = createItem(boredApiResponse, "");
 
-                        //db.insertTmp(newItem);
-
-                        adapter.addItem(adapter.getItemCount(), newItem);
-
+                                //DatabaseManager db = new DatabaseManager(getActivity());
+                                //db.insertTmp(newItem);
+                                adapter.addItem(adapter.getItemCount(), newItem);
+                            }}, boredApiResponse);
                     }
 
                     @Override
@@ -190,14 +204,28 @@ public class HomeFragment extends Fragment {
             for (int i = 0; i < 3; i++) {
                 fetchActivity(new VolleyCallback() {
                     @Override
-                    public void onSuccessResponse(String response) {
+                    public void onSuccessResponse(String boredApiResponse) {
+                        fetchImageURL(new VolleyCallback() {
+                            @Override
+                            public void onSuccessResponse(String unsplashApiResponse) throws JSONException {
+                                Log.d("FetchImageURL response", unsplashApiResponse);
+                                ItemModel newItem = createItem(boredApiResponse, unsplashApiResponse);
 
-                        ItemModel newItem = createItem(response);
-                        DatabaseManager db = new DatabaseManager(getActivity());
+                               //DatabaseManager db = new DatabaseManager(getActivity());
+                                //db.insertTmp(newItem);
+                                adapter.addItem(adapter.getItemCount(), newItem);
+                            }
 
-                        //db.insertTmp(newItem);
+                            @Override
+                            public void onError(String result) throws Exception {
+                                Log.d("FetchImageURL response ERROR", result);
+                                ItemModel newItem = createItem(boredApiResponse, "");
 
-                        adapter.addItem(adapter.getItemCount(), newItem);
+                                //DatabaseManager db = new DatabaseManager(getActivity());
+                                //db.insertTmp(newItem);
+                                adapter.addItem(adapter.getItemCount(), newItem);
+                            }
+                        }, boredApiResponse);
 
                     }
 
@@ -252,13 +280,13 @@ public class HomeFragment extends Fragment {
         LeisureSingleton.getInstance(getActivity()).addToRequestQueue(boredAPIRequest);
     }
 
-    public ItemModel createItem(String response) {
+    public ItemModel createItem(String boredApiResponse, String unsplashApiResponse){
 
-        Log.d("Create Item from String", response);
+        Log.d("Create Item from String", boredApiResponse);
 
-        if (response != null) {
+        if (boredApiResponse != null) {
 
-            ItemModel itemModel = new Gson().fromJson(response, ItemModel.class);
+            ItemModel itemModel = new Gson().fromJson(boredApiResponse, ItemModel.class);
 
             ItemModel newItem = new ItemModel(
                     itemModel.getActivity(),
@@ -268,20 +296,7 @@ public class HomeFragment extends Fragment {
                     itemModel.getLink(),
                     itemModel.getKey(),
                     itemModel.getAccessibility(),
-                    itemModel.getImgURL());
-
-            fetchImageURL(new VolleyCallback() {
-                @Override
-                public void onSuccessResponse(String imgURLresponse) throws JSONException {
-                    Log.d("FetchImageURL response", imgURLresponse);
-                    newItem.setImgURL(imgURLresponse);
-                }
-
-                @Override
-                public void onError(String result) throws Exception {
-                    newItem.setImgURL("");
-                }
-            });
+                    unsplashApiResponse);
 
             Log.d("Item Model Created", itemModel.getActivity());
 
@@ -293,13 +308,15 @@ public class HomeFragment extends Fragment {
     }
 
 
-    public void fetchImageURL(final VolleyCallback callback) {
+    public void fetchImageURL(final VolleyCallback callback, String boredApiResponse) {
+
+        ItemModel itemModel = new Gson().fromJson(boredApiResponse, ItemModel.class);
 
         String baseURL = "https://api.unsplash.com";
         String searchString = "/search/photos";
         String page = "?page=" + 1;
         String orientation = "&orientation=" + "portrait";
-        String searchQuery = "&query=" + "house";
+        String searchQuery = "&query=" + itemModel.getActivity() ;
         String unsplashAuth = "&client_id=cOMcQHsoAAQBMhZUAR-2zZRQyNBb0lvufuME78DiDdc";
 
         String fullRequestString = baseURL + searchString + page + orientation + searchQuery + unsplashAuth;
@@ -323,7 +340,7 @@ public class HomeFragment extends Fragment {
                                 .getAsJsonObject()
                                 .get("urls")
                                 .getAsJsonObject()
-                                .get("regular")
+                                .get("small")
                                 .getAsString();
 
                         Log.d("Unsplash imgURL", imgUrl);

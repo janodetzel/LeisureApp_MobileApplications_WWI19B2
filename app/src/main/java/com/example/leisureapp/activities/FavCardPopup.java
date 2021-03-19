@@ -59,7 +59,7 @@ public class FavCardPopup extends AppCompatActivity {
             }
         });
 
-        ImageView bgPic = (ImageView) findViewById(R.id.popupPic);
+        ImageView bgPic = (ImageView) findViewById(R.id.cardImage);
         //TODO: Change to real URL
         bgPic.setImageResource(R.drawable.city_photo);
         //bgPic.setImageURI(Uri.parse(favCard.getImgURL()));

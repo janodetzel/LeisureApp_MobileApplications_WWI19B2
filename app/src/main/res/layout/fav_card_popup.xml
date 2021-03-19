@@ -9,7 +9,7 @@
     >
 
     <ImageView
-        android:id="@+id/popupPic"
+        android:id="@+id/cardImage"
         android:layout_width="416dp"
         android:layout_height="690dp"
         android:paddingTop="100dp"
@@ -48,7 +48,7 @@
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/popupPic" />
+        app:layout_constraintTop_toTopOf="@+id/cardImage" />
 
 
     <TextView
