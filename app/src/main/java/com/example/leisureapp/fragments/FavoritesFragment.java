@@ -75,6 +75,14 @@ public class FavoritesFragment extends Fragment {
             noFavsText.setVisibility(View.INVISIBLE);
             FavCardAdapter adapter = new FavCardAdapter(getActivity(), arrayList);
             favs.setAdapter(adapter);
+            favs.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+                @Override
+                public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                   if(arrayList.isEmpty()) {
+                       noFavsText.setVisibility(View.VISIBLE);
+                   }
+                }
+            });
 
             favs.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
