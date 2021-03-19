@@ -103,8 +103,6 @@ public class HomeFragment extends Fragment {
                 // Call Action for swipe method
                 if (direction == Direction.Left) {
                     // LEFT SWIPE -> Favorite
-                    Toast.makeText(view.getContext(), "Direction LEFT", Toast.LENGTH_SHORT).show();
-
                     // Get key from adapter
                     ItemModel item = adapter.getItems().get(manager.getTopPosition() - 1);
 
@@ -116,7 +114,6 @@ public class HomeFragment extends Fragment {
 
                 } else if (direction == Direction.Right) {
                     // RIGHT SWIPE -> Next
-                    Toast.makeText(view.getContext(), "Direction RIGHT", Toast.LENGTH_SHORT).show();
                 }
 
                 //LeisureSingleton.getInstance(getActivity()).addToRequestQueue(objectRequest);
