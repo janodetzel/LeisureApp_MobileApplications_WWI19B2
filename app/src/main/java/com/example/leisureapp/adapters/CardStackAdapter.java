@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.leisureapp.models.ItemModel;
 import com.example.leisureapp.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -137,6 +138,8 @@ public class CardStackAdapter extends RecyclerView.Adapter<CardStackAdapter.View
             if (price >= 0.6) {
                 imgM4.setColorFilter(itemView.getResources().getColor(R.color.blue));
             }
+
+//            Picasso.get().load(data.getImgURL()).into(itemView.ima);
         }
     }
 }

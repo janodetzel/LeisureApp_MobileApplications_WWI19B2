@@ -50,10 +50,6 @@ import java.util.Set;
 public class HomeFragment extends Fragment {
 
     private static final String TAG = HomeFragment.class.getSimpleName();
-    String unsplashAuth = "&client_id=cOMcQHsoAAQBMhZUAR-2zZRQyNBb0lvufuME78DiDdc";
-    String unsplashURL = "https://api.unsplash.com/search/photos?orientation=portrait&page1&query=";
-    String unsplashRandomURL = "https://api.unsplash.com/photos?orientation=portrait/random/" + unsplashAuth;
-
 
     private CardStackLayoutManager manager;
     private CardStackAdapter adapter;
@@ -88,7 +84,6 @@ public class HomeFragment extends Fragment {
 
         TextView errorText = (TextView) view.findViewById(R.id.noActivityFoundText);
         errorText.setVisibility(View.INVISIBLE);
-
 
         manager = new CardStackLayoutManager(view.getContext(), new CardStackListener() {
             private Direction direction;
@@ -210,7 +205,6 @@ public class HomeFragment extends Fragment {
                     public void onError(String result) throws Exception {
                         TextView errorText = (TextView) view.findViewById(R.id.noActivityFoundText);
                         errorText.setVisibility(View.VISIBLE);
-
                     }
 
                 });
@@ -263,6 +257,7 @@ public class HomeFragment extends Fragment {
         Log.d("Create Item from String", response);
 
         if (response != null) {
+
             ItemModel itemModel = new Gson().fromJson(response, ItemModel.class);
 
             ItemModel newItem = new ItemModel(
@@ -275,7 +270,20 @@ public class HomeFragment extends Fragment {
                     itemModel.getAccessibility(),
                     itemModel.getImgURL());
 
-//            Log.d("Item Model Activity", itemModel.getActivity());
+            fetchImageURL(new VolleyCallback() {
+                @Override
+                public void onSuccessResponse(String imgURLresponse) throws JSONException {
+                    Log.d("FetchImageURL response", imgURLresponse);
+                    newItem.setImgURL(imgURLresponse);
+                }
+
+                @Override
+                public void onError(String result) throws Exception {
+                    newItem.setImgURL("");
+                }
+            });
+
+            Log.d("Item Model Created", itemModel.getActivity());
 
             return newItem;
         } else {
@@ -285,12 +293,23 @@ public class HomeFragment extends Fragment {
     }
 
 
-    public void imgURLRequest(int method, String url, JSONObject jsonValue, final VolleyCallback callback) {
+    public void fetchImageURL(final VolleyCallback callback) {
+
+        String baseURL = "https://api.unsplash.com";
+        String searchString = "/search/photos";
+        String page = "?page=" + 1;
+        String orientation = "&orientation=" + "portrait";
+        String searchQuery = "&query=" + "house";
+        String unsplashAuth = "&client_id=cOMcQHsoAAQBMhZUAR-2zZRQyNBb0lvufuME78DiDdc";
+
+        String fullRequestString = baseURL + searchString + page + orientation + searchQuery + unsplashAuth;
+
+        Log.d("Unsplash full request String", fullRequestString);
 
         JsonObjectRequest unsplashRequest = new JsonObjectRequest(
-                method,
-                url,
-                jsonValue,
+                Request.Method.GET,
+                fullRequestString,
+                null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -310,8 +329,15 @@ public class HomeFragment extends Fragment {
                         Log.d("Unsplash imgURL", imgUrl);
 
                         try {
-                            callback.onSuccessResponse(imgUrl);
+                            if (imgUrl != "") {
+                                callback.onSuccessResponse(imgUrl);
+                            } else {
+                                callback.onError(imgUrl);
+                            }
+
                         } catch (JSONException e) {
+                            e.printStackTrace();
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }

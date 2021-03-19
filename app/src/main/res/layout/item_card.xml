@@ -20,7 +20,6 @@
         android:textSize="24sp" />
 
 
-
     <ImageView
         android:id="@+id/imageLeft"
         android:layout_width="match_parent"
