@@ -3,7 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.HomeFragment">
+    android:visibility="visible"
+    tools:context=".fragments.HomeFragment"
+    tools:visibility="visible">
 
     <com.yuyakaido.android.cardstackview.CardStackView
         android:id="@+id/card_stack_view"
@@ -12,5 +14,13 @@
         android:clipToPadding="false"
         android:paddingHorizontal="30dp"
         android:paddingVertical="120dp"></com.yuyakaido.android.cardstackview.CardStackView>
+
+    <TextView
+        android:id="@+id/noActivityFoundText"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="No activity with specified parameters found"
+        tools:visibility="invisible" />
 
 </RelativeLayout>
