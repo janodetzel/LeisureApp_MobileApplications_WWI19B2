@@ -86,6 +86,9 @@ public class HomeFragment extends Fragment {
 
         CardStackView cardStackView = view.findViewById(R.id.card_stack_view);
 
+        TextView errorText = (TextView) view.findViewById(R.id.noActivityFoundText);
+        errorText.setVisibility(View.INVISIBLE);
+
 
         manager = new CardStackLayoutManager(view.getContext(), new CardStackListener() {
             private Direction direction;
@@ -129,9 +132,6 @@ public class HomeFragment extends Fragment {
                         //db.insertTmp(newItem);
 
                         adapter.addItem(adapter.getItemCount(), newItem);
-
-                        TextView errorText = (TextView) view.findViewById(R.id.noActivityFoundText);
-                        errorText.setVisibility(View.INVISIBLE);
 
                     }
 
@@ -207,9 +207,6 @@ public class HomeFragment extends Fragment {
 
                         adapter.addItem(adapter.getItemCount(), newItem);
 
-
-                        TextView errorText = (TextView) view.findViewById(R.id.noActivityFoundText);
-                        errorText.setVisibility(View.INVISIBLE);
                     }
 
                     @Override
