@@ -203,7 +203,7 @@ public class SettingsFragment extends Fragment {
 
         }
 
-        if (progress >= 20) {
+        if (progress > 33) {
             imgCost1.setColorFilter(view.getResources().getColor(R.color.blue));
             imgCost2.setColorFilter(view.getResources().getColor(R.color.blue));
             imgCost3.setColorFilter(view.getResources().getColor(R.color.white));
@@ -213,7 +213,7 @@ public class SettingsFragment extends Fragment {
 
         }
 
-        if (progress >= 60) {
+        if (progress > 66) {
             imgCost1.setColorFilter(view.getResources().getColor(R.color.blue));
             imgCost2.setColorFilter(view.getResources().getColor(R.color.blue));
             imgCost3.setColorFilter(view.getResources().getColor(R.color.blue));

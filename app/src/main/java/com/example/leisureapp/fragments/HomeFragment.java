@@ -86,6 +86,9 @@ public class HomeFragment extends Fragment {
 
         CardStackView cardStackView = view.findViewById(R.id.card_stack_view);
 
+        TextView errorText = (TextView) view.findViewById(R.id.noActivityFoundText);
+        errorText.setVisibility(View.INVISIBLE);
+
 
         manager = new CardStackLayoutManager(view.getContext(), new CardStackListener() {
             private Direction direction;
@@ -124,18 +127,21 @@ public class HomeFragment extends Fragment {
 
                         ItemModel newItem = createItem(response);
 
-                        if (newItem != null) {
+                        DatabaseManager db = new DatabaseManager(getActivity());
 
-                            DatabaseManager db = new DatabaseManager(getActivity());
+                        //db.insertTmp(newItem);
 
-                            //db.insertTmp(newItem);
+                        adapter.addItem(adapter.getItemCount(), newItem);
 
-                            adapter.addItem(adapter.getItemCount(), newItem);
-                        }
                     }
 
                     @Override
-                    public void onError(String result) throws Exception {}
+                    public void onError(String result) throws Exception {
+
+                        TextView errorText = (TextView) view.findViewById(R.id.noActivityFoundText);
+                        errorText.setVisibility(View.VISIBLE);
+
+                    }
 
                 });
             }
@@ -195,19 +201,20 @@ public class HomeFragment extends Fragment {
                     public void onSuccessResponse(String response) {
 
                         ItemModel newItem = createItem(response);
+                        DatabaseManager db = new DatabaseManager(getActivity());
 
-                        if (newItem != null) {
+                        //db.insertTmp(newItem);
 
-                            DatabaseManager db = new DatabaseManager(getActivity());
+                        adapter.addItem(adapter.getItemCount(), newItem);
 
-                            //db.insertTmp(newItem);
-
-                            adapter.addItem(adapter.getItemCount(), newItem);
-                        }
                     }
 
                     @Override
-                    public void onError(String result) throws Exception {}
+                    public void onError(String result) throws Exception {
+                        TextView errorText = (TextView) view.findViewById(R.id.noActivityFoundText);
+                        errorText.setVisibility(View.VISIBLE);
+
+                    }
 
                 });
             }
@@ -223,7 +230,6 @@ public class HomeFragment extends Fragment {
         String maxPrice = "&maxprice=" + SharedPreferencesHelper.getDouble(sharedPref, String.valueOf(R.id.seekBarCosts) + "filterCostsMax", 1);
         String participants = "&participants=" + sharedPref.getInt(String.valueOf(R.id.seekBarPersons) + "filterPersons", 1);
         String type = "&type=" + sharedPref.getString(String.valueOf(R.id.settingsTypeDropDown) + "filterTypeValue", "");
-        //String type = "&type=music";
 
         Log.d("Bored API requeststring", baseURL + minPrice + maxPrice + participants + type);
         JsonObjectRequest boredAPIRequest = new JsonObjectRequest(
@@ -237,8 +243,15 @@ public class HomeFragment extends Fragment {
                         Log.d("Bored API response", response.toString());
 
                         try {
-                            callback.onSuccessResponse(response.toString());
+                            if (response.toString().contains("error")) {
+                                callback.onError(response.toString());
+                            } else {
+                                callback.onSuccessResponse(response.toString());
+                            }
+
                         } catch (JSONException e) {
+                            e.printStackTrace();
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }
@@ -254,6 +267,7 @@ public class HomeFragment extends Fragment {
 
         if (response != null) {
             ItemModel itemModel = new Gson().fromJson(response, ItemModel.class);
+
             ItemModel newItem = new ItemModel(
                     itemModel.getActivity(),
                     itemModel.getType(),
@@ -264,7 +278,7 @@ public class HomeFragment extends Fragment {
                     itemModel.getAccessibility(),
                     itemModel.getImgURL());
 
-            Log.d("Item Model Activity", itemModel.getActivity());
+//            Log.d("Item Model Activity", itemModel.getActivity());
 
             return newItem;
         } else {
