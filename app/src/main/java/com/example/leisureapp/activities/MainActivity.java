@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     AnimatedBottomBar animatedBottomBar;
     FragmentManager fragmentManager;
 
+    Fragment fragment = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +65,6 @@ public class MainActivity extends AppCompatActivity {
         animatedBottomBar.setOnTabSelectListener(new AnimatedBottomBar.OnTabSelectListener() {
             @Override
             public void onTabSelected(int lastIndex, @org.jetbrains.annotations.Nullable AnimatedBottomBar.Tab lastTab, int nextIndex, @NotNull AnimatedBottomBar.Tab nextTab) {
-                Fragment fragment = null;
                 switch (nextTab.getId()) {
                     case R.id.tab_favorites:
                         fragment = new FavoritesFragment();
@@ -77,12 +77,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                 }
 
-                if (fragment != null) {
-                    fragmentManager = getSupportFragmentManager();
-                    fragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit();
-                } else {
-                    Log.e(TAG, "Error in creating Fragment");
-                }
+                showFragment();
             }
 
             @Override
@@ -90,6 +85,15 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void showFragment() {
+        if (fragment != null) {
+            fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit();
+        } else {
+            Log.e(TAG, "Error in creating Fragment");
+        }
     }
 
     @Override
@@ -164,4 +168,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        fragment = new HomeFragment();
+        showFragment();
+        animatedBottomBar.selectTabById(R.id.tab_home, true);
+        //super.onBackPressed();
+    }
 }
