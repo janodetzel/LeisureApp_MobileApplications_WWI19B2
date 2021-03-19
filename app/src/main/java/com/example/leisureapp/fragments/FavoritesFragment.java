@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.leisureapp.activities.FavCardPopup;
 import com.example.leisureapp.models.ItemModel;
@@ -65,21 +66,26 @@ public class FavoritesFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        TextView noFavsText = (TextView) view.findViewById(R.id.noFavsText);
         favs = (ListView) view.findViewById(R.id.favs);
         addFavoritesToList(arrayList);
+        if(arrayList.isEmpty()) {
+            noFavsText.setVisibility(View.VISIBLE);
+        } else {
+            noFavsText.setVisibility(View.INVISIBLE);
+            FavCardAdapter adapter = new FavCardAdapter(getActivity(), arrayList);
+            favs.setAdapter(adapter);
 
-        FavCardAdapter adapter = new FavCardAdapter(getActivity(), arrayList);
-        favs.setAdapter(adapter);
-
-        favs.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                FavCardPopup.favCard = arrayList.get(i);
-                FavCardPopup.index = i;
-                FavCardPopup.lv = favs;
-                startActivity(new Intent(FavoritesFragment.this.getContext(), FavCardPopup.class));
-            }
-        });
+            favs.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    FavCardPopup.favCard = arrayList.get(i);
+                    FavCardPopup.index = i;
+                    FavCardPopup.lv = favs;
+                    startActivity(new Intent(FavoritesFragment.this.getContext(), FavCardPopup.class));
+                }
+            });
+        }
     }
 
 
