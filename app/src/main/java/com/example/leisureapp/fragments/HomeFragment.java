@@ -110,7 +110,7 @@ public class HomeFragment extends Fragment {
 
                     // Insert item in local db
                     DatabaseManager db = new DatabaseManager(getActivity());
-                    db.insertFavorite(item);
+                    db.insertFavorite(item, view.getContext());
 
                     Log.d(TAG, "Insert favorite in db with key: " + item.getKey());
 

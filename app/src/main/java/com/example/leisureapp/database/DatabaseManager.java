@@ -8,7 +8,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
+import android.view.View;
+import android.widget.Toast;
 
+import com.example.leisureapp.fragments.HomeFragment;
 import com.example.leisureapp.models.ItemModel;
 
 public class DatabaseManager extends SQLiteOpenHelper {
@@ -83,26 +86,33 @@ public class DatabaseManager extends SQLiteOpenHelper {
         }
     }
 
-    public void insertFavorite(ItemModel item) {
+    public void insertFavorite(ItemModel item, Context context) {
         try {
             SQLiteDatabase db = getWritableDatabase();
 
-            // Set values for insert
-            ContentValues values = new ContentValues();
-            values.put("title", item.getActivity());
-            values.put("type", item.getType());
-            values.put("participants", item.getParticipants());
-            values.put("price", item.getPrice());
-            values.put("activity_key", item.getKey());
-            values.put("accessibility", item.getAccessibility());
-            if (item.getImgURL() == null) {
-                values.put("img_url", "NOT IMPLEMENTED");
+            Cursor cursor = db.rawQuery("SELECT activity_key FROM favorites WHERE activity_key = ?", new String[] {item.getKey()});
+            if (cursor.getCount() > 0) {
+                // DUPLICATE ITEM IN DATABASE
+                Toast.makeText(context, "Already saved in Favorites.", Toast.LENGTH_SHORT).show();
             } else {
-                values.put("img_url", item.getImgURL());
-            }
+                // INSERT IN DATABASE
+                // Set values for insert
+                ContentValues values = new ContentValues();
+                values.put("title", item.getActivity());
+                values.put("type", item.getType());
+                values.put("participants", item.getParticipants());
+                values.put("price", item.getPrice());
+                values.put("activity_key", item.getKey());
+                values.put("accessibility", item.getAccessibility());
+                if (item.getImgURL() == null) {
+                    values.put("img_url", "NOT IMPLEMENTED");
+                } else {
+                    values.put("img_url", item.getImgURL());
+                }
 
-            // Insert new item in favorites
-            db.insertOrThrow("favorites", null, values);
+                // Insert new item in favorites
+                db.insertOrThrow("favorites", null, values);
+            }
         } catch (SQLException e) {
             Log.e(TAG, "SQL-Error: " + e.getMessage());
         }
