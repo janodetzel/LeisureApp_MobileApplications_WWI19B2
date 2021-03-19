@@ -54,4 +54,10 @@ public class DeleteFavsPopup extends AppCompatActivity {
         });
 
     }
+
+    @Override
+    protected void onDestroy() {
+        MainActivity.dimPopupBackground.setVisibility(View.INVISIBLE);
+        super.onDestroy();
+    }
 }
