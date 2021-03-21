@@ -19,10 +19,4 @@
         <!-- Customize your theme here. -->
         <item name="backgroundColor">@color/brown</item>
     </style>
-
-    <style name="Theme.LeisureApp.Light.Popup">
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowCloseOnTouchOutside">true</item>
-        <item name="android:windowBackground">@android:color/transparent</item>
-    </style>
 </resources>

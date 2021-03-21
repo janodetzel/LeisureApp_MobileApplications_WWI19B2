@@ -1,7 +1,6 @@
 package com.example.leisureapp.fragments;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -21,7 +20,6 @@ import android.widget.SeekBar;
 import android.widget.Spinner;
 
 import com.example.leisureapp.R;
-import com.example.leisureapp.activities.DeleteFavsPopup;
 import com.example.leisureapp.utils.SharedPreferencesHelper;
 
 /**
@@ -123,7 +121,8 @@ public class SettingsFragment extends Fragment {
         btnClear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(SettingsFragment.this.getContext(), DeleteFavsPopup.class));
+                DeleteFavsDialogFragment dialog = new DeleteFavsDialogFragment();
+                dialog.show(getFragmentManager(), "deleteFavsDialog");
             }
         });
 

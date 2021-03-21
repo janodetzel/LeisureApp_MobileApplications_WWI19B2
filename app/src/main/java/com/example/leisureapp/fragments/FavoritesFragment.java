@@ -1,6 +1,5 @@
 package com.example.leisureapp.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,7 +13,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.leisureapp.activities.FavCardPopup;
 import com.example.leisureapp.models.ItemModel;
 import com.example.leisureapp.adapters.FavCardAdapter;
 import com.example.leisureapp.R;
@@ -87,10 +85,8 @@ public class FavoritesFragment extends Fragment {
             favs.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    FavCardPopup.favCard = arrayList.get(i);
-                    FavCardPopup.index = i;
-                    FavCardPopup.lv = favs;
-                    startActivity(new Intent(FavoritesFragment.this.getContext(), FavCardPopup.class));
+                    FavCardDialogFragment dialog = new FavCardDialogFragment(arrayList.get(i), i, favs);
+                    dialog.show(getFragmentManager(), "favCardDialog");
                 }
             });
         }

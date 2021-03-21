@@ -18,12 +18,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.FavCardPopup"
-            android:theme="@style/Theme.LeisureApp.Light.Popup">
-        </activity>
-        <activity android:name=".activities.DeleteFavsPopup"
-            android:theme="@style/Theme.LeisureApp.Light.Popup">
-        </activity>
 
         <receiver android:name=".notifications.ReminderNotification" android:enabled="true">
             <intent-filter>

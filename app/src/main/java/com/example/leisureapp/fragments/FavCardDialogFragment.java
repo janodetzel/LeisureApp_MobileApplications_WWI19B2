@@ -1,0 +1,122 @@
+package com.example.leisureapp.fragments;
+
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import androidx.fragment.app.DialogFragment;
+
+import com.example.leisureapp.R;
+import com.example.leisureapp.database.DatabaseManager;
+import com.example.leisureapp.models.ItemModel;
+
+public class FavCardDialogFragment extends DialogFragment {
+
+    public ItemModel favCard;
+    public int index;
+    public ListView lv;
+
+    public FavCardDialogFragment(ItemModel favCard, int index, ListView lv) {
+        this.favCard = favCard;
+        this.index = index;
+        this.lv = lv;
+    }
+
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        LayoutInflater inflater = requireActivity().getLayoutInflater();
+        View view = inflater.inflate(R.layout.fav_card_popup, null);
+        DisplayMetrics dm = new DisplayMetrics();
+//
+//        getWindowManager().getDefaultDisplay().getMetrics(dm);
+//
+//        int totalWidth = dm.widthPixels;
+//        int totalHeight = dm.heightPixels;
+//        int popupWidth = (int) (totalWidth*0.8);
+//        int popupHeight = (int) (totalHeight*0.25);
+//
+//        getWindow().setLayout(popupWidth, popupHeight);
+//
+        Button btnClose = view.findViewById(R.id.closePopup);
+        btnClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FavCardDialogFragment.this.getDialog().cancel();
+            }
+        });
+        Button btnRemoveFa = view.findViewById(R.id.removeFav);
+        btnRemoveFa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FavoritesFragment.arrayList.remove(index);
+                lv.invalidateViews();
+                FavCardDialogFragment.this.getDialog().cancel();
+                DatabaseManager db = new DatabaseManager(getContext());
+                db.removeFavorite(favCard.getKey());
+            }
+        });
+
+        ImageView bgPic = view.findViewById(R.id.cardImage);
+        //TODO: Change to real URL
+        bgPic.setImageResource(R.drawable.city_photo);
+        //bgPic.setImageURI(Uri.parse(favCard.getImgURL()));
+
+        TextView mainText = view.findViewById(R.id.popupMainText);
+        mainText.setText(favCard.getActivity());
+
+        TextView typeText = view.findViewById(R.id.popupTypeText);
+        typeText.setText(favCard.getType());
+        // 0..1
+        double price = favCard.getPrice();
+        if (price > 0.0) {
+            TextView popupCost1 = view.findViewById(R.id.popupCost1);
+            popupCost1.setTextColor(getResources().getColor(R.color.blue));
+        }
+        if (price >= 0.3) {
+            TextView popupCost2 = view.findViewById(R.id.popupCost2);
+            popupCost2.setTextColor(getResources().getColor(R.color.blue));
+        }
+        if (price >= 0.45) {
+            TextView popupCost3 = view.findViewById(R.id.popupCost3);
+            popupCost3.setTextColor(getResources().getColor(R.color.blue));
+        }
+        if (price >= 0.6) {
+            TextView popupCost4 = view.findViewById(R.id.popupCost4);
+            popupCost4.setTextColor(getResources().getColor(R.color.blue));
+        }
+
+
+        int persons = favCard.getParticipants();
+        if(persons >= 1) {
+            ImageView popupPersons1 = view.findViewById(R.id.popupPersons1);
+            popupPersons1.setColorFilter(getResources().getColor(R.color.blue));
+        }
+        if(persons >= 2) {
+            ImageView popupPersons2 = view.findViewById(R.id.popupPersons2);
+            popupPersons2.setColorFilter(getResources().getColor(R.color.blue));
+        }
+        if(persons >= 3) {
+            ImageView popupPersons3 = view.findViewById(R.id.popupPersons3);
+            popupPersons3.setColorFilter(getResources().getColor(R.color.blue));
+        }
+        if(persons >= 4) {
+            ImageView popupPersons4 = view.findViewById(R.id.popupPersons4);
+            popupPersons4.setColorFilter(getResources().getColor(R.color.blue));
+        }
+
+        builder.setView(view);
+        return builder.create();
+    }
+
+
+
+
+}

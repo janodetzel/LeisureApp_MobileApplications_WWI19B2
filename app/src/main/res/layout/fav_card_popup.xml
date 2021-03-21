@@ -12,7 +12,6 @@
         android:id="@+id/cardImage"
         android:layout_width="416dp"
         android:layout_height="690dp"
-        android:paddingTop="100dp"
         android:scaleType="center"
         android:tint="#6F000000"
         app:srcCompat="@drawable/city_photo"
