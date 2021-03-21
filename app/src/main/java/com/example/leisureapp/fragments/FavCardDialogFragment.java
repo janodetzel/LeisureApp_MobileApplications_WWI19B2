@@ -2,9 +2,17 @@ package com.example.leisureapp.fragments;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.Point;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -30,7 +38,7 @@ public class FavCardDialogFragment extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        Dialog dialog = new Dialog(getContext());
         LayoutInflater inflater = requireActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.fav_card_dialog, null);
         Button btnClose = view.findViewById(R.id.closePopup);
@@ -99,8 +107,11 @@ public class FavCardDialogFragment extends DialogFragment {
             ImageView popupPersons4 = view.findViewById(R.id.popupPersons4);
             popupPersons4.setColorFilter(getResources().getColor(R.color.blue));
         }
-        builder.setView(view);
-        return builder.create();
+        dialog.setContentView(view);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        DisplayMetrics dm = Resources.getSystem().getDisplayMetrics();
+        dialog.getWindow().setLayout((int)(dm.widthPixels*0.8), (int)(dm.heightPixels*0.7));
+        return dialog;
     }
 
 
