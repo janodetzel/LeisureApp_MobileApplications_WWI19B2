@@ -9,8 +9,12 @@
         android:layout_height="120dp"
         android:layout_marginHorizontal="20dp"
         android:layout_marginVertical="10dp"
-        android:layout_gravity="center"
-        android:background="@drawable/fav_card_bg_round">
+        android:layout_gravity="center">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:cardCornerRadius="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -18,152 +22,154 @@
             android:orientation="horizontal"
             android:background="@drawable/fav_card_bg_round">
 
-            <FrameLayout
-                android:layout_width="250dp"
-                android:layout_height="match_parent">
-                <ImageView
-                    android:id="@+id/favPic"
-                    android:scaleType="center"
-                    android:src="@drawable/city_photo"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-                <View
-                    android:id="@+id/overlay_image"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:background="#6F000000"
-                    />
-
-                <TextView
-                    android:text="Explore the wildlife of your city"
-                    android:id="@+id/favText"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="20dp"
-                    android:layout_width="200dp"
-                    android:layout_height="wrap_content"
-                    android:textSize="20sp"
-                    android:textColor="@color/white"/>
-            </FrameLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:gravity="center"
-                android:background="@color/grey">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
+                <FrameLayout
+                    android:layout_width="250dp"
+                    android:layout_height="match_parent">
                     <ImageView
-                        android:id="@+id/favCostIcon1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0"
-                        android:src="@drawable/ic_baseline_attach_money_24"
-                        app:tint="@color/white" />
-
-                    <ImageView
-                        android:id="@+id/favCostIcon2"
+                        android:id="@+id/favPic"
+                        android:scaleType="center"
+                        android:src="@drawable/city_photo"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0"
-                        android:src="@drawable/ic_baseline_attach_money_24"
-                        app:tint="@color/white" />
+                        android:layout_height="match_parent" />
+                    <View
+                        android:id="@+id/overlay_image"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:background="#6F000000"
+                        />
 
-                </LinearLayout>
+                    <TextView
+                        android:text="Explore the wildlife of your city"
+                        android:id="@+id/favText"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="20dp"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:textSize="20dp"
+                        android:textColor="@color/white"/>
+                </FrameLayout>
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:orientation="horizontal">
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:background="@color/grey">
 
-                    <ImageView
-                        android:id="@+id/favCostIcon3"
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0"
-                        android:src="@drawable/ic_baseline_attach_money_24"
-                        app:tint="@color/white" />
+                        android:orientation="horizontal">
 
-                    <ImageView
-                        android:id="@+id/favCostIcon4"
+                        <ImageView
+                            android:id="@+id/favCostIcon1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0"
+                            android:src="@drawable/ic_baseline_attach_money_24"
+                            app:tint="@color/white" />
+
+                        <ImageView
+                            android:id="@+id/favCostIcon2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0"
+                            android:src="@drawable/ic_baseline_attach_money_24"
+                            app:tint="@color/white" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0"
-                        android:src="@drawable/ic_baseline_attach_money_24"
-                        app:tint="@color/white" />
+                        android:layout_marginBottom="10dp"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/favCostIcon3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0"
+                            android:src="@drawable/ic_baseline_attach_money_24"
+                            app:tint="@color/white" />
+
+                        <ImageView
+                            android:id="@+id/favCostIcon4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0"
+                            android:src="@drawable/ic_baseline_attach_money_24"
+                            app:tint="@color/white" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/favPersonsIcon1"
+                            android:minHeight="20dp"
+                            android:minWidth="20dp"
+                            android:maxHeight="21dp"
+                            android:maxWidth="21dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0"
+                            android:src="@drawable/ic_baseline_person_outline_24"
+                            app:tint="@color/white" />
+
+                        <ImageView
+                            android:id="@+id/favPersonsIcon2"
+                            android:minHeight="20dp"
+                            android:minWidth="20dp"
+                            android:maxHeight="21dp"
+                            android:maxWidth="21dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0"
+                            android:src="@drawable/ic_baseline_person_outline_24"
+                            app:tint="@color/white" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/favPersonsIcon3"
+                            android:minHeight="20dp"
+                            android:minWidth="20dp"
+                            android:maxHeight="21dp"
+                            android:maxWidth="21dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0"
+                            android:src="@drawable/ic_baseline_person_outline_24"
+                            app:tint="@color/white" />
+
+                        <ImageView
+                            android:id="@+id/favPersonsIcon4"
+                            android:minHeight="20dp"
+                            android:minWidth="20dp"
+                            android:maxHeight="21dp"
+                            android:maxWidth="21dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0"
+                            android:src="@drawable/ic_baseline_person_outline_24"
+                            app:tint="@color/white" />
+
+                    </LinearLayout>
 
                 </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:id="@+id/favPersonsIcon1"
-                        android:minHeight="20dp"
-                        android:minWidth="20dp"
-                        android:maxHeight="21dp"
-                        android:maxWidth="21dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0"
-                        android:src="@drawable/ic_baseline_person_outline_24"
-                        app:tint="@color/white" />
-
-                    <ImageView
-                        android:id="@+id/favPersonsIcon2"
-                        android:minHeight="20dp"
-                        android:minWidth="20dp"
-                        android:maxHeight="21dp"
-                        android:maxWidth="21dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0"
-                        android:src="@drawable/ic_baseline_person_outline_24"
-                        app:tint="@color/white" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:id="@+id/favPersonsIcon3"
-                        android:minHeight="20dp"
-                        android:minWidth="20dp"
-                        android:maxHeight="21dp"
-                        android:maxWidth="21dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0"
-                        android:src="@drawable/ic_baseline_person_outline_24"
-                        app:tint="@color/white" />
-
-                    <ImageView
-                        android:id="@+id/favPersonsIcon4"
-                        android:minHeight="20dp"
-                        android:minWidth="20dp"
-                        android:maxHeight="21dp"
-                        android:maxWidth="21dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0"
-                        android:src="@drawable/ic_baseline_person_outline_24"
-                        app:tint="@color/white" />
-
-                </LinearLayout>
-
-            </LinearLayout>
 
         </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
 
     </FrameLayout>
 

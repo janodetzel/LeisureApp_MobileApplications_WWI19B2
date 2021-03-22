@@ -48,93 +48,102 @@ tools:layout_editor_absoluteY="551dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@android:color/transparent">
+        android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/cardImage"
-            android:layout_width="416dp"
-            android:layout_height="690dp"
-            android:scaleType="center"
-            android:tint="#6F000000"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/city_photo"
-            tools:layout_editor_absoluteX="0dp" />
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:cardCornerRadius="10dp">
+
+            <ImageView
+                android:id="@+id/cardImage"
+                android:layout_width="416dp"
+                android:layout_height="690dp"
+                android:scaleType="center"
+                android:tint="#6F000000"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/city_photo"
+                tools:layout_editor_absoluteX="0dp" />
+
+        </androidx.cardview.widget.CardView>
 
         <TextView
             android:id="@+id/popupMainText"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="120dp"
             android:text="Explore the wildlife of your city"
-            android:textAlignment="center"
             android:textColor="@color/white"
-            android:textSize="25dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/cardImage" />
-
+            android:textAlignment="center"
+            android:textSize="20dp"
+            android:elevation="2dp"
+            android:paddingTop="30dp"
+            android:paddingHorizontal="20dp"/>
 
         <TextView
             android:id="@+id/popupTypeText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="192dp"
-            android:background="@color/blue"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
+            android:background="@drawable/rounded_corner"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="7dp"
             android:text="educational"
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            android:elevation="2dp"/>
 
         <ImageView
             android:id="@+id/popupPersons1"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:layout_gravity="right|bottom"
             android:layout_marginBottom="100dp"
             android:src="@drawable/ic_baseline_person_outline_24"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/popupPersons2"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            android:elevation="2dp"/>
 
         <ImageView
             android:id="@+id/popupPersons2"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:layout_gravity="right|bottom"
             android:layout_marginBottom="100dp"
             android:src="@drawable/ic_baseline_person_outline_24"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/popupPersons3"
-            app:layout_constraintStart_toEndOf="@+id/popupPersons1" />
+            app:layout_constraintStart_toEndOf="@+id/popupPersons1"
+            android:elevation="2dp"/>
 
         <ImageView
             android:id="@+id/popupPersons3"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:layout_gravity="right|bottom"
             android:layout_marginBottom="100dp"
             android:src="@drawable/ic_baseline_person_outline_24"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/popupPersons4"
             app:layout_constraintHorizontal_bias="0.512"
-            app:layout_constraintStart_toEndOf="@+id/popupPersons2" />
+            app:layout_constraintStart_toEndOf="@+id/popupPersons2"
+            android:elevation="2dp"/>
 
         <ImageView
             android:id="@+id/popupPersons4"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_gravity="right|bottom"
             android:layout_marginBottom="100dp"
             android:src="@drawable/ic_baseline_person_outline_24"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/popupPersons3" />
+            app:layout_constraintStart_toEndOf="@+id/popupPersons3"
+            android:elevation="2dp"/>
 
         <TextView
             android:id="@+id/popupCost1"
@@ -145,10 +154,11 @@ tools:layout_editor_absoluteY="551dp">
             android:text="$"
             android:textAlignment="center"
             android:textColor="@color/white"
-            android:textSize="50dp"
+            android:textSize="35dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/popupCost2"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            android:elevation="2dp"/>
 
         <TextView
             android:id="@+id/popupCost2"
@@ -159,10 +169,11 @@ tools:layout_editor_absoluteY="551dp">
             android:text="$"
             android:textAlignment="center"
             android:textColor="@color/white"
-            android:textSize="50dp"
+            android:textSize="35dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/popupCost3"
-            app:layout_constraintStart_toEndOf="@+id/popupCost1" />
+            app:layout_constraintStart_toEndOf="@+id/popupCost1"
+            android:elevation="2dp"/>
 
         <TextView
             android:id="@+id/popupCost3"
@@ -173,10 +184,11 @@ tools:layout_editor_absoluteY="551dp">
             android:text="$"
             android:textAlignment="center"
             android:textColor="@color/white"
-            android:textSize="50dp"
+            android:textSize="35dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/popupCost4"
-            app:layout_constraintStart_toEndOf="@+id/popupCost2" />
+            app:layout_constraintStart_toEndOf="@+id/popupCost2"
+            android:elevation="2dp"/>
 
         <TextView
             android:id="@+id/popupCost4"
@@ -187,10 +199,11 @@ tools:layout_editor_absoluteY="551dp">
             android:text="$"
             android:textAlignment="center"
             android:textColor="@color/white"
-            android:textSize="50dp"
+            android:textSize="35dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/popupCost3" />
+            app:layout_constraintStart_toEndOf="@+id/popupCost3"
+            android:elevation="2dp"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>

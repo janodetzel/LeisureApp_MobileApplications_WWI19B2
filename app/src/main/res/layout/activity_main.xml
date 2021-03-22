@@ -16,7 +16,7 @@
     <FrameLayout
         android:id="@+id/top_bar"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="70dp"
         android:layout_alignParentTop="true"
         android:layout_marginStart="0dp"
         android:layout_marginTop="0dp"
@@ -33,17 +33,17 @@
             android:text="@string/app_name"
             android:textAlignment="center"
             android:textColor="@color/blue"
-            android:textSize="38sp" />
+            android:textSize="35sp" />
     </FrameLayout>
 
     <nl.joery.animatedbottombar.AnimatedBottomBar
         android:id="@+id/bottom_bar"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="70dp"
         android:layout_alignParentBottom="true"
         android:background="#2E282A"
         android:foregroundTint="#17BEBB"
-        app:abb_iconSize="50dp"
+        app:abb_iconSize="35dp"
         app:abb_indicatorAppearance="round"
         app:abb_indicatorColor="#17BEBB"
         app:abb_indicatorHeight="6dp"
@@ -52,6 +52,6 @@
         app:abb_tabColor="#fff"
         app:abb_tabColorSelected="#17BEBB"
         app:abb_tabs="@navigation/tabs"
-        app:abb_textSize="20sp" />
+        app:abb_textSize="17sp" />
 
 </RelativeLayout>

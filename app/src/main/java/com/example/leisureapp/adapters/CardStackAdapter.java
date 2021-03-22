@@ -126,7 +126,7 @@ public class CardStackAdapter extends RecyclerView.Adapter<CardStackAdapter.View
             }
 
             double price = data.getPrice();
-            if (price > 0) {
+            if (price >= 0.1) {
                 imgM1.setColorFilter(itemView.getResources().getColor(R.color.blue));
             }
             if (price >= 0.3) {
