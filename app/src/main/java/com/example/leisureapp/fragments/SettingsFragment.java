@@ -300,9 +300,11 @@ public class SettingsFragment extends Fragment {
             sharedPrefEditor.putString(String.valueOf(R.id.settingsTypeDropDown) + "filterTypeValue", selectedTypeValue);
         }
 
+        if (position != sharedPref.getInt(String.valueOf(R.id.settingsTypeDropDown) + "filterTypePosition", 0)) {
+            DatabaseManager db = new DatabaseManager(getActivity());
+            db.clearTmp();
+        }
 
         sharedPrefEditor.apply();
-        DatabaseManager db = new DatabaseManager(getActivity());
-        db.clearTmp();
 
     }}

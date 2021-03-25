@@ -140,7 +140,6 @@ public class CardStackAdapter extends RecyclerView.Adapter<CardStackAdapter.View
             }
 
             ImageView imageView = (ImageView) itemView.findViewById(R.id.cardImage);
-            Log.d("===Set Data Image View", data.getImgURL() + "%%%%%");
 
             Picasso.get().load(data.getImgURL())
                     .placeholder(R.drawable.leisure_logo_foreground)

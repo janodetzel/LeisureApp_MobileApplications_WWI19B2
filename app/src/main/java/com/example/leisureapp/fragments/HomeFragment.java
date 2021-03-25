@@ -1,5 +1,6 @@
 package com.example.leisureapp.fragments;
 
+import android.app.Activity;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -24,6 +25,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpResponse;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.example.leisureapp.activities.MainActivity;
 import com.example.leisureapp.utils.LeisureSingleton;
 import com.example.leisureapp.R;
 import com.example.leisureapp.adapters.CardStackAdapter;
@@ -121,41 +123,7 @@ public class HomeFragment extends Fragment {
                     // RIGHT SWIPE -> Next
                 }
 
-                //LeisureSingleton.getInstance(getActivity()).addToRequestQueue(objectRequest);
-
-                fetchActivity(new VolleyCallback() {
-                    @Override
-                    public void onSuccessResponse(String boredApiResponse) {
-                        fetchImageURL(new VolleyCallback() {
-                            @Override
-                            public void onSuccessResponse(String unsplashApiResponse) throws JSONException {
-                                Log.d("FetchImageURL response", unsplashApiResponse);
-                                ItemModel newItem = createItem(boredApiResponse, unsplashApiResponse);
-
-                                DatabaseManager db = new DatabaseManager(getActivity());
-                                db.insertTmp(newItem, getResources().getString(R.string.no_img_url));
-                                adapter.addItem(adapter.getItemCount(), newItem);
-                            }
-
-                            @Override
-                            public void onError(String result) throws Exception {
-                                Log.d("FetchImageURL response ERROR", result);
-                                ItemModel newItem = createItem(boredApiResponse, getResources().getString(R.string.unsplash_error_replace_url));
-
-                                adapter.addItem(adapter.getItemCount(), newItem);
-                            }
-                        }, boredApiResponse);
-                    }
-
-                    @Override
-                    public void onError(String result) throws Exception {
-
-                        TextView errorText = (TextView) view.findViewById(R.id.noActivityFoundText);
-                        errorText.setVisibility(View.VISIBLE);
-
-                    }
-
-                }, noInternetText);
+                fetchCardDetails(view, noInternetText);
             }
 
             @Override
@@ -208,39 +176,35 @@ public class HomeFragment extends Fragment {
             }
         } else {
             for (int i = 0; i < 3; i++) {
-                fetchActivity(new VolleyCallback() {
-                    @Override
-                    public void onSuccessResponse(String boredApiResponse) {
-                        fetchImageURL(new VolleyCallback() {
-                            @Override
-                            public void onSuccessResponse(String unsplashApiResponse) throws JSONException {
-                                Log.d("FetchImageURL response", unsplashApiResponse);
-                                ItemModel newItem = createItem(boredApiResponse, unsplashApiResponse);
-
-                                DatabaseManager db = new DatabaseManager(getActivity());
-                                db.insertTmp(newItem, getResources().getString(R.string.no_img_url));
-                                adapter.addItem(adapter.getItemCount(), newItem);
-                            }
-
-                            @Override
-                            public void onError(String result) throws Exception {
-                                Log.d("FetchImageURL response ERROR", result);
-                                ItemModel newItem = createItem(boredApiResponse, getResources().getString(R.string.unsplash_error_replace_url));
-
-                                adapter.addItem(adapter.getItemCount(), newItem);
-                            }
-                        }, boredApiResponse);
-
-                    }
-
-                    @Override
-                    public void onError(String result) throws Exception {
-                        TextView errorText = (TextView) view.findViewById(R.id.noActivityFoundText);
-                        errorText.setVisibility(View.VISIBLE);
-                    }
-
-                }, noInternetText);
+                fetchCardDetails(view, noInternetText);
             }
+        }
+    }
+
+    public ItemModel createItem(String boredApiResponse, String unsplashApiResponse) {
+
+        Log.d("Create Item from String", boredApiResponse);
+
+        if (boredApiResponse != null) {
+
+            ItemModel itemModel = new Gson().fromJson(boredApiResponse, ItemModel.class);
+
+            ItemModel newItem = new ItemModel(
+                    itemModel.getActivity(),
+                    itemModel.getType(),
+                    itemModel.getParticipants(),
+                    itemModel.getPrice(),
+                    itemModel.getLink(),
+                    itemModel.getKey(),
+                    itemModel.getAccessibility(),
+                    unsplashApiResponse);
+
+            Log.d("Item Model Created", itemModel.getActivity());
+
+            return newItem;
+        } else {
+            Log.d("CreateItem failure", "No data available");
+            return null;
         }
     }
 
@@ -285,34 +249,6 @@ public class HomeFragment extends Fragment {
 
         LeisureSingleton.getInstance(getActivity()).addToRequestQueue(boredAPIRequest);
     }
-
-    public ItemModel createItem(String boredApiResponse, String unsplashApiResponse) {
-
-        Log.d("Create Item from String", boredApiResponse);
-
-        if (boredApiResponse != null) {
-
-            ItemModel itemModel = new Gson().fromJson(boredApiResponse, ItemModel.class);
-
-            ItemModel newItem = new ItemModel(
-                    itemModel.getActivity(),
-                    itemModel.getType(),
-                    itemModel.getParticipants(),
-                    itemModel.getPrice(),
-                    itemModel.getLink(),
-                    itemModel.getKey(),
-                    itemModel.getAccessibility(),
-                    unsplashApiResponse);
-
-            Log.d("Item Model Created", itemModel.getActivity());
-
-            return newItem;
-        } else {
-            Log.d("CreateItem failure", "No data available");
-            return null;
-        }
-    }
-
 
     public void fetchImageURL(final VolleyCallback callback, String boredApiResponse) {
 
@@ -379,4 +315,42 @@ public class HomeFragment extends Fragment {
         LeisureSingleton.getInstance(getActivity()).addToRequestQueue(unsplashRequest);
     }
 
+    public void fetchCardDetails(View view, TextView noInternetText){
+        fetchActivity(new VolleyCallback() {
+            @Override
+            public void onSuccessResponse(String boredApiResponse) {
+                fetchImageURL(new VolleyCallback() {
+                    @Override
+                    public void onSuccessResponse(String unsplashApiResponse) throws JSONException {
+                        Log.d("FetchImageURL response", unsplashApiResponse);
+                        ItemModel newItem = createItem(boredApiResponse, unsplashApiResponse);
+
+                        Activity activity = getActivity();
+                        if(activity != null){
+                            DatabaseManager db = new DatabaseManager(getActivity());
+                            db.insertTmp(newItem, getResources().getString(R.string.no_img_url));
+                        }
+
+                        adapter.addItem(adapter.getItemCount(), newItem);
+                    }
+
+                    @Override
+                    public void onError(String result) throws Exception {
+                        Log.d("FetchImageURL response ERROR", result);
+                        ItemModel newItem = createItem(boredApiResponse, getResources().getString(R.string.unsplash_error_replace_url));
+
+                        adapter.addItem(adapter.getItemCount(), newItem);
+                    }
+                }, boredApiResponse);
+
+            }
+
+            @Override
+            public void onError(String result) throws Exception {
+                TextView errorText = (TextView) view.findViewById(R.id.noActivityFoundText);
+                errorText.setVisibility(View.VISIBLE);
+            }
+
+        }, noInternetText);
+    }
 }
