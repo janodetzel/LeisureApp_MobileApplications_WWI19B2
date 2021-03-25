@@ -11,16 +11,16 @@
         android:layout_marginVertical="10dp"
         android:layout_gravity="center">
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:cardCornerRadius="10dp">
-
-        <LinearLayout
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:background="@drawable/fav_card_bg_round">
+            app:cardBackgroundColor="#000000"
+            app:cardCornerRadius="10dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
 
                 <FrameLayout
                     android:layout_width="250dp"
@@ -40,22 +40,22 @@
                         android:background="#6F000000" />
 
                     <TextView
-                        android:text="Explore the wildlife of your city"
                         android:id="@+id/favText"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="20dp"
                         android:layout_width="200dp"
                         android:layout_height="wrap_content"
-                        android:textSize="20dp"
-                        android:textColor="@color/white"/>
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="20dp"
+                        android:text="Explore the wildlife of your city"
+                        android:textColor="@color/white"
+                        android:textSize="20dp" />
                 </FrameLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
+                    android:background="@color/grey"
                     android:gravity="center"
-                    android:background="@color/grey">
+                    android:orientation="vertical">
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -111,25 +111,25 @@
 
                         <ImageView
                             android:id="@+id/favPersonsIcon1"
-                            android:minHeight="20dp"
-                            android:minWidth="20dp"
-                            android:maxHeight="21dp"
-                            android:maxWidth="21dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="0"
+                            android:maxWidth="21dp"
+                            android:maxHeight="21dp"
+                            android:minWidth="20dp"
+                            android:minHeight="20dp"
                             android:src="@drawable/ic_baseline_person_outline_24"
                             app:tint="@color/white" />
 
                         <ImageView
                             android:id="@+id/favPersonsIcon2"
-                            android:minHeight="20dp"
-                            android:minWidth="20dp"
-                            android:maxHeight="21dp"
-                            android:maxWidth="21dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="0"
+                            android:maxWidth="21dp"
+                            android:maxHeight="21dp"
+                            android:minWidth="20dp"
+                            android:minHeight="20dp"
                             android:src="@drawable/ic_baseline_person_outline_24"
                             app:tint="@color/white" />
 
@@ -142,25 +142,25 @@
 
                         <ImageView
                             android:id="@+id/favPersonsIcon3"
-                            android:minHeight="20dp"
-                            android:minWidth="20dp"
-                            android:maxHeight="21dp"
-                            android:maxWidth="21dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="0"
+                            android:maxWidth="21dp"
+                            android:maxHeight="21dp"
+                            android:minWidth="20dp"
+                            android:minHeight="20dp"
                             android:src="@drawable/ic_baseline_person_outline_24"
                             app:tint="@color/white" />
 
                         <ImageView
                             android:id="@+id/favPersonsIcon4"
-                            android:minHeight="20dp"
-                            android:minWidth="20dp"
-                            android:maxHeight="21dp"
-                            android:maxWidth="21dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="0"
+                            android:maxWidth="21dp"
+                            android:maxHeight="21dp"
+                            android:minWidth="20dp"
+                            android:minHeight="20dp"
                             android:src="@drawable/ic_baseline_person_outline_24"
                             app:tint="@color/white" />
 
@@ -168,9 +168,9 @@
 
                 </LinearLayout>
 
-        </LinearLayout>
+            </LinearLayout>
 
-    </androidx.cardview.widget.CardView>
+        </androidx.cardview.widget.CardView>
 
     </FrameLayout>
 

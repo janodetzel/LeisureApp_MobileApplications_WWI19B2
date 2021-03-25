@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.toolbox.HttpResponse;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.leisureapp.utils.LeisureSingleton;
 import com.example.leisureapp.R;
@@ -125,20 +126,19 @@ public class HomeFragment extends Fragment {
                                 Log.d("FetchImageURL response", unsplashApiResponse);
                                 ItemModel newItem = createItem(boredApiResponse, unsplashApiResponse);
 
-                                //DatabaseManager db = new DatabaseManager(getActivity());
-                                //db.insertTmp(newItem);
+                                DatabaseManager db = new DatabaseManager(getActivity());
+                                db.insertTmp(newItem);
                                 adapter.addItem(adapter.getItemCount(), newItem);
                             }
 
                             @Override
                             public void onError(String result) throws Exception {
                                 Log.d("FetchImageURL response ERROR", result);
-                                ItemModel newItem = createItem(boredApiResponse, "");
+                                ItemModel newItem = createItem(boredApiResponse, "No Image");
 
-                                //DatabaseManager db = new DatabaseManager(getActivity());
-                                //db.insertTmp(newItem);
                                 adapter.addItem(adapter.getItemCount(), newItem);
-                            }}, boredApiResponse);
+                            }
+                        }, boredApiResponse);
                     }
 
                     @Override
@@ -211,18 +211,16 @@ public class HomeFragment extends Fragment {
                                 Log.d("FetchImageURL response", unsplashApiResponse);
                                 ItemModel newItem = createItem(boredApiResponse, unsplashApiResponse);
 
-                               //DatabaseManager db = new DatabaseManager(getActivity());
-                                //db.insertTmp(newItem);
+                                DatabaseManager db = new DatabaseManager(getActivity());
+                                db.insertTmp(newItem);
                                 adapter.addItem(adapter.getItemCount(), newItem);
                             }
 
                             @Override
                             public void onError(String result) throws Exception {
                                 Log.d("FetchImageURL response ERROR", result);
-                                ItemModel newItem = createItem(boredApiResponse, "");
+                                ItemModel newItem = createItem(boredApiResponse, "no Image");
 
-                                //DatabaseManager db = new DatabaseManager(getActivity());
-                                //db.insertTmp(newItem);
                                 adapter.addItem(adapter.getItemCount(), newItem);
                             }
                         }, boredApiResponse);
@@ -280,7 +278,7 @@ public class HomeFragment extends Fragment {
         LeisureSingleton.getInstance(getActivity()).addToRequestQueue(boredAPIRequest);
     }
 
-    public ItemModel createItem(String boredApiResponse, String unsplashApiResponse){
+    public ItemModel createItem(String boredApiResponse, String unsplashApiResponse) {
 
         Log.d("Create Item from String", boredApiResponse);
 
@@ -315,11 +313,14 @@ public class HomeFragment extends Fragment {
         String baseURL = "https://api.unsplash.com";
         String searchString = "/search/photos";
         String page = "?page=" + 1;
+        String pageItems = "&per_page=" + 1;
         String orientation = "&orientation=" + "portrait";
-        String searchQuery = "&query=" + itemModel.getActivity() ;
+        String searchQuery = "&query=" + itemModel.getActivity();
+
         String unsplashAuth = "&client_id=cOMcQHsoAAQBMhZUAR-2zZRQyNBb0lvufuME78DiDdc";
 
-        String fullRequestString = baseURL + searchString + page + orientation + searchQuery + unsplashAuth;
+        String fullRequestString = baseURL + searchString + page + pageItems +orientation + searchQuery + unsplashAuth;
+
 
         Log.d("Unsplash full request String", fullRequestString);
 
@@ -343,8 +344,6 @@ public class HomeFragment extends Fragment {
                                 .get("small")
                                 .getAsString();
 
-                        Log.d("Unsplash imgURL", imgUrl);
-
                         try {
                             if (imgUrl != "") {
                                 callback.onSuccessResponse(imgUrl);
@@ -358,7 +357,15 @@ public class HomeFragment extends Fragment {
                             e.printStackTrace();
                         }
                     }
-                }, error -> Log.e("Error Response", error.toString())
+                }, error -> {
+
+                        try {
+                            callback.onError("no");
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                }
         );
 
         LeisureSingleton.getInstance(getActivity()).addToRequestQueue(unsplashRequest);

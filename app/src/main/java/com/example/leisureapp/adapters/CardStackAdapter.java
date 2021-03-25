@@ -144,6 +144,7 @@ public class CardStackAdapter extends RecyclerView.Adapter<CardStackAdapter.View
 
             Picasso.get().load(data.getImgURL())
                     .placeholder(R.drawable.leisure_logo_foreground)
+                    .error(R.drawable.leisure_logo_foreground)
                     .into(imageView);
         }
     }

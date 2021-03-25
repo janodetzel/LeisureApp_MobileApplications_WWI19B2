@@ -20,6 +20,7 @@ import android.widget.SeekBar;
 import android.widget.Spinner;
 
 import com.example.leisureapp.R;
+import com.example.leisureapp.database.DatabaseManager;
 import com.example.leisureapp.utils.SharedPreferencesHelper;
 
 /**
@@ -80,6 +81,9 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
                 setSeekCostsProgress(view, progress);
+                Log.d("SeekPersonsCosts", "changes");
+                DatabaseManager db = new DatabaseManager(getActivity());
+                db.clearTmp();
             }
 
             @Override
@@ -103,6 +107,9 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
                 setSeekPersonsProgress(view, progress);
+                Log.d("SeekPersonsProgress", "changes");
+                DatabaseManager db = new DatabaseManager(getActivity());
+                db.clearTmp();
             }
 
             @Override
@@ -130,9 +137,9 @@ public class SettingsFragment extends Fragment {
 
         ArrayAdapter<CharSequence> staticAdapter = ArrayAdapter
                 .createFromResource(this.getContext(), R.array.settingsType,
-                        android.R.layout.simple_spinner_item);
+                        R.layout.spinner_item);
         staticAdapter
-                .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                .setDropDownViewResource(R.layout.spinner_item);
 
         dropDown.setAdapter(staticAdapter);
 
@@ -295,6 +302,7 @@ public class SettingsFragment extends Fragment {
 
 
         sharedPrefEditor.apply();
+        DatabaseManager db = new DatabaseManager(getActivity());
+        db.clearTmp();
 
-    }
-}
+    }}
