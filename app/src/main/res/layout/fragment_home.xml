@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:text="We couldn't reach our servers. Please make sure that you are connected to the Internet."
+        android:text="@string/no_internet_home"
         android:textSize="20dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
@@ -31,7 +31,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:text="No activity with specified parameters found"
+        android:text="@string/no_activity_home"
         android:textSize="20dp"
         tools:visibility="invisible" />
 
