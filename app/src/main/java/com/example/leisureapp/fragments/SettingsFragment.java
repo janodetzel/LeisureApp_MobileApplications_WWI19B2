@@ -81,7 +81,6 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
                 setSeekCostsProgress(view, progress);
-                Log.d("SeekPersonsCosts", "changes");
                 DatabaseManager db = new DatabaseManager(getActivity());
                 db.clearTmp();
             }
@@ -107,7 +106,6 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
                 setSeekPersonsProgress(view, progress);
-                Log.d("SeekPersonsProgress", "changes");
                 DatabaseManager db = new DatabaseManager(getActivity());
                 db.clearTmp();
             }

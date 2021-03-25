@@ -59,7 +59,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
 
             int resultCount = cursor.getCount();
             if (resultCount == 0) {
-                Log.d(TAG, "No entries in database.");
+                Log.e(TAG, "No entries in database.");
                 return new ItemModel[]{};
             } else {
                 ItemModel[] results = new ItemModel[resultCount];
@@ -149,7 +149,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
 
             int resultCount = cursor.getCount();
             if (resultCount == 0) {
-                Log.d(TAG, "No entries in database.");
+                Log.e(TAG, "No entries in database.");
                 return new ItemModel[]{};
             } else {
                 ItemModel[] results = new ItemModel[resultCount];

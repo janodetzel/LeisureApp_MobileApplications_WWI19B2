@@ -171,7 +171,6 @@ public class HomeFragment extends Fragment {
 
         if (tmp.length != 0) {
             for (int i = 0; i <= tmp.length - 1; i++) {
-                Log.e("Message", tmp[i].getActivity());
                 adapter.addItem(0, tmp[i]);
             }
         } else {
@@ -182,8 +181,6 @@ public class HomeFragment extends Fragment {
     }
 
     public ItemModel createItem(String boredApiResponse, String unsplashApiResponse) {
-
-        Log.d("Create Item from String", boredApiResponse);
 
         if (boredApiResponse != null) {
 
@@ -203,7 +200,7 @@ public class HomeFragment extends Fragment {
 
             return newItem;
         } else {
-            Log.d("CreateItem failure", "No data available");
+            Log.e("CreateItem failure", "No data available");
             return null;
         }
     }
@@ -217,7 +214,6 @@ public class HomeFragment extends Fragment {
         String participants = "&participants=" + sharedPref.getInt(String.valueOf(R.id.seekBarPersons) + "filterPersons", 1);
         String type = "&type=" + sharedPref.getString(String.valueOf(R.id.settingsTypeDropDown) + "filterTypeValue", "");
 
-        Log.d("Bored API requeststring", baseURL + minPrice + maxPrice + participants + type);
         JsonObjectRequest boredAPIRequest = new JsonObjectRequest(
                 Request.Method.GET,
                 baseURL + minPrice + maxPrice + participants + type,
@@ -225,8 +221,6 @@ public class HomeFragment extends Fragment {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-
-                        Log.d("Bored API response", response.toString());
 
                         try {
                             if (response.toString().contains("error")) {
@@ -265,9 +259,6 @@ public class HomeFragment extends Fragment {
 
         String fullRequestString = baseURL + searchString + page + pageItems +orientation + searchQuery + unsplashAuth;
 
-
-        Log.d("Unsplash full request String", fullRequestString);
-
         JsonObjectRequest unsplashRequest = new JsonObjectRequest(
                 Request.Method.GET,
                 fullRequestString,
@@ -275,8 +266,6 @@ public class HomeFragment extends Fragment {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Log.d("Unsplash API response", response.toString());
-
                         String imgUrl = JsonParser.parseString(response.toString())
                                 .getAsJsonObject()
                                 .get("results")
@@ -322,7 +311,6 @@ public class HomeFragment extends Fragment {
                 fetchImageURL(new VolleyCallback() {
                     @Override
                     public void onSuccessResponse(String unsplashApiResponse) throws JSONException {
-                        Log.d("FetchImageURL response", unsplashApiResponse);
                         ItemModel newItem = createItem(boredApiResponse, unsplashApiResponse);
 
                         Activity activity = getActivity();
@@ -336,7 +324,6 @@ public class HomeFragment extends Fragment {
 
                     @Override
                     public void onError(String result) throws Exception {
-                        Log.d("FetchImageURL response ERROR", result);
                         ItemModel newItem = createItem(boredApiResponse, getResources().getString(R.string.unsplash_error_replace_url));
 
                         adapter.addItem(adapter.getItemCount(), newItem);
