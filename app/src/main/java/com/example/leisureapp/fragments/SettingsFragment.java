@@ -155,18 +155,21 @@ public class SettingsFragment extends Fragment {
         });
 
         // On Click Listeners
-
         costsDel.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
                 setSeekCostsProgress(view, 0);
+                SeekBar seekCosts = view.findViewById(R.id.seekBarCosts);
+                seekCosts.setProgress(0);
             }
         });
 
         personsDel.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
                 setSeekPersonsProgress(view, 0);
+                SeekBar seekPersons = view.findViewById(R.id.seekBarPersons);
+                seekPersons.setProgress(0);
             }
         });
     }
@@ -188,7 +191,6 @@ public class SettingsFragment extends Fragment {
 
             SharedPreferencesHelper.putDouble(sharedPrefEditor, String.valueOf(R.id.seekBarCosts) + "filterCostsMin", 0.0);
             SharedPreferencesHelper.putDouble(sharedPrefEditor, String.valueOf(R.id.seekBarCosts) + "filterCostsMax", 1);
-
         }
 
         if (progress > 0) {
@@ -198,8 +200,7 @@ public class SettingsFragment extends Fragment {
             imgCost4.setColorFilter(view.getResources().getColor(R.color.white));
 
             SharedPreferencesHelper.putDouble(sharedPrefEditor, String.valueOf(R.id.seekBarCosts) + "filterCostsMin", 0.1);
-            SharedPreferencesHelper.putDouble(sharedPrefEditor, String.valueOf(R.id.seekBarCosts) + "filterCostsMax", 0.3);
-
+            SharedPreferencesHelper.putDouble(sharedPrefEditor, String.valueOf(R.id.seekBarCosts) + "filterCostsMax", 0.29);
         }
 
         if (progress > 33) {
@@ -208,7 +209,7 @@ public class SettingsFragment extends Fragment {
             imgCost3.setColorFilter(view.getResources().getColor(R.color.white));
             imgCost4.setColorFilter(view.getResources().getColor(R.color.white));
             SharedPreferencesHelper.putDouble(sharedPrefEditor, String.valueOf(R.id.seekBarCosts) + "filterCostsMin", 0.3);
-            SharedPreferencesHelper.putDouble(sharedPrefEditor, String.valueOf(R.id.seekBarCosts) + "filterCostsMax", 0.45);
+            SharedPreferencesHelper.putDouble(sharedPrefEditor, String.valueOf(R.id.seekBarCosts) + "filterCostsMax", 0.44);
 
         }
 
@@ -218,7 +219,7 @@ public class SettingsFragment extends Fragment {
             imgCost3.setColorFilter(view.getResources().getColor(R.color.blue));
             imgCost4.setColorFilter(view.getResources().getColor(R.color.white));
             SharedPreferencesHelper.putDouble(sharedPrefEditor, String.valueOf(R.id.seekBarCosts) + "filterCostsMin", 0.45);
-            SharedPreferencesHelper.putDouble(sharedPrefEditor, String.valueOf(R.id.seekBarCosts) + "filterCostsMax", 0.6);
+            SharedPreferencesHelper.putDouble(sharedPrefEditor, String.valueOf(R.id.seekBarCosts) + "filterCostsMax", 0.59);
         }
 
         if (progress == 100) {
@@ -228,7 +229,6 @@ public class SettingsFragment extends Fragment {
             imgCost4.setColorFilter(view.getResources().getColor(R.color.blue));
             SharedPreferencesHelper.putDouble(sharedPrefEditor, String.valueOf(R.id.seekBarCosts) + "filterCostsMin", 0.6);
             SharedPreferencesHelper.putDouble(sharedPrefEditor, String.valueOf(R.id.seekBarCosts) + "filterCostsMax", 1.0);
-
         }
 
         sharedPrefEditor.putInt(String.valueOf(R.id.seekBarCosts), progress);
