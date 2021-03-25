@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:paddingHorizontal="20dp"
         android:paddingTop="30dp"
-        android:text="Bake pastries for you and your neighbor"
+        android:text="@string/pending"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="20sp" />
@@ -59,7 +59,7 @@
         android:paddingVertical="7dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Cooking"
+        android:text="@string/pending"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:background="@drawable/rounded_corner"

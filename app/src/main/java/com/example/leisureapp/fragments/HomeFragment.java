@@ -133,14 +133,14 @@ public class HomeFragment extends Fragment {
                                 ItemModel newItem = createItem(boredApiResponse, unsplashApiResponse);
 
                                 DatabaseManager db = new DatabaseManager(getActivity());
-                                db.insertTmp(newItem);
+                                db.insertTmp(newItem, getResources().getString(R.string.no_img_url));
                                 adapter.addItem(adapter.getItemCount(), newItem);
                             }
 
                             @Override
                             public void onError(String result) throws Exception {
                                 Log.d("FetchImageURL response ERROR", result);
-                                ItemModel newItem = createItem(boredApiResponse, "No Image");
+                                ItemModel newItem = createItem(boredApiResponse, getResources().getString(R.string.unsplash_error_replace_url));
 
                                 adapter.addItem(adapter.getItemCount(), newItem);
                             }
@@ -218,14 +218,14 @@ public class HomeFragment extends Fragment {
                                 ItemModel newItem = createItem(boredApiResponse, unsplashApiResponse);
 
                                 DatabaseManager db = new DatabaseManager(getActivity());
-                                db.insertTmp(newItem);
+                                db.insertTmp(newItem, getResources().getString(R.string.no_img_url));
                                 adapter.addItem(adapter.getItemCount(), newItem);
                             }
 
                             @Override
                             public void onError(String result) throws Exception {
                                 Log.d("FetchImageURL response ERROR", result);
-                                ItemModel newItem = createItem(boredApiResponse, "no Image");
+                                ItemModel newItem = createItem(boredApiResponse, getResources().getString(R.string.unsplash_error_replace_url));
 
                                 adapter.addItem(adapter.getItemCount(), newItem);
                             }
@@ -368,7 +368,7 @@ public class HomeFragment extends Fragment {
                 }, error -> {
 
                         try {
-                            callback.onError("no");
+                            callback.onError(getResources().getString(R.string.unsplash_error_replace_url));
                         } catch (Exception e) {
                             e.printStackTrace();
                         }

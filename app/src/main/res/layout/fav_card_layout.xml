@@ -45,7 +45,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="20dp"
-                        android:text="Explore the wildlife of your city"
+                        android:text="@string/pending"
                         android:textColor="@color/white"
                         android:textSize="20dp" />
                 </FrameLayout>

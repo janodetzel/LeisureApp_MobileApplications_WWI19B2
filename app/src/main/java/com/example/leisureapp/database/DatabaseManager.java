@@ -1,5 +1,6 @@
 package com.example.leisureapp.database;
 
+import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -11,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.leisureapp.R;
 import com.example.leisureapp.fragments.HomeFragment;
 import com.example.leisureapp.models.ItemModel;
 
@@ -22,7 +24,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
         super(context, "leisure.db", null, 1);
 
         // DELETE CURRENT DATABASE
-        //context.deleteDatabase("leisure.db");
+        // context.deleteDatabase("leisure.db");
     }
 
     @Override
@@ -92,8 +94,9 @@ public class DatabaseManager extends SQLiteOpenHelper {
 
             Cursor cursor = db.rawQuery("SELECT activity_key FROM favorites WHERE activity_key = ?", new String[] {item.getKey()});
             if (cursor.getCount() > 0) {
+                String toastText = context.getResources().getString(R.string.fav_already_saved);
                 // DUPLICATE ITEM IN DATABASE
-                Toast.makeText(context, "Already saved in Favorites.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, toastText, Toast.LENGTH_SHORT).show();
             } else {
                 // INSERT IN DATABASE
                 // Set values for insert
@@ -105,7 +108,8 @@ public class DatabaseManager extends SQLiteOpenHelper {
                 values.put("activity_key", item.getKey());
                 values.put("accessibility", item.getAccessibility());
                 if (item.getImgURL() == null) {
-                    values.put("img_url", "NOT IMPLEMENTED");
+                    String def = context.getResources().getString(R.string.no_img_url);
+                    values.put("img_url", def);
                 } else {
                     values.put("img_url", item.getImgURL());
                 }
@@ -174,7 +178,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
         }
     }
 
-    public void insertTmp(ItemModel item) {
+    public void insertTmp(ItemModel item, String defaultImgUrl) {
         try {
             SQLiteDatabase db = getWritableDatabase();
 
@@ -187,7 +191,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
             values.put("activity_key", item.getKey());
             values.put("accessibility", item.getAccessibility());
             if (item.getImgURL() == null) {
-                values.put("img_url", "NOT IMPLEMENTED");
+                values.put("img_url", defaultImgUrl);
             } else {
                 values.put("img_url", item.getImgURL());
             }

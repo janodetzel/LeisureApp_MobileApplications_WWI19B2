@@ -135,12 +135,9 @@ public class MainActivity extends AppCompatActivity {
         if(pendingIntent != null) {
             AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
             long now = System.currentTimeMillis();
+            // 2 Sekunden wegen Live Demo
             long afterTimeInMillis = 1000 * 2;
-            long oneDayInMillis = 1000*60*60*24;
-            // wiederholen alle 24h
-            // alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, now + afterTimeInMillis, oneDayInMillis, pendingIntent);
-
-            // Ohne Wiederholung für Präsentation
+            // Ohne Wiederholung für Präsentation bzw. Live Demo
             alarmManager.set(AlarmManager.RTC_WAKEUP, now + afterTimeInMillis, pendingIntent);
         }
     }
@@ -155,8 +152,9 @@ public class MainActivity extends AppCompatActivity {
     private void createNotificationChannel() {
         // erst ab Android 8 verfügbar
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence name = "Notification";
-            String description = "Notification";
+            // beide Variablen werden nicht angezeigt, daher eher egal, was drin steht
+            CharSequence name = getResources().getString(R.string.notification_default);
+            String description = getResources().getString(R.string.notification_default);
             int prio = NotificationManager.IMPORTANCE_DEFAULT;
             NotificationChannel channel = new NotificationChannel("daily_reminder", name, prio);
             channel.setDescription(description);

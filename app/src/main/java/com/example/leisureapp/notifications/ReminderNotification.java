@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -19,10 +20,11 @@ public class ReminderNotification extends BroadcastReceiver {
         Intent intent1 = new Intent(context, MainActivity.class);
         intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         PendingIntent pi = PendingIntent.getActivity(context, 0, intent1, 0);
+        Resources r = context.getResources();
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "daily_reminder")
                 .setSmallIcon(R.drawable.leisure_logo_foreground)
-                .setContentTitle("Hast du was zu tun?")
-                .setContentText("Wenn nicht, hat Leisure neue Aktivitäten.")
+                .setContentTitle(r.getString(R.string.notification_title))
+                .setContentText(r.getString(R.string.notification_text))
                 .setContentIntent(pi)
                 .setAutoCancel(true)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);

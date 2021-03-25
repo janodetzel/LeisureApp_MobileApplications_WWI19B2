@@ -21,7 +21,7 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
             android:layout_marginBottom="20dp"
-            android:text="Filter"
+            android:text="@string/filter"
             android:textAlignment="center"
             android:textSize="20dp" />
 
@@ -50,7 +50,7 @@
                     android:gravity="center_vertical"
                     android:maxWidth="101dp"
                     android:minWidth="100dp"
-                    android:text="Costs"
+                    android:text="@string/filter_costs"
                     android:textColor="@color/white"
                     android:textSize="15dp" />
 
@@ -159,7 +159,7 @@
                     android:gravity="center_vertical"
                     android:maxWidth="101dp"
                     android:minWidth="100dp"
-                    android:text="Participants"
+                    android:text="@string/filter_participants"
                     android:textColor="@color/white"
                     android:textSize="15dp" />
 
@@ -267,7 +267,7 @@
                     android:gravity="center_vertical"
                     android:maxWidth="101dp"
                     android:minWidth="100dp"
-                    android:text="Types"
+                    android:text="@string/filter_types"
                     android:textColor="@color/white"
                     android:textSize="15dp" />
 
@@ -298,7 +298,7 @@
             android:layout_marginTop="20dp"
             android:background="@drawable/rounded_corner"
             android:backgroundTint="@color/grey"
-            android:text="Delete Favorites"
+            android:text="@string/filter_delete"
             android:textColor="@color/white" />
     </LinearLayout>
 
