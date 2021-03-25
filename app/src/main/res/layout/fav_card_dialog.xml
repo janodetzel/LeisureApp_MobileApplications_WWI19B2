@@ -57,9 +57,9 @@ tools:layout_editor_absoluteY="551dp">
 
             <ImageView
                 android:id="@+id/cardImage"
-                android:layout_width="416dp"
-                android:layout_height="690dp"
-                android:scaleType="center"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
                 android:tint="#6F000000"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/city_photo"

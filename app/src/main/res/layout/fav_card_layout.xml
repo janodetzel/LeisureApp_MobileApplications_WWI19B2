@@ -25,18 +25,19 @@
                 <FrameLayout
                     android:layout_width="250dp"
                     android:layout_height="match_parent">
+
                     <ImageView
                         android:id="@+id/favPic"
-                        android:scaleType="center"
-                        android:src="@drawable/city_photo"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/city_photo" />
+
                     <View
                         android:id="@+id/overlay_image"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="#6F000000"
-                        />
+                        android:background="#6F000000" />
 
                     <TextView
                         android:text="Explore the wildlife of your city"

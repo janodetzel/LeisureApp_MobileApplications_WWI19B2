@@ -1,6 +1,7 @@
 package com.example.leisureapp.adapters;
 
 import android.app.Activity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 
 import com.example.leisureapp.models.ItemModel;
 import com.example.leisureapp.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -77,8 +79,10 @@ public class FavCardAdapter extends BaseAdapter {
         ViewHolder holder = (ViewHolder) rowView.getTag();
         ItemModel fav = items.get(position);
         holder.activity.setText(""+fav.getActivity());
-        //TODO: Change to true url! from FavCard
-        holder.image.setImageResource(R.drawable.city_photo);
+
+        Picasso.get().load(fav.getImgURL())
+                .placeholder(R.drawable.leisure_logo_foreground)
+                .into(holder.image);
 
         double price = fav.getPrice();
         if (price > 0.0) {
@@ -108,6 +112,8 @@ public class FavCardAdapter extends BaseAdapter {
         if(persons >= 4) {
             holder.iconPersons4.setColorFilter(rowView.getResources().getColor(R.color.blue));
         }
+
+
 
 
         return rowView;

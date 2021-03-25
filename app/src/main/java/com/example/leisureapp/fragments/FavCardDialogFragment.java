@@ -23,6 +23,7 @@ import androidx.fragment.app.DialogFragment;
 import com.example.leisureapp.R;
 import com.example.leisureapp.database.DatabaseManager;
 import com.example.leisureapp.models.ItemModel;
+import com.squareup.picasso.Picasso;
 
 public class FavCardDialogFragment extends DialogFragment {
 
@@ -61,9 +62,9 @@ public class FavCardDialogFragment extends DialogFragment {
         });
 
         ImageView bgPic = view.findViewById(R.id.cardImage);
-        //TODO: Change to real URL
-        bgPic.setImageResource(R.drawable.city_photo);
-        //bgPic.setImageURI(Uri.parse(favCard.getImgURL()));
+        Picasso.get().load(favCard.getImgURL())
+                .placeholder(R.drawable.leisure_logo_foreground)
+                .into(bgPic);
 
         TextView mainText = view.findViewById(R.id.popupMainText);
         mainText.setText(favCard.getActivity());
