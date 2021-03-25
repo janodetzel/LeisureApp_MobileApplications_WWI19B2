@@ -7,6 +7,17 @@
     tools:context=".fragments.HomeFragment"
     tools:visibility="visible">
 
+    <TextView
+        android:id="@+id/noInternetConnectionText"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="We couldn't reach our servers. Please make sure that you are connected to the Internet."
+        android:textSize="20dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        tools:visibility="invisible" />
+
     <com.yuyakaido.android.cardstackview.CardStackView
         android:id="@+id/card_stack_view"
         android:layout_width="match_parent"
@@ -23,5 +34,6 @@
         android:text="No activity with specified parameters found"
         android:textSize="20dp"
         tools:visibility="invisible" />
+
 
 </RelativeLayout>

@@ -18,8 +18,10 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 
+import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpResponse;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.leisureapp.utils.LeisureSingleton;
@@ -38,9 +40,11 @@ import com.yuyakaido.android.cardstackview.Direction;
 import com.yuyakaido.android.cardstackview.StackFrom;
 import com.yuyakaido.android.cardstackview.SwipeableMethod;
 
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.Set;
 
@@ -88,6 +92,8 @@ public class HomeFragment extends Fragment {
 
         TextView errorText = (TextView) view.findViewById(R.id.noActivityFoundText);
         errorText.setVisibility(View.INVISIBLE);
+        TextView noInternetText = (TextView) view.findViewById(R.id.noInternetConnectionText);
+        noInternetText.setVisibility(View.INVISIBLE);
 
         manager = new CardStackLayoutManager(view.getContext(), new CardStackListener() {
             private Direction direction;
@@ -149,7 +155,7 @@ public class HomeFragment extends Fragment {
 
                     }
 
-                });
+                }, noInternetText);
             }
 
             @Override
@@ -233,13 +239,12 @@ public class HomeFragment extends Fragment {
                         errorText.setVisibility(View.VISIBLE);
                     }
 
-                });
+                }, noInternetText);
             }
         }
     }
 
-
-    public void fetchActivity(final VolleyCallback callback) {
+    public void fetchActivity(final VolleyCallback callback, TextView noInternetConnectionText) {
         SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
 
         String baseURL = "https://www.boredapi.com/api/activity";
@@ -272,7 +277,10 @@ public class HomeFragment extends Fragment {
                             e.printStackTrace();
                         }
                     }
-                }, error -> Log.e("Error Response", error.toString())
+                }, error -> {
+                    Log.e("Error Response", error.toString());
+                    noInternetConnectionText.setVisibility(View.VISIBLE);
+                }
         );
 
         LeisureSingleton.getInstance(getActivity()).addToRequestQueue(boredAPIRequest);
