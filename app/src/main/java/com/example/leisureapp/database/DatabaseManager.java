@@ -31,12 +31,12 @@ public class DatabaseManager extends SQLiteOpenHelper {
             String createFavorites = "CREATE TABLE favorites (favorites_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     "activity_key TEXT NOT NULL, title TEXT NOT NULL, " +
                     "type TEXT NOT NULL, participants INTEGER NOT NULL, " +
-                    "price DOUBLE NOT NULL, accessibility DOUBLE NOT NULL, img_url TEXT NOT NULL)";
+                    "price DOUBLE NOT NULL, accessibility DOUBLE NOT NULL, img_url TEXT NOT NULL, Timestamp DATETIME DEFAULT (DATETIME('now', 'localtime')))";
 
             String createTmp = "CREATE TABLE tmp (tmp_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     "activity_key TEXT NOT NULL, title TEXT NOT NULL, " +
                     "type TEXT NOT NULL, participants INTEGER NOT NULL, " +
-                    "price DOUBLE NOT NULL, accessibility DOUBLE NOT NULL, img_url TEXT NOT NULL)";
+                    "price DOUBLE NOT NULL, accessibility DOUBLE NOT NULL, img_url TEXT NOT NULL, Timestamp DATETIME DEFAULT (DATETIME('now', 'localtime')))";
 
             db.execSQL(createFavorites);
             db.execSQL(createTmp);
@@ -112,6 +112,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
 
                 // Insert new item in favorites
                 db.insertOrThrow("favorites", null, values);
+                cursor.close();
             }
         } catch (SQLException e) {
             Log.e(TAG, "SQL-Error: " + e.getMessage());
@@ -207,6 +208,4 @@ public class DatabaseManager extends SQLiteOpenHelper {
             Log.e(TAG, "SQL-Error: " + e.getMessage());
         }
     }
-
-
 }
