@@ -97,114 +97,104 @@ tools:layout_editor_absoluteY="551dp">
             app:layout_constraintStart_toStartOf="parent"
             android:elevation="2dp"/>
 
-        <ImageView
-            android:id="@+id/popupPersons1"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_gravity="right|bottom"
-            android:layout_marginBottom="100dp"
-            android:src="@drawable/ic_baseline_person_outline_24"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/popupPersons2"
-            app:layout_constraintStart_toStartOf="parent"
-            android:elevation="2dp"/>
-
-        <ImageView
-            android:id="@+id/popupPersons2"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_gravity="right|bottom"
-            android:layout_marginBottom="100dp"
-            android:src="@drawable/ic_baseline_person_outline_24"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/popupPersons3"
-            app:layout_constraintStart_toEndOf="@+id/popupPersons1"
-            android:elevation="2dp"/>
-
-        <ImageView
-            android:id="@+id/popupPersons3"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_gravity="right|bottom"
-            android:layout_marginBottom="100dp"
-            android:src="@drawable/ic_baseline_person_outline_24"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/popupPersons4"
-            app:layout_constraintHorizontal_bias="0.512"
-            app:layout_constraintStart_toEndOf="@+id/popupPersons2"
-            android:elevation="2dp"/>
-
-        <ImageView
-            android:id="@+id/popupPersons4"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_gravity="right|bottom"
-            android:layout_marginBottom="100dp"
-            android:src="@drawable/ic_baseline_person_outline_24"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="bottom"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/popupPersons3"
-            android:elevation="2dp"/>
-
-        <TextView
-            android:id="@+id/popupCost1"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_gravity="right"
-            android:layout_marginBottom="24dp"
-            android:text="$"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textSize="35dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/popupCost2"
             app:layout_constraintStart_toStartOf="parent"
-            android:elevation="2dp"/>
+            android:paddingBottom="20dp"
+            android:elevation="2dp">
 
-        <TextView
-            android:id="@+id/popupCost2"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_gravity="right"
-            android:layout_marginBottom="24dp"
-            android:text="$"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textSize="35dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/popupCost3"
-            app:layout_constraintStart_toEndOf="@+id/popupCost1"
-            android:elevation="2dp"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginVertical="30dp"
+                >
+                <ImageView
+                    android:id="@+id/popupPersons1"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginHorizontal="10dp"
+                    app:srcCompat="@drawable/ic_baseline_person_outline_24"
+                    app:tint="@color/white"
+                    />
 
-        <TextView
-            android:id="@+id/popupCost3"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_gravity="right"
-            android:layout_marginBottom="24dp"
-            android:text="$"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textSize="35dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/popupCost4"
-            app:layout_constraintStart_toEndOf="@+id/popupCost2"
-            android:elevation="2dp"/>
+                <ImageView
+                    android:id="@+id/popupPersons2"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginHorizontal="10dp"
+                    app:srcCompat="@drawable/ic_baseline_person_outline_24"
+                    app:tint="@color/white"
+                    />
 
-        <TextView
-            android:id="@+id/popupCost4"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_gravity="right"
-            android:layout_marginBottom="24dp"
-            android:text="$"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textSize="35dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/popupCost3"
-            android:elevation="2dp"/>
+                <ImageView
+                    android:id="@+id/popupPersons3"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginHorizontal="10dp"
+                    app:srcCompat="@drawable/ic_baseline_person_outline_24"
+                    app:tint="@color/white"
+                    />
+
+                <ImageView
+                    android:id="@+id/popupPersons4"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginHorizontal="10dp"
+                    app:srcCompat="@drawable/ic_baseline_person_outline_24"
+                    app:tint="@color/white"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="center_horizontal"
+                >
+                <ImageView
+                    android:id="@+id/popupCost1"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginHorizontal="10dp"
+                    app:srcCompat="@drawable/ic_baseline_attach_money_24"
+                    app:tint="@color/white"
+                    />
+
+                <ImageView
+                    android:id="@+id/popupCost2"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginHorizontal="10dp"
+                    app:srcCompat="@drawable/ic_baseline_attach_money_24"
+                    app:tint="@color/white"
+                    />
+
+                <ImageView
+                    android:id="@+id/popupCost3"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginHorizontal="10dp"
+                    app:srcCompat="@drawable/ic_baseline_attach_money_24"
+                    app:tint="@color/white"
+                    />
+
+                <ImageView
+                    android:id="@+id/popupCost4"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginHorizontal="10dp"
+                    app:srcCompat="@drawable/ic_baseline_attach_money_24"
+                    app:tint="@color/white"
+                    />
+            </LinearLayout>
+        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>
