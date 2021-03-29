@@ -1,10 +1,6 @@
 package com.example.leisureapp.fragments;
 
 import android.app.Activity;
-import android.content.ClipData;
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,29 +8,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 
-import com.android.volley.NoConnectionError;
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.HttpResponse;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.example.leisureapp.activities.MainActivity;
 import com.example.leisureapp.utils.LeisureSingleton;
 import com.example.leisureapp.R;
 import com.example.leisureapp.adapters.CardStackAdapter;
 import com.example.leisureapp.database.DatabaseManager;
 import com.example.leisureapp.interfaces.VolleyCallback;
 import com.example.leisureapp.models.ItemModel;
-import com.example.leisureapp.utils.SharedPreferencesHelper;
 import com.google.gson.Gson;
-import com.google.gson.JsonParser;
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager;
 import com.yuyakaido.android.cardstackview.CardStackListener;
 import com.yuyakaido.android.cardstackview.CardStackView;
@@ -42,36 +28,17 @@ import com.yuyakaido.android.cardstackview.Direction;
 import com.yuyakaido.android.cardstackview.StackFrom;
 import com.yuyakaido.android.cardstackview.SwipeableMethod;
 
-import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.net.InetAddress;
 import java.util.ArrayList;
-import java.util.Set;
 
 import static java.lang.Thread.sleep;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link HomeFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class HomeFragment extends Fragment {
-
-    private static final String TAG = HomeFragment.class.getSimpleName();
-
     private CardStackLayoutManager manager;
     private CardStackAdapter adapter;
 
     public HomeFragment() {
-        // Required empty public constructor
-    }
-
-    public static HomeFragment newInstance(String param1, String param2) {
-        HomeFragment fragment = new HomeFragment();
-        Bundle args = new Bundle();
-        return fragment;
     }
 
     @Override
@@ -82,7 +49,6 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
@@ -98,56 +64,39 @@ public class HomeFragment extends Fragment {
         noInternetText.setVisibility(View.INVISIBLE);
 
         manager = new CardStackLayoutManager(view.getContext(), new CardStackListener() {
-            private Direction direction;
-
             @Override
             public void onCardDragging(Direction direction, float ratio) {
-                // Method called when card is dragged
             }
 
             @Override
             public void onCardSwiped(Direction direction) {
-                // Call Action for swipe method
                 if (direction == Direction.Left) {
-                    // LEFT SWIPE -> Favorite
-                    // Get key from adapter
                     ItemModel item = adapter.getItems().get(manager.getTopPosition() - 1);
 
-                    // Insert item in local db
                     DatabaseManager db = new DatabaseManager(getActivity());
                     db.insertFavorite(item, view.getContext());
-
-                    Log.d(TAG, "Insert favorite in db with key: " + item.getKey());
-
-                } else if (direction == Direction.Right) {
-                    // RIGHT SWIPE -> Next
                 }
 
-                fetchCardDetails(view, noInternetText);
+                getCardDetails(view, noInternetText);
             }
 
             @Override
             public void onCardRewound() {
-                // Method called when rewind-method is called
             }
 
             @Override
             public void onCardCanceled() {
-                // Method called when stop dragging without swipe
             }
 
             @Override
             public void onCardAppeared(View view, int position) {
-                TextView tv = view.findViewById(R.id.activityText);
             }
 
             @Override
             public void onCardDisappeared(View view, int position) {
-                // Method called when card is swiped and disappears
             }
         });
 
-        // See documentation for settings: https://github.com/yuyakaido/CardStackView
         manager.setStackFrom(StackFrom.None);
         manager.setVisibleCount(3);
         manager.setTranslationInterval(8.0f);
@@ -159,7 +108,7 @@ public class HomeFragment extends Fragment {
         manager.setSwipeableMethod(SwipeableMethod.Manual);
         manager.setOverlayInterpolator(new LinearInterpolator());
         manager.setStackFrom(StackFrom.Top);
-        adapter = new CardStackAdapter(new ArrayList<ItemModel>());
+        adapter = new CardStackAdapter(new ArrayList<>());
 
         cardStackView.setLayoutManager(manager);
         cardStackView.setAdapter(adapter);
@@ -174,15 +123,13 @@ public class HomeFragment extends Fragment {
             }
         } else {
             for (int i = 0; i < 3; i++) {
-                fetchCardDetails(view, noInternetText);
+                getCardDetails(view, noInternetText);
             }
         }
     }
 
     public ItemModel createItem(String boredApiResponse, String unsplashApiResponse) {
-
         if (boredApiResponse != null) {
-
             ItemModel itemModel = new Gson().fromJson(boredApiResponse, ItemModel.class);
 
             ItemModel newItem = new ItemModel(
@@ -195,121 +142,20 @@ public class HomeFragment extends Fragment {
                     itemModel.getAccessibility(),
                     unsplashApiResponse);
 
-            Log.d("Item Model Created", itemModel.getActivity());
-
             return newItem;
         } else {
-            Log.e("CreateItem failure", "No data available");
+            Log.e("Error creating card item", "No data available");
             return null;
         }
     }
 
-    public void fetchActivity(final VolleyCallback callback, TextView noInternetConnectionText) {
-        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-
-        String baseURL = "https://www.boredapi.com/api/activity";
-        String minPrice = "?minprice=" + SharedPreferencesHelper.getDouble(sharedPref, String.valueOf(R.id.seekBarCosts) + "filterCostsMin", 0);
-        String maxPrice = "&maxprice=" + SharedPreferencesHelper.getDouble(sharedPref, String.valueOf(R.id.seekBarCosts) + "filterCostsMax", 1);
-        String participants = "&participants=" + sharedPref.getInt(String.valueOf(R.id.seekBarPersons) + "filterPersons", 1);
-        String type = "&type=" + sharedPref.getString(String.valueOf(R.id.settingsTypeDropDown) + "filterTypeValue", "");
-
-        JsonObjectRequest boredAPIRequest = new JsonObjectRequest(
-                Request.Method.GET,
-                baseURL + minPrice + maxPrice + participants + type,
-                null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-
-                        try {
-                            if (response.toString().contains("error")) {
-                                callback.onError(response.toString());
-                            } else {
-                                callback.onSuccessResponse(response.toString());
-                            }
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }, error -> {
-                    Log.e("Error Response", error.toString());
-                    noInternetConnectionText.setVisibility(View.VISIBLE);
-                }
-        );
-
-        LeisureSingleton.getInstance(getActivity()).addToRequestQueue(boredAPIRequest);
-    }
-
-    public void fetchImageURL(final VolleyCallback callback, String boredApiResponse) {
-
-        ItemModel itemModel = new Gson().fromJson(boredApiResponse, ItemModel.class);
-
-        String baseURL = "https://api.unsplash.com";
-        String searchString = "/search/photos";
-        String page = "?page=" + 1;
-        String pageItems = "&per_page=" + 1;
-        String orientation = "&orientation=" + "portrait";
-        String searchQuery = "&query=" + itemModel.getActivity();
-
-        String unsplashAuth = "&client_id=cOMcQHsoAAQBMhZUAR-2zZRQyNBb0lvufuME78DiDdc";
-
-        String fullRequestString = baseURL + searchString + page + pageItems +orientation + searchQuery + unsplashAuth;
-
-        JsonObjectRequest unsplashRequest = new JsonObjectRequest(
-                Request.Method.GET,
-                fullRequestString,
-                null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        String imgUrl = JsonParser.parseString(response.toString())
-                                .getAsJsonObject()
-                                .get("results")
-                                .getAsJsonArray()
-                                .get(0)
-                                .getAsJsonObject()
-                                .get("urls")
-                                .getAsJsonObject()
-                                .get("small")
-                                .getAsString();
-
-                        try {
-                            if (imgUrl != "") {
-                                callback.onSuccessResponse(imgUrl);
-                            } else {
-                                callback.onError(imgUrl);
-                            }
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }, error -> {
-
-                        try {
-                            callback.onError(getResources().getString(R.string.unsplash_error_replace_url));
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-
-                }
-        );
-
-        LeisureSingleton.getInstance(getActivity()).addToRequestQueue(unsplashRequest);
-    }
-
-    public void fetchCardDetails(View view, TextView noInternetText){
-        fetchActivity(new VolleyCallback() {
+    public void getCardDetails(View view, TextView noInternetText){
+        LeisureSingleton.getInstance(getActivity()).fetchActivity(new VolleyCallback() {
             @Override
             public void onSuccessResponse(String boredApiResponse) {
-                fetchImageURL(new VolleyCallback() {
+                LeisureSingleton.getInstance(getActivity()).fetchImageURL(new VolleyCallback() {
                     @Override
-                    public void onSuccessResponse(String unsplashApiResponse) throws JSONException {
+                    public void onSuccessResponse(String unsplashApiResponse) {
                         ItemModel newItem = createItem(boredApiResponse, unsplashApiResponse);
 
                         Activity activity = getActivity();
@@ -322,7 +168,7 @@ public class HomeFragment extends Fragment {
                     }
 
                     @Override
-                    public void onError(String result) throws Exception {
+                    public void onError(String result) {
                         ItemModel newItem = createItem(boredApiResponse, getResources().getString(R.string.unsplash_error_replace_url));
 
                         adapter.addItem(adapter.getItemCount(), newItem);
@@ -332,7 +178,7 @@ public class HomeFragment extends Fragment {
             }
 
             @Override
-            public void onError(String result) throws Exception {
+            public void onError(String result) {
                 TextView errorText = (TextView) view.findViewById(R.id.noActivityFoundText);
                 errorText.setVisibility(View.VISIBLE);
             }

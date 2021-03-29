@@ -17,14 +17,10 @@ import com.example.leisureapp.fragments.HomeFragment;
 import com.example.leisureapp.models.ItemModel;
 
 public class DatabaseManager extends SQLiteOpenHelper {
-
     private static final String TAG = DatabaseManager.class.getSimpleName();
 
     public DatabaseManager(Context context) {
         super(context, "leisure.db", null, 1);
-
-        // DELETE CURRENT DATABASE
-        // context.deleteDatabase("leisure.db");
     }
 
     @Override
@@ -49,17 +45,16 @@ public class DatabaseManager extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-        // NOT NEEDED
     }
 
     public ItemModel[] getFavorites() {
-        try {
-            SQLiteDatabase db = getReadableDatabase();
+        try (SQLiteDatabase db = getReadableDatabase()) {
             Cursor cursor = db.rawQuery("SELECT * FROM favorites", null);
 
             int resultCount = cursor.getCount();
             if (resultCount == 0) {
                 Log.e(TAG, "No entries in database.");
+                cursor.close();
                 return new ItemModel[]{};
             } else {
                 ItemModel[] results = new ItemModel[resultCount];
@@ -78,7 +73,6 @@ public class DatabaseManager extends SQLiteOpenHelper {
                     results[counter] = item;
                     counter++;
                 }
-
                 cursor.close();
                 return results;
             }
@@ -89,17 +83,13 @@ public class DatabaseManager extends SQLiteOpenHelper {
     }
 
     public void insertFavorite(ItemModel item, Context context) {
-        try {
-            SQLiteDatabase db = getWritableDatabase();
 
-            Cursor cursor = db.rawQuery("SELECT activity_key FROM favorites WHERE activity_key = ?", new String[] {item.getKey()});
+        try (SQLiteDatabase db = getWritableDatabase()) {
+            Cursor cursor = db.rawQuery("SELECT activity_key FROM favorites WHERE activity_key = ?", new String[]{item.getKey()});
             if (cursor.getCount() > 0) {
                 String toastText = context.getResources().getString(R.string.fav_already_saved);
-                // DUPLICATE ITEM IN DATABASE
                 Toast.makeText(context, toastText, Toast.LENGTH_SHORT).show();
             } else {
-                // INSERT IN DATABASE
-                // Set values for insert
                 ContentValues values = new ContentValues();
                 values.put("title", item.getActivity());
                 values.put("type", item.getType());
@@ -114,19 +104,16 @@ public class DatabaseManager extends SQLiteOpenHelper {
                     values.put("img_url", item.getImgURL());
                 }
 
-                // Insert new item in favorites
                 db.insertOrThrow("favorites", null, values);
-                cursor.close();
             }
+            cursor.close();
         } catch (SQLException e) {
             Log.e(TAG, "SQL-Error: " + e.getMessage());
         }
     }
 
     public void clearFavorites() {
-        try {
-            // Delete all entries in favorites
-            SQLiteDatabase db = getWritableDatabase();
+        try (SQLiteDatabase db = getWritableDatabase()) {
             db.execSQL("DELETE FROM favorites");
         } catch (SQLException e) {
             Log.e(TAG, "SQL-Error: " + e.getMessage());
@@ -134,8 +121,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
     }
 
     public void removeFavorite(String id) {
-        try {
-            SQLiteDatabase db = getWritableDatabase();
+        try (SQLiteDatabase db = getWritableDatabase()) {
             db.execSQL("DELETE FROM favorites WHERE activity_key = " + id);
         } catch (SQLException e) {
             Log.e(TAG, "SQL-Error: " + e.getMessage());
@@ -143,13 +129,13 @@ public class DatabaseManager extends SQLiteOpenHelper {
     }
 
     public ItemModel[] getTmp() {
-        try {
-            SQLiteDatabase db = getReadableDatabase();
+        try (SQLiteDatabase db = getReadableDatabase()) {
             Cursor cursor = db.rawQuery("SELECT * FROM tmp ORDER BY tmp_id DESC LIMIT 3", null);
 
             int resultCount = cursor.getCount();
             if (resultCount == 0) {
                 Log.e(TAG, "No entries in database.");
+                cursor.close();
                 return new ItemModel[]{};
             } else {
                 ItemModel[] results = new ItemModel[resultCount];
@@ -168,7 +154,6 @@ public class DatabaseManager extends SQLiteOpenHelper {
                     results[counter] = item;
                     counter++;
                 }
-
                 cursor.close();
                 return results;
             }
@@ -179,10 +164,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
     }
 
     public void insertTmp(ItemModel item, String defaultImgUrl) {
-        try {
-            SQLiteDatabase db = getWritableDatabase();
-
-            // Set values for insert
+        try (SQLiteDatabase db = getWritableDatabase()) {
             ContentValues values = new ContentValues();
             values.put("title", item.getActivity());
             values.put("type", item.getType());
@@ -190,13 +172,13 @@ public class DatabaseManager extends SQLiteOpenHelper {
             values.put("price", item.getPrice());
             values.put("activity_key", item.getKey());
             values.put("accessibility", item.getAccessibility());
+
             if (item.getImgURL() == null) {
                 values.put("img_url", defaultImgUrl);
             } else {
                 values.put("img_url", item.getImgURL());
             }
 
-            // Insert new item in favorites
             db.insertOrThrow("tmp", null, values);
         } catch (SQLException e) {
             Log.e(TAG, "SQL-Error: " + e.getMessage());
@@ -204,9 +186,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
     }
 
     public void clearTmp() {
-        try {
-            // Delete all entries in tmp
-            SQLiteDatabase db = getWritableDatabase();
+        try (SQLiteDatabase db = getWritableDatabase()) {
             db.execSQL("DELETE FROM tmp");
         } catch (SQLException e) {
             Log.e(TAG, "SQL-Error: " + e.getMessage());

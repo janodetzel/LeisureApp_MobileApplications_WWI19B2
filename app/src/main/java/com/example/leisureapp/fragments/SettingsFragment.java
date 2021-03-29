@@ -2,10 +2,12 @@ package com.example.leisureapp.fragments;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.media.Image;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -23,29 +25,14 @@ import com.example.leisureapp.R;
 import com.example.leisureapp.database.DatabaseManager;
 import com.example.leisureapp.utils.SharedPreferencesHelper;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link SettingsFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class SettingsFragment extends Fragment {
+import java.util.ArrayList;
+import java.util.Objects;
 
-    private static final String TAG = SettingsFragment.class.getSimpleName();
+public class SettingsFragment extends Fragment {
+    ArrayList<ImageView> personImages = new ArrayList<>();
+    ArrayList<ImageView> moneyImages = new ArrayList<>();
 
     public SettingsFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @return A new instance of fragment SettingsFragment.
-     */
-    public static SettingsFragment newInstance() {
-        SettingsFragment fragment = new SettingsFragment();
-        Bundle args = new Bundle();
-        return fragment;
     }
 
     @Override
@@ -56,21 +43,19 @@ public class SettingsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
         return inflater.inflate(R.layout.fragment_settings, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-
+        SharedPreferences sharedPref = Objects.requireNonNull(getActivity()).getPreferences(Context.MODE_PRIVATE);
 
         ImageView costsDel = (ImageView) view.findViewById(R.id.settingsCostsDel);
         ImageView personsDel = (ImageView) view.findViewById(R.id.settingsPersonsDel);
+        getImages(view);
 
-        // Progress SeekBar
         SeekBar seekCosts = (SeekBar) view.findViewById(R.id.seekBarCosts);
-
 
         int progressCosts = sharedPref.getInt((String.valueOf(R.id.seekBarCosts)), 0);
         seekCosts.setProgress(progressCosts);
@@ -86,12 +71,10 @@ public class SettingsFragment extends Fragment {
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-                // Auto-generated
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                // Auto-generated
             }
         });
 
@@ -111,128 +94,92 @@ public class SettingsFragment extends Fragment {
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-                // Auto-generated
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                // Auto-generated
             }
         });
 
-        // Delete Database entries
         Button btnClear = view.findViewById(R.id.btnClear);
-        btnClear.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DeleteFavsDialogFragment dialog = new DeleteFavsDialogFragment();
-                dialog.show(getFragmentManager(), "deleteFavsDialog");
-            }
+        btnClear.setOnClickListener(view1 -> {
+            DeleteFavsDialogFragment dialog = new DeleteFavsDialogFragment();
+            dialog.show(getFragmentManager(), "deleteFavsDialog");
         });
 
         Spinner dropDown = (Spinner) view.findViewById(R.id.settingsTypeDropDown);
 
         ArrayAdapter<CharSequence> staticAdapter = ArrayAdapter
-                .createFromResource(this.getContext(), R.array.settingsType,
+                .createFromResource(Objects.requireNonNull(this.getContext()), R.array.settingsType,
                         R.layout.spinner_item);
-        staticAdapter
-                .setDropDownViewResource(R.layout.spinner_item);
+        staticAdapter.setDropDownViewResource(R.layout.spinner_item);
 
         dropDown.setAdapter(staticAdapter);
 
-
-        int selectedTypePosition = sharedPref.getInt(String.valueOf(R.id.settingsTypeDropDown) + "filterTypePosition", 0);
-
-        Log.d("selectedTypePosition", String.valueOf(selectedTypePosition));
+        int selectedTypePosition = sharedPref.getInt(R.id.settingsTypeDropDown + "filterTypePosition", 0);
         dropDown.setSelection(selectedTypePosition);
-
         dropDown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    setFilterType(dropDown, position);
+                setFilterType(dropDown, position);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                // Auto-generated method stub
             }
         });
 
-        // On Click Listeners
-        costsDel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setSeekCostsProgress(view, 0);
-                SeekBar seekCosts = view.findViewById(R.id.seekBarCosts);
-                seekCosts.setProgress(0);
-            }
+        costsDel.setOnClickListener(v -> {
+            setSeekCostsProgress(view, 0);
+            seekCosts.setProgress(0);
         });
 
-        personsDel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setSeekPersonsProgress(view, 0);
-                SeekBar seekPersons = view.findViewById(R.id.seekBarPersons);
-                seekPersons.setProgress(0);
-            }
+        personsDel.setOnClickListener(v -> {
+            setSeekPersonsProgress(view, 0);
+            seekPersons.setProgress(0);
         });
     }
 
     private void setSeekCostsProgress(View view, int progress) {
-        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = Objects.requireNonNull(getActivity()).getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor sharedPrefEditor = sharedPref.edit();
 
-        ImageView imgCost1 = (ImageView) view.findViewById(R.id.settingsCosts1);
-        ImageView imgCost2 = (ImageView) view.findViewById(R.id.settingsCosts2);
-        ImageView imgCost3 = (ImageView) view.findViewById(R.id.settingsCosts3);
-        ImageView imgCost4 = (ImageView) view.findViewById(R.id.settingsCosts4);
+        int white = ContextCompat.getColor(view.getContext(), R.color.white);
+        int blue = ContextCompat.getColor(view.getContext(), R.color.blue);
 
+        moneyImages.forEach(personImage -> personImage.setColorFilter(white));
         if (progress == 0) {
-            imgCost1.setColorFilter(view.getResources().getColor(R.color.white));
-            imgCost2.setColorFilter(view.getResources().getColor(R.color.white));
-            imgCost3.setColorFilter(view.getResources().getColor(R.color.white));
-            imgCost4.setColorFilter(view.getResources().getColor(R.color.white));
-
-            SharedPreferencesHelper.putDouble(sharedPrefEditor, String.valueOf(R.id.seekBarCosts) + "filterCostsMin", 0.0);
-            SharedPreferencesHelper.putDouble(sharedPrefEditor, String.valueOf(R.id.seekBarCosts) + "filterCostsMax", 1);
+            moneyImages.forEach(personImage -> personImage.setColorFilter(white));
+            SharedPreferencesHelper.putDouble(sharedPrefEditor, R.id.seekBarCosts + "filterCostsMin", 0.0);
+            SharedPreferencesHelper.putDouble(sharedPrefEditor, R.id.seekBarCosts + "filterCostsMax", 1);
         }
 
         if (progress > 0) {
-            imgCost1.setColorFilter(view.getResources().getColor(R.color.blue));
-            imgCost2.setColorFilter(view.getResources().getColor(R.color.white));
-            imgCost3.setColorFilter(view.getResources().getColor(R.color.white));
-            imgCost4.setColorFilter(view.getResources().getColor(R.color.white));
-
-            SharedPreferencesHelper.putDouble(sharedPrefEditor, String.valueOf(R.id.seekBarCosts) + "filterCostsMin", 0.1);
-            SharedPreferencesHelper.putDouble(sharedPrefEditor, String.valueOf(R.id.seekBarCosts) + "filterCostsMax", 0.29);
+            moneyImages.get(0).setColorFilter(blue);
+            SharedPreferencesHelper.putDouble(sharedPrefEditor, R.id.seekBarCosts + "filterCostsMin", 0.1);
+            SharedPreferencesHelper.putDouble(sharedPrefEditor, R.id.seekBarCosts + "filterCostsMax", 0.29);
         }
 
         if (progress > 33) {
-            imgCost1.setColorFilter(view.getResources().getColor(R.color.blue));
-            imgCost2.setColorFilter(view.getResources().getColor(R.color.blue));
-            imgCost3.setColorFilter(view.getResources().getColor(R.color.white));
-            imgCost4.setColorFilter(view.getResources().getColor(R.color.white));
-            SharedPreferencesHelper.putDouble(sharedPrefEditor, String.valueOf(R.id.seekBarCosts) + "filterCostsMin", 0.3);
-            SharedPreferencesHelper.putDouble(sharedPrefEditor, String.valueOf(R.id.seekBarCosts) + "filterCostsMax", 0.44);
+            moneyImages.get(0).setColorFilter(blue);
+            moneyImages.get(1).setColorFilter(blue);
+            SharedPreferencesHelper.putDouble(sharedPrefEditor, R.id.seekBarCosts + "filterCostsMin", 0.3);
+            SharedPreferencesHelper.putDouble(sharedPrefEditor, R.id.seekBarCosts + "filterCostsMax", 0.44);
 
         }
 
         if (progress > 66) {
-            imgCost1.setColorFilter(view.getResources().getColor(R.color.blue));
-            imgCost2.setColorFilter(view.getResources().getColor(R.color.blue));
-            imgCost3.setColorFilter(view.getResources().getColor(R.color.blue));
-            imgCost4.setColorFilter(view.getResources().getColor(R.color.white));
-            SharedPreferencesHelper.putDouble(sharedPrefEditor, String.valueOf(R.id.seekBarCosts) + "filterCostsMin", 0.45);
-            SharedPreferencesHelper.putDouble(sharedPrefEditor, String.valueOf(R.id.seekBarCosts) + "filterCostsMax", 0.59);
+            moneyImages.get(0).setColorFilter(blue);
+            moneyImages.get(1).setColorFilter(blue);
+            moneyImages.get(2).setColorFilter(blue);
+            SharedPreferencesHelper.putDouble(sharedPrefEditor, R.id.seekBarCosts + "filterCostsMin", 0.45);
+            SharedPreferencesHelper.putDouble(sharedPrefEditor, R.id.seekBarCosts + "filterCostsMax", 0.59);
         }
 
         if (progress == 100) {
-            imgCost1.setColorFilter(view.getResources().getColor(R.color.blue));
-            imgCost2.setColorFilter(view.getResources().getColor(R.color.blue));
-            imgCost3.setColorFilter(view.getResources().getColor(R.color.blue));
-            imgCost4.setColorFilter(view.getResources().getColor(R.color.blue));
-            SharedPreferencesHelper.putDouble(sharedPrefEditor, String.valueOf(R.id.seekBarCosts) + "filterCostsMin", 0.6);
-            SharedPreferencesHelper.putDouble(sharedPrefEditor, String.valueOf(R.id.seekBarCosts) + "filterCostsMax", 1.0);
+            moneyImages.forEach(personImage -> personImage.setColorFilter(blue));
+            SharedPreferencesHelper.putDouble(sharedPrefEditor, R.id.seekBarCosts + "filterCostsMin", 0.6);
+            SharedPreferencesHelper.putDouble(sharedPrefEditor, R.id.seekBarCosts + "filterCostsMax", 1.0);
         }
 
         sharedPrefEditor.putInt(String.valueOf(R.id.seekBarCosts), progress);
@@ -240,44 +187,34 @@ public class SettingsFragment extends Fragment {
     }
 
     private void setSeekPersonsProgress(View view, int progress) {
-        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = Objects.requireNonNull(getActivity()).getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor sharedPrefEditor = sharedPref.edit();
 
-        ImageView imgPerson1 = (ImageView) view.findViewById(R.id.settingsPersons1);
-        ImageView imgPerson2 = (ImageView) view.findViewById(R.id.settingsPersons2);
-        ImageView imgPerson3 = (ImageView) view.findViewById(R.id.settingsPersons3);
-        ImageView imgPerson4 = (ImageView) view.findViewById(R.id.settingsPersons4);
+        int white = ContextCompat.getColor(view.getContext(), R.color.white);
+        int blue = ContextCompat.getColor(view.getContext(), R.color.blue);
+
+        personImages.forEach(personImage -> personImage.setColorFilter(white));
 
         switch (progress) {
             case 0:
-                // Set all images white for delete button functionality
-                imgPerson1.setColorFilter(view.getResources().getColor(R.color.blue));
-                imgPerson2.setColorFilter(view.getResources().getColor(R.color.white));
-                imgPerson3.setColorFilter(view.getResources().getColor(R.color.white));
-                imgPerson4.setColorFilter(view.getResources().getColor(R.color.white));
-                sharedPrefEditor.putInt(String.valueOf(R.id.seekBarPersons) + "filterPersons", 1);
+                personImages.get(0).setColorFilter(blue);
+                sharedPrefEditor.putInt(R.id.seekBarPersons + "filterPersons", 1);
                 break;
             case 1:
-                imgPerson1.setColorFilter(view.getResources().getColor(R.color.blue));
-                imgPerson2.setColorFilter(view.getResources().getColor(R.color.blue));
-                imgPerson3.setColorFilter(view.getResources().getColor(R.color.white));
-                imgPerson4.setColorFilter(view.getResources().getColor(R.color.white));
-                sharedPrefEditor.putInt(String.valueOf(R.id.seekBarPersons) + "filterPersons", 2);
+                personImages.get(0).setColorFilter(blue);
+                personImages.get(1).setColorFilter(blue);
+                sharedPrefEditor.putInt(R.id.seekBarPersons + "filterPersons", 2);
 
                 break;
             case 2:
-                imgPerson1.setColorFilter(view.getResources().getColor(R.color.blue));
-                imgPerson2.setColorFilter(view.getResources().getColor(R.color.blue));
-                imgPerson3.setColorFilter(view.getResources().getColor(R.color.blue));
-                imgPerson4.setColorFilter(view.getResources().getColor(R.color.white));
-                sharedPrefEditor.putInt(String.valueOf(R.id.seekBarPersons) + "filterPersons", 3);
+                personImages.get(0).setColorFilter(blue);
+                personImages.get(1).setColorFilter(blue);
+                personImages.get(2).setColorFilter(blue);
+                sharedPrefEditor.putInt(R.id.seekBarPersons + "filterPersons", 3);
                 break;
             case 3:
-                imgPerson1.setColorFilter(view.getResources().getColor(R.color.blue));
-                imgPerson2.setColorFilter(view.getResources().getColor(R.color.blue));
-                imgPerson3.setColorFilter(view.getResources().getColor(R.color.blue));
-                imgPerson4.setColorFilter(view.getResources().getColor(R.color.blue));
-                sharedPrefEditor.putInt(String.valueOf(R.id.seekBarPersons) + "filterPersons", 4);
+                personImages.forEach(personImage -> personImage.setColorFilter(blue));
+                sharedPrefEditor.putInt(R.id.seekBarPersons + "filterPersons", 4);
         }
 
         sharedPrefEditor.putInt(String.valueOf(R.id.seekBarPersons), progress);
@@ -285,23 +222,36 @@ public class SettingsFragment extends Fragment {
     }
 
     private void setFilterType(Spinner dropdown, int position) {
-        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = Objects.requireNonNull(getActivity()).getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor sharedPrefEditor = sharedPref.edit();
 
-        sharedPrefEditor.putInt(String.valueOf(R.id.settingsTypeDropDown) + "filterTypePosition", position);
+        sharedPrefEditor.putInt(R.id.settingsTypeDropDown + "filterTypePosition", position);
 
         if (position == 0) {
-            sharedPrefEditor.putString(String.valueOf(R.id.settingsTypeDropDown) + "filterTypeValue", "");
+            sharedPrefEditor.putString(R.id.settingsTypeDropDown + "filterTypeValue", "");
         } else {
             String selectedTypeValue = (String) dropdown.getItemAtPosition(position);
-            sharedPrefEditor.putString(String.valueOf(R.id.settingsTypeDropDown) + "filterTypeValue", selectedTypeValue);
+            sharedPrefEditor.putString(R.id.settingsTypeDropDown + "filterTypeValue", selectedTypeValue);
         }
 
-        if (position != sharedPref.getInt(String.valueOf(R.id.settingsTypeDropDown) + "filterTypePosition", 0)) {
+        if (position != sharedPref.getInt(R.id.settingsTypeDropDown + "filterTypePosition", 0)) {
             DatabaseManager db = new DatabaseManager(getActivity());
             db.clearTmp();
         }
 
         sharedPrefEditor.apply();
 
-    }}
+    }
+
+    private void getImages(View view){
+        personImages.add(view.findViewById(R.id.settingsPersons1));
+        personImages.add(view.findViewById(R.id.settingsPersons2));
+        personImages.add(view.findViewById(R.id.settingsPersons3));
+        personImages.add(view.findViewById(R.id.settingsPersons4));
+
+        moneyImages.add(view.findViewById(R.id.settingsCosts1));
+        moneyImages.add(view.findViewById(R.id.settingsCosts2));
+        moneyImages.add(view.findViewById(R.id.settingsCosts3));
+        moneyImages.add(view.findViewById(R.id.settingsCosts4));
+    }
+}

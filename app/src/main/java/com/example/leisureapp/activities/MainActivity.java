@@ -28,25 +28,24 @@ import org.jetbrains.annotations.NotNull;
 import nl.joery.animatedbottombar.AnimatedBottomBar;
 
 public class MainActivity extends AppCompatActivity {
-
     private static final String TAG = MainActivity.class.getSimpleName();
 
-    AnimatedBottomBar animatedBottomBar;
     FragmentManager fragmentManager;
-
     Fragment fragment = null;
+
+    AnimatedBottomBar animatedBottomBar;
+
+    private Intent intent;
+    private PendingIntent pendingIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
-        // wird für local notifications benötigt
+        setContentView(R.layout.activity_main);
+
         createNotificationChannel();
         initLocalNotifications();
 
-        setContentView(R.layout.activity_main);
-
-        // Initialize Database
         DatabaseManager _databaseManager = new DatabaseManager(this);
         _databaseManager.clearTmp();
 
@@ -73,13 +72,11 @@ public class MainActivity extends AppCompatActivity {
                         fragment = new SettingsFragment();
                         break;
                 }
-
                 showFragment();
             }
 
             @Override
             public void onTabReselected(int i, @NotNull AnimatedBottomBar.Tab tab) {
-
             }
         });
     }
@@ -117,14 +114,6 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
     }
 
-
-    //
-    // Methoden für Notifications
-    //
-
-    private Intent intent;
-    private PendingIntent pendingIntent;
-
     private void initLocalNotifications() {
         intent = new Intent(MainActivity.this, ReminderNotification.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -135,9 +124,8 @@ public class MainActivity extends AppCompatActivity {
         if(pendingIntent != null) {
             AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
             long now = System.currentTimeMillis();
-            // 2 Sekunden wegen Live Demo
             long afterTimeInMillis = 1000 * 2;
-            // Ohne Wiederholung für Präsentation bzw. Live Demo
+            assert alarmManager != null;
             alarmManager.set(AlarmManager.RTC_WAKEUP, now + afterTimeInMillis, pendingIntent);
         }
     }
@@ -145,22 +133,20 @@ public class MainActivity extends AppCompatActivity {
     private void cancelNotifications() {
         if(pendingIntent != null) {
             AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+            assert alarmManager != null;
             alarmManager.cancel(pendingIntent);
         }
     }
 
     private void createNotificationChannel() {
-        // erst ab Android 8 verfügbar
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            // beide Variablen werden nicht angezeigt, daher eher egal, was drin steht
-            CharSequence name = getResources().getString(R.string.notification_default);
-            String description = getResources().getString(R.string.notification_default);
-            int prio = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel channel = new NotificationChannel("daily_reminder", name, prio);
-            channel.setDescription(description);
-            NotificationManager notificationManager = getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(channel);
-        }
+        CharSequence name = getResources().getString(R.string.notification_default);
+        String description = getResources().getString(R.string.notification_default);
+        int priority = NotificationManager.IMPORTANCE_DEFAULT;
+        NotificationChannel channel = new NotificationChannel("daily_reminder", name, priority);
+        channel.setDescription(description);
+        NotificationManager notificationManager = getSystemService(NotificationManager.class);
+        assert notificationManager != null;
+        notificationManager.createNotificationChannel(channel);
     }
 
     @Override
@@ -168,6 +154,5 @@ public class MainActivity extends AppCompatActivity {
         fragment = new HomeFragment();
         showFragment();
         animatedBottomBar.selectTabById(R.id.tab_home, true);
-        //super.onBackPressed();
     }
 }

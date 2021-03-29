@@ -10,5 +10,4 @@ public class SharedPreferencesHelper {
     public static double getDouble(final SharedPreferences prefs, final String key, final double defaultValue) {
         return Double.longBitsToDouble(prefs.getLong(key, Double.doubleToLongBits(defaultValue)));
     }
-
 }

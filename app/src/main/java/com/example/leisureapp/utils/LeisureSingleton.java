@@ -23,10 +23,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class LeisureSingleton {
-
     private static LeisureSingleton instance;
     private RequestQueue requestQueue;
-
     private static Context ctx;
 
     private LeisureSingleton(Context context) {
@@ -38,7 +36,6 @@ public class LeisureSingleton {
         if (instance == null) {
             instance = new LeisureSingleton(context);
         }
-
         return instance;
     }
 
@@ -46,7 +43,6 @@ public class LeisureSingleton {
         if (requestQueue == null) {
             requestQueue = Volley.newRequestQueue(ctx.getApplicationContext());
         }
-
         return requestQueue;
     }
 
@@ -54,4 +50,91 @@ public class LeisureSingleton {
         getRequestQueue().add(req);
     }
 
+    public void fetchActivity(final VolleyCallback callback, TextView noInternetConnectionText) {
+        SharedPreferences sharedPref = ((Activity) ctx).getPreferences(Context.MODE_PRIVATE);
+
+        String baseURL = "https://www.boredapi.com/api/activity";
+        String minPrice = "?minprice=" + SharedPreferencesHelper.getDouble(sharedPref, R.id.seekBarCosts + "filterCostsMin", 0);
+        String maxPrice = "&maxprice=" + SharedPreferencesHelper.getDouble(sharedPref, R.id.seekBarCosts + "filterCostsMax", 1);
+        String participants = "&participants=" + sharedPref.getInt(R.id.seekBarPersons + "filterPersons", 1);
+        String type = "&type=" + sharedPref.getString(R.id.settingsTypeDropDown + "filterTypeValue", "");
+
+        JsonObjectRequest boredAPIRequest = new JsonObjectRequest(
+                Request.Method.GET,
+                baseURL + minPrice + maxPrice + participants + type,
+                null,
+                response -> {
+
+                    try {
+                        if (response.toString().contains("error")) {
+                            callback.onError(response.toString());
+                        } else {
+                            callback.onSuccessResponse(response.toString());
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }, error -> {
+            Log.e("Error Response", error.toString());
+            noInternetConnectionText.setVisibility(View.VISIBLE);
+        });
+        this.addToRequestQueue(boredAPIRequest);
+    }
+
+    public void fetchImageURL(final VolleyCallback callback, String boredApiResponse) {
+        ItemModel itemModel = new Gson().fromJson(boredApiResponse, ItemModel.class);
+
+        String baseURL = "https://api.unsplash.com";
+        String searchString = "/search/photos";
+        String page = "?page=" + 1;
+        String pageItems = "&per_page=" + 1;
+        String orientation = "&orientation=" + "portrait";
+        String searchQuery = "&query=" + itemModel.getActivity();
+
+        String unsplashAuth = "&client_id=cOMcQHsoAAQBMhZUAR-2zZRQyNBb0lvufuME78DiDdc";
+
+        String fullRequestString = baseURL + searchString + page + pageItems +orientation + searchQuery + unsplashAuth;
+
+        JsonObjectRequest unsplashRequest = new JsonObjectRequest(
+                Request.Method.GET,
+                fullRequestString,
+                null,
+                response -> {
+                    String imgUrl = JsonParser.parseString(response.toString())
+                            .getAsJsonObject()
+                            .get("results")
+                            .getAsJsonArray()
+                            .get(0)
+                            .getAsJsonObject()
+                            .get("urls")
+                            .getAsJsonObject()
+                            .get("small")
+                            .getAsString();
+
+                    try {
+                        if (!imgUrl.equals("")) {
+                            callback.onSuccessResponse(imgUrl);
+                        } else {
+                            callback.onError(imgUrl);
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }, error -> {
+
+            try {
+                callback.onError(ctx.getString(R.string.unsplash_error_replace_url));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        });
+        this.addToRequestQueue(unsplashRequest);
+    }
 }
