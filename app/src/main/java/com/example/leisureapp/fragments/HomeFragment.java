@@ -139,7 +139,6 @@ public class HomeFragment extends Fragment {
             @Override
             public void onCardAppeared(View view, int position) {
                 TextView tv = view.findViewById(R.id.activityText);
-                //Log.d(TAG, "onCardAppeared=" + position + ", name=" + tv.getText());
             }
 
             @Override
