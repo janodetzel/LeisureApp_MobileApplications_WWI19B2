@@ -54,10 +54,25 @@ public class LeisureSingleton {
         SharedPreferences sharedPref = ((Activity) ctx).getPreferences(Context.MODE_PRIVATE);
 
         String baseURL = "https://www.boredapi.com/api/activity";
-        String minPrice = "?minprice=" + SharedPreferencesHelper.getDouble(sharedPref, R.id.seekBarCosts + "filterCostsMin", 0);
-        String maxPrice = "&maxprice=" + SharedPreferencesHelper.getDouble(sharedPref, R.id.seekBarCosts + "filterCostsMax", 1);
-        String participants = "&participants=" + sharedPref.getInt(R.id.seekBarPersons + "filterPersons", 1);
+
+        String minPrice = "?minprice=" + SharedPreferencesHelper.getDouble(sharedPref, R.id.seekBarCosts + "filterCostsMin", -1.0);
+        String maxPrice = "&maxprice=" + SharedPreferencesHelper.getDouble(sharedPref, R.id.seekBarCosts + "filterCostsMax", -1.0);
+        double price = SharedPreferencesHelper.getDouble(sharedPref,R.id.seekBarCosts + "filterCostsMin", -1.0);
+        if (price == -1.0) {
+            minPrice = "?minprice=" + 0.0;
+            maxPrice = "&maxprice=" + 1.0;
+        }
+
+        String participants = "&participants=";
+        int persons = sharedPref.getInt(R.id.seekBarPersons + "filterPersons", -1);
+        if (persons != -1) {
+            participants = "&participants=" + persons;
+        }
+
         String type = "&type=" + sharedPref.getString(R.id.settingsTypeDropDown + "filterTypeValue", "");
+
+        Log.e("testAPI", baseURL + minPrice + maxPrice + participants + type);
+        Log.e("testAPI", persons + "");
 
         JsonObjectRequest boredAPIRequest = new JsonObjectRequest(
                 Request.Method.GET,

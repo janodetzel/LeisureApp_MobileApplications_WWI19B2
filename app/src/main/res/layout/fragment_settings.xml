@@ -75,7 +75,7 @@
                             android:maxWidth="40dp"
                             android:minWidth="40dp"
                             android:src="@drawable/ic_baseline_attach_money_24"
-                            app:tint="@color/white" />
+                            app:tint="@color/light_grey" />
 
                         <ImageView
                             android:id="@+id/settingsCosts2"
@@ -84,7 +84,7 @@
                             android:maxWidth="40dp"
                             android:minWidth="40dp"
                             android:src="@drawable/ic_baseline_attach_money_24"
-                            app:tint="@color/white" />
+                            app:tint="@color/light_grey" />
 
                         <ImageView
                             android:id="@+id/settingsCosts3"
@@ -93,7 +93,7 @@
                             android:maxWidth="40dp"
                             android:minWidth="40dp"
                             android:src="@drawable/ic_baseline_attach_money_24"
-                            app:tint="@color/white" />
+                            app:tint="@color/light_grey" />
 
                         <ImageView
                             android:id="@+id/settingsCosts4"
@@ -102,7 +102,7 @@
                             android:maxWidth="40dp"
                             android:minWidth="40dp"
                             android:src="@drawable/ic_baseline_attach_money_24"
-                            app:tint="@color/white" />
+                            app:tint="@color/light_grey" />
 
                     </LinearLayout>
 
@@ -192,7 +192,7 @@
                             android:maxWidth="40dp"
                             android:minWidth="40dp"
                             android:src="@drawable/ic_baseline_person_outline_24"
-                            app:tint="@color/white" />
+                            app:tint="@color/light_grey" />
 
                         <ImageView
                             android:id="@+id/settingsPersons3"
@@ -201,7 +201,7 @@
                             android:maxWidth="40dp"
                             android:minWidth="40dp"
                             android:src="@drawable/ic_baseline_person_outline_24"
-                            app:tint="@color/white" />
+                            app:tint="@color/light_grey" />
 
                         <ImageView
                             android:id="@+id/settingsPersons4"
@@ -210,7 +210,7 @@
                             android:maxWidth="40dp"
                             android:minWidth="40dp"
                             android:src="@drawable/ic_baseline_person_outline_24"
-                            app:tint="@color/white" />
+                            app:tint="@color/light_grey" />
 
                     </LinearLayout>
 

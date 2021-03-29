@@ -2,6 +2,7 @@ package com.example.leisureapp.fragments;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.PorterDuff;
 import android.media.Image;
 import android.os.Bundle;
 
@@ -57,9 +58,13 @@ public class SettingsFragment extends Fragment {
 
         SeekBar seekCosts = (SeekBar) view.findViewById(R.id.seekBarCosts);
 
-        int progressCosts = sharedPref.getInt((String.valueOf(R.id.seekBarCosts)), 0);
-        seekCosts.setProgress(progressCosts);
-        setSeekCostsProgress(view, progressCosts);
+        if (SharedPreferencesHelper.getDouble(sharedPref, R.id.seekBarCosts + "filterCostsMin", -1.0) == -1.0) {
+            resetFilterCosts(seekCosts, sharedPref);
+        } else {
+            int progressCosts = sharedPref.getInt((String.valueOf(R.id.seekBarCosts)), 0);
+            seekCosts.setProgress(progressCosts);
+            setSeekCostsProgress(view, progressCosts);
+        }
 
         seekCosts.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -80,9 +85,13 @@ public class SettingsFragment extends Fragment {
 
         SeekBar seekPersons = (SeekBar) view.findViewById(R.id.seekBarPersons);
 
-        int progressPersons = sharedPref.getInt((String.valueOf(R.id.seekBarPersons)), 0);
-        seekPersons.setProgress(progressPersons);
-        setSeekPersonsProgress(view, progressPersons);
+        if (sharedPref.getInt(R.id.seekBarPersons + "filterPersons", -1) == -1) {
+            resetFilterPersons(seekPersons, sharedPref);
+        } else {
+            int progressPersons = sharedPref.getInt((String.valueOf(R.id.seekBarPersons)), 0);
+            seekPersons.setProgress(progressPersons);
+            setSeekPersonsProgress(view, progressPersons);
+        }
 
         seekPersons.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -132,11 +141,13 @@ public class SettingsFragment extends Fragment {
         costsDel.setOnClickListener(v -> {
             setSeekCostsProgress(view, 0);
             seekCosts.setProgress(0);
+            resetFilterCosts(seekCosts, sharedPref);
         });
 
         personsDel.setOnClickListener(v -> {
             setSeekPersonsProgress(view, 0);
             seekPersons.setProgress(0);
+            resetFilterPersons(seekPersons, sharedPref);
         });
     }
 
@@ -147,11 +158,14 @@ public class SettingsFragment extends Fragment {
         int white = ContextCompat.getColor(view.getContext(), R.color.white);
         int blue = ContextCompat.getColor(view.getContext(), R.color.blue);
 
+        SeekBar seekCosts = (SeekBar) view.findViewById(R.id.seekBarCosts);
+        seekCosts.getThumb().setColorFilter(blue, PorterDuff.Mode.SRC_IN);
+
         moneyImages.forEach(personImage -> personImage.setColorFilter(white));
         if (progress == 0) {
             moneyImages.forEach(personImage -> personImage.setColorFilter(white));
             SharedPreferencesHelper.putDouble(sharedPrefEditor, R.id.seekBarCosts + "filterCostsMin", 0.0);
-            SharedPreferencesHelper.putDouble(sharedPrefEditor, R.id.seekBarCosts + "filterCostsMax", 1);
+            SharedPreferencesHelper.putDouble(sharedPrefEditor, R.id.seekBarCosts + "filterCostsMax", 0.0);
         }
 
         if (progress > 0) {
@@ -165,7 +179,6 @@ public class SettingsFragment extends Fragment {
             moneyImages.get(1).setColorFilter(blue);
             SharedPreferencesHelper.putDouble(sharedPrefEditor, R.id.seekBarCosts + "filterCostsMin", 0.3);
             SharedPreferencesHelper.putDouble(sharedPrefEditor, R.id.seekBarCosts + "filterCostsMax", 0.44);
-
         }
 
         if (progress > 66) {
@@ -193,8 +206,12 @@ public class SettingsFragment extends Fragment {
         int white = ContextCompat.getColor(view.getContext(), R.color.white);
         int blue = ContextCompat.getColor(view.getContext(), R.color.blue);
 
-        personImages.forEach(personImage -> personImage.setColorFilter(white));
+        SeekBar seekPersons = (SeekBar) view.findViewById(R.id.seekBarPersons);
+        seekPersons.getThumb().setColorFilter(blue, PorterDuff.Mode.SRC_IN);
 
+        sharedPrefEditor.putBoolean("selectAllPersons", false);
+
+        personImages.forEach(personImage -> personImage.setColorFilter(white));
         switch (progress) {
             case 0:
                 personImages.get(0).setColorFilter(blue);
@@ -240,7 +257,6 @@ public class SettingsFragment extends Fragment {
         }
 
         sharedPrefEditor.apply();
-
     }
 
     private void getImages(View view){
@@ -253,5 +269,26 @@ public class SettingsFragment extends Fragment {
         moneyImages.add(view.findViewById(R.id.settingsCosts2));
         moneyImages.add(view.findViewById(R.id.settingsCosts3));
         moneyImages.add(view.findViewById(R.id.settingsCosts4));
+    }
+
+    private void resetFilterCosts(SeekBar seekBar, SharedPreferences sharedPref) {
+        int grey = ContextCompat.getColor(getContext(), R.color.light_grey);
+        moneyImages.forEach(moneyImage -> moneyImage.setColorFilter(grey));
+        seekBar.getThumb().setColorFilter(grey, PorterDuff.Mode.SRC_IN);
+
+        SharedPreferences.Editor sharedPrefEditor = sharedPref.edit();
+        SharedPreferencesHelper.putDouble(sharedPrefEditor, R.id.seekBarCosts + "filterCostsMin", -1.0);
+        SharedPreferencesHelper.putDouble(sharedPrefEditor, R.id.seekBarCosts + "filterCostsMax", -1.0);
+        sharedPrefEditor.apply();
+    }
+
+    private void resetFilterPersons(SeekBar seekBar, SharedPreferences sharedPref) {
+        int grey = ContextCompat.getColor(getContext(), R.color.light_grey);
+        personImages.forEach(personImage -> personImage.setColorFilter(grey));
+        seekBar.getThumb().setColorFilter(grey, PorterDuff.Mode.SRC_IN);
+
+        SharedPreferences.Editor sharedPrefEditor = sharedPref.edit();
+        sharedPrefEditor.putInt(R.id.seekBarPersons + "filterPersons", -1);
+        sharedPrefEditor.apply();
     }
 }
