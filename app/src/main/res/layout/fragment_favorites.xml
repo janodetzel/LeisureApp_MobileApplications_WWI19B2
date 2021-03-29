@@ -12,9 +12,9 @@
         <ListView
             android:id="@+id/favorites"
             android:layout_width="match_parent"
-            android:layout_height="574dp"
+            android:layout_height="452dp"
             android:layout_marginStart="0dp"
-            android:layout_marginTop="84dp"
+            android:layout_marginTop="70dp"
             android:layout_marginEnd="0dp"
             android:layout_marginBottom="74dp">
 
