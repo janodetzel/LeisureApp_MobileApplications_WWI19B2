@@ -71,9 +71,6 @@ public class LeisureSingleton {
 
         String type = "&type=" + sharedPref.getString(R.id.settingsTypeDropDown + "filterTypeValue", "");
 
-        Log.e("testAPI", baseURL + minPrice + maxPrice + participants + type);
-        Log.e("testAPI", persons + "");
-
         JsonObjectRequest boredAPIRequest = new JsonObjectRequest(
                 Request.Method.GET,
                 baseURL + minPrice + maxPrice + participants + type,
