@@ -291,15 +291,23 @@
         </androidx.cardview.widget.CardView>
 
 
-        <Button
-            android:id="@+id/btnClear"
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:background="@drawable/rounded_corner"
-            android:backgroundTint="@color/grey"
-            android:text="@string/filter_delete"
-            android:textColor="@color/white" />
+            app:cardCornerRadius="10dp">
+
+            <Button
+                android:id="@+id/btnClear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/grey"
+                android:backgroundTint="@color/grey"
+                android:text="@string/filter_delete"
+                android:textColor="@color/white" />
+
+        </androidx.cardview.widget.CardView>
+
     </LinearLayout>
 
 </RelativeLayout>

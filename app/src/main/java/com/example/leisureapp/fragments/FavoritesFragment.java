@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -43,8 +42,8 @@ public class FavoritesFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        TextView noFavsText = (TextView) view.findViewById(R.id.noFavsText);
-        favs = (ListView) view.findViewById(R.id.favs);
+        TextView noFavsText = (TextView) view.findViewById(R.id.noFavoritesText);
+        favs = (ListView) view.findViewById(R.id.favorites);
         addFavoritesToList(arrayList);
 
         if(arrayList.isEmpty()) {
