@@ -5,18 +5,14 @@
     android:layout_height="match_parent"
     tools:context=".fragments.FavoritesFragment">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
         <ListView
             android:id="@+id/favorites"
             android:layout_width="match_parent"
-            android:layout_height="452dp"
+            android:layout_height="match_parent"
             android:layout_marginStart="0dp"
             android:layout_marginTop="70dp"
             android:layout_marginEnd="0dp"
-            android:layout_marginBottom="74dp">
+            android:layout_marginBottom="70dp">
 
         </ListView>
 
@@ -28,6 +24,5 @@
             android:text="@string/empty_favs_text"
             android:textSize="20dp" />
 
-    </FrameLayout>
 
 </RelativeLayout>
