@@ -1,0 +1,48 @@
+<resources>
+    <string name="app_name">Leisure</string>
+    <string name="title_home">Start</string>
+    <string name="title_favorites">Favorites</string>
+    <string name="title_settings">Settings</string>
+    <string name="pending">Changed by code.</string>
+
+    <string name="empty_favs_text">You have no favorite activities yet.</string>
+    <string name="no_internet_home">We could not reach our servers. Please make sure that you are connected to the Internet.</string>
+    <string name="no_activity_home">No activity with specified parameters found.</string>
+
+    <string name="home_frag_title">Hello Home fragment</string>
+    <string name="settings_frag_title">Hello Settings fragment</string>
+    <string name="favorites_frag_title">Hello Favorites fragment</string>
+
+    <string name="filter">Filter</string>
+    <string name="filter_costs">Costs</string>
+    <string name="filter_participants">Participants</string>
+    <string name="filter_types">Types</string>
+    <string name="filter_delete">DELETE FAVORITES</string>
+
+    <string name="notification_default">Notification</string>
+    <string name="notification_title">Are you bored?</string>
+    <string name="notification_text">Leisure has new activities for you!</string>
+
+    <string name="fav_already_saved">Already saved in Favorites.</string>
+    <string name="no_img_url">NOT IMPLEMENTED</string>
+    
+    <string name="delete_favs_dialog_title">Wait!</string>
+    <string name="delete_favs_dialog_message">Do you really want to delete your favorite activities?</string>
+    <string name="delete_favs_dialog_posbtn_text">DELETE</string>
+    <string name="delete_favs_dialog_negbtn_text">CANCEL</string>
+
+    <string name="unsplash_error_replace_url">No Image</string>
+
+    <string-array name="settingsType">
+        <item>All Types</item>
+        <item>education</item>
+        <item>recreational</item>
+        <item>social</item>
+        <item>diy</item>
+        <item>charity</item>
+        <item>cooking</item>
+        <item>relaxation</item>
+        <item>music</item>
+        <item>busywork</item>
+    </string-array>
+</resources>

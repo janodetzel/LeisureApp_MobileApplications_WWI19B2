@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="0dp">
+
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/brown"></FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="0dp"
+        android:background="@color/grey">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/mr_dafoe"
+            android:text="@string/app_name"
+            android:textAlignment="center"
+            android:textColor="@color/blue"
+            android:textSize="35sp" />
+    </FrameLayout>
+
+    <nl.joery.animatedbottombar.AnimatedBottomBar
+        android:id="@+id/bottom_bar"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_alignParentBottom="true"
+        android:background="#2E282A"
+        android:foregroundTint="#17BEBB"
+        app:abb_iconSize="35dp"
+        app:abb_indicatorAppearance="round"
+        app:abb_indicatorColor="#17BEBB"
+        app:abb_indicatorHeight="6dp"
+        app:abb_indicatorMargin="20dp"
+        app:abb_selectedTabType="text"
+        app:abb_tabColor="#fff"
+        app:abb_tabColorSelected="#17BEBB"
+        app:abb_tabs="@navigation/tabs"
+        app:abb_textSize="17sp" />
+
+</RelativeLayout>
